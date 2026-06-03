@@ -19,6 +19,16 @@ export default function History() {
     )
     .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("คุณต้องการลบรายการขายนี้หรือไม่? การลบจะไม่สามารถกู้คืนได้");
+    if (!confirmed) return;
+    try {
+      await deleteSale(id);
+    } catch (error) {
+      alert("เกิดข้อผิดพลาดในการลบรายการ");
+    }
+  };
+
   const statusLabel = { completed: "สำเร็จ", pending: "รอดำเนินการ", cancelled: "ยกเลิก" };
   const statusBadge = { completed: "badge-success", pending: "badge-warning", cancelled: "badge-danger" };
 
@@ -54,12 +64,12 @@ export default function History() {
                 <th>ผู้ขาย</th>
                 <th>วันที่</th>
                 <th>สถานะ</th>
-                <th></th>
+                <th style={{ width:170 }}>จัดการ</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={9} style={{ textAlign:"center", padding:40, color:"var(--gray-400)" }}>ไม่พบข้อมูล</td></tr>
+                <tr><td colSpan={10} style={{ textAlign:"center", padding:40, color:"var(--gray-400)" }}>ไม่พบข้อมูล</td></tr>
               ) : filtered.map((s, i) => (
                 <tr key={s.id}>
                   <td style={{ color:"var(--gray-400)", fontSize:12 }}>{i + 1}</td>
@@ -75,7 +85,10 @@ export default function History() {
                     </span>
                   </td>
                   <td>
-                    <button className="btn btn-secondary btn-sm" onClick={() => setSelected(s)}>ดูรายละเอียด</button>
+                    <div style={{ display:"flex", gap:6, justifyContent:"flex-end" }}>
+                      <button className="btn btn-secondary btn-sm" onClick={() => setSelected(s)}>ดูรายละเอียด</button>
+                      <button className="btn btn-danger btn-sm" onClick={() => handleDelete(s.id)}>ลบ</button>
+                    </div>
                   </td>
                 </tr>
               ))}

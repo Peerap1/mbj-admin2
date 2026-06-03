@@ -15,7 +15,6 @@ export default function Products() {
     { key: "name", label: "ชื่อสินค้า" },
     { key: "price", label: "ราคา", render: (v) => <strong style={{ color:"var(--primary)" }}>฿{Number(v||0).toLocaleString()}</strong> },
     { key: "unit", label: "หน่วย" },
-    { key: "stock", label: "สต๊อก" },
     { key: "category", label: "หมวดหมู่" },
   ];
 
@@ -23,7 +22,6 @@ export default function Products() {
     { key: "name", label: "ชื่อสินค้า", required: true, placeholder: "กรอกชื่อสินค้า" },
     { key: "price", label: "ราคา (บาท)", type: "number", required: true, placeholder: "0.00" },
     { key: "unit", label: "หน่วย", placeholder: "เช่น ชิ้น, กล่อง, กก." },
-    { key: "stock", label: "จำนวนสต๊อก", type: "number", placeholder: "0" },
     { key: "category", label: "หมวดหมู่", placeholder: "เช่น อาหาร, เครื่องดื่ม" },
     { key: "description", label: "รายละเอียด", type: "textarea", placeholder: "รายละเอียดสินค้า" },
   ];

@@ -14,14 +14,12 @@ export default function Customers() {
   const columns = [
     { key: "name", label: "ชื่อลูกค้า" },
     { key: "phone", label: "เบอร์โทร" },
-    { key: "email", label: "อีเมล" },
     { key: "address", label: "ที่อยู่" },
   ];
 
   const fields = [
     { key: "name", label: "ชื่อลูกค้า", required: true, placeholder: "กรอกชื่อลูกค้า" },
     { key: "phone", label: "เบอร์โทรศัพท์", type: "tel", placeholder: "0xx-xxx-xxxx" },
-    { key: "email", label: "อีเมล", type: "email", placeholder: "example@email.com" },
     { key: "address", label: "ที่อยู่", type: "textarea", placeholder: "กรอกที่อยู่" },
     { key: "note", label: "หมายเหตุ", placeholder: "หมายเหตุ (ถ้ามี)" },
   ];
