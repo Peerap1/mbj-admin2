@@ -10,8 +10,13 @@ export default function Sales() {
   const [banks, setBanks] = useState([]);
   const [cart, setCart] = useState([]);
   const [form, setForm] = useState({ customerId: "", bankId: "", note: "" });
+  const [activeType, setActiveType] = useState("product");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  const productItems = products.filter((p) => (p.type || "product") === "product");
+  const rawItems = products.filter((p) => (p.type || "product") === "raw");
+  const activeItems = activeType === "product" ? productItems : rawItems;
 
   useEffect(() => {
     const u1 = getCustomers(setCustomers);
@@ -116,16 +121,36 @@ export default function Sales() {
             {products.length === 0 ? (
               <div className="empty-state"><div className="icon">📦</div><p>ยังไม่มีสินค้า</p></div>
             ) : (
-              <div className="product-grid">
-                {products.map((p) => (
-                  <div key={p.id} className="product-card" onClick={() => addToCart(p)}>
-                    <div className="product-name">{p.name}</div>
-                    <div className="product-price">฿{Number(p.price || 0).toLocaleString()}</div>
-                    {p.unit && <div className="product-unit">{p.unit}</div>}
-                    <div className="product-add">+ เพิ่ม</div>
+              <>
+                <div className="product-tabs">
+                  <button type="button" className={`product-tab ${activeType === "product" ? "active" : ""}`}
+                    onClick={() => setActiveType("product")}>ผลิตภัณฑ์</button>
+                  <button type="button" className={`product-tab ${activeType === "raw" ? "active" : ""}`}
+                    onClick={() => setActiveType("raw")}>วัตถุดิบ</button>
+                </div>
+                <div className="product-type-header" style={{ marginBottom: 12 }}>
+                  <div>{activeType === "product" ? "ผลิตภัณฑ์" : "วัตถุดิบ"}</div>
+                  <div className="product-count">{activeItems.length} รายการ</div>
+                </div>
+                {activeItems.length === 0 ? (
+                  <div className="empty-state"><div className="icon">📦</div><p>ยังไม่มีสินค้าในประเภทนี้</p></div>
+                ) : (
+                  <div className="product-list">
+                    {activeItems.map((p) => (
+                      <div key={p.id} className="product-list-item" onClick={() => addToCart(p)}>
+                        <div>
+                          <div className="product-list-name">{p.name}</div>
+                          {p.unit && <div className="product-list-unit">{p.unit}</div>}
+                        </div>
+                        <div className="product-list-right">
+                          <div className="product-list-price">฿{Number(p.price || 0).toLocaleString()}</div>
+                          <div className="product-add">+ เพิ่ม</div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
           </div>
         </div>

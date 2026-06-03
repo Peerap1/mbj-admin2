@@ -13,6 +13,7 @@ export default function Products() {
 
   const columns = [
     { key: "name", label: "ชื่อสินค้า" },
+    { key: "type", label: "ประเภท", render: (v) => v === "raw" ? "วัตถุดิบ" : "ผลิตภัณฑ์" },
     { key: "price", label: "ราคา", render: (v) => <strong style={{ color:"var(--primary)" }}>฿{Number(v||0).toLocaleString()}</strong> },
     { key: "unit", label: "หน่วย" },
     { key: "category", label: "หมวดหมู่" },
@@ -20,6 +21,10 @@ export default function Products() {
 
   const fields = [
     { key: "name", label: "ชื่อสินค้า", required: true, placeholder: "กรอกชื่อสินค้า" },
+    { key: "type", label: "ประเภท", type: "select", required: true, options: [
+      { value: "product", label: "ผลิตภัณฑ์" },
+      { value: "raw", label: "วัตถุดิบ" },
+    ] },
     { key: "price", label: "ราคา (บาท)", type: "number", required: true, placeholder: "0.00" },
     { key: "unit", label: "หน่วย", placeholder: "เช่น ชิ้น, กล่อง, กก." },
     { key: "category", label: "หมวดหมู่", placeholder: "เช่น อาหาร, เครื่องดื่ม" },
