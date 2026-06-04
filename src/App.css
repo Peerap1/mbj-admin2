@@ -3,9 +3,14 @@
 /* ── SALES PAGE ── */
 .sales-grid {
   display: grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
   align-items: start;
+}
+.cart-card {
+  width: 100%;
+  position: sticky;
+  top: calc(var(--header-height) + 16px);
 }
 
 .product-grid {
