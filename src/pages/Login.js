@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { loginUser } from "../firebase/database";
+import { loginUser, seedUsers } from "../firebase/database";
 import "./Login.css";
 
 export default function Login() {
@@ -15,6 +15,7 @@ export default function Login() {
 
   useEffect(() => {
     if (user) navigate("/sales");
+    seedUsers();
   }, [user, navigate]);
 
   const handleSubmit = async (e) => {

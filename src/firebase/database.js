@@ -26,6 +26,16 @@ export const loginUser = async (username, password) => {
   return { id: found[0], ...found[1] };
 };
 
+export const seedUsers = async () => {
+  const usersRef = ref(db, "users");
+  const snap = await get(usersRef);
+  if (snap.exists()) return;
+  await set(usersRef, {
+    user1: { username: "admin",  password: "admin1234",  role: "admin" },
+    user2: { username: "user",   password: "user1234",   role: "user"  },
+    user3: { username: "suser",  password: "suser1234",  role: "suser" },
+  });
+};
 
 // ─── CUSTOMERS ──────────────────────────────────────────────────────────────
 export const getCustomers = (callback) => {

@@ -20,7 +20,7 @@ export default function Customers() {
   const fields = [
     { key: "name", label: "ชื่อลูกค้า", required: true, placeholder: "กรอกชื่อลูกค้า" },
     { key: "phone", label: "เบอร์โทรศัพท์", type: "tel", placeholder: "0xx-xxx-xxxx" },
-    { key: "address", label: "ที่อยู่", type: "textarea", placeholder: "กรอกที่อยู่" },
+    { key: "address", label: "ที่อยู่จัดส่ง", type: "textarea", placeholder: "กรอกที่อยู่สำหรับจัดส่งสินค้า" },
     { key: "note", label: "หมายเหตุ", placeholder: "หมายเหตุ (ถ้ามี)" },
   ];
 
