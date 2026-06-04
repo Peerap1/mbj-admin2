@@ -144,9 +144,9 @@
   color: var(--gray-600);
 }
 .qty-btn:hover { border-color: var(--primary); color: var(--primary); }
-.qty-input { width: 36px; text-align: center; padding: 4px; font-size: 13px; font-weight: 600; border-radius: 5px; }
+.qty-input { width: 60px; text-align: center; padding: 4px; font-size: 13px; font-weight: 600; border-radius: 5px; }
 
-.cart-item-price { font-size: 13px; font-weight: 700; color: var(--primary); flex-shrink: 0; text-align: right; }
+.cart-item-price { font-size: 13px; font-weight: 700; color: var(--primary); flex-shrink: 0; min-width: 50px; text-align: right; }
 .cart-remove { background: none; border: none; color: var(--gray-300); font-size: 13px; padding: 3px; }
 .cart-remove:hover { color: var(--danger); }
 
