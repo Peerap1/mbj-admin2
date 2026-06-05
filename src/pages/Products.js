@@ -12,15 +12,14 @@ export default function Products() {
   }, []);
 
   const productTypeOptions = [
-    { value: "product", label: "ผลิตภัณฑ์" },
+    { value: "product",  label: "ผลิตภัณฑ์" },
     { value: "material", label: "วัตถุดิบ" },
   ];
 
   const columns = [
     { key: "name", label: "ชื่อสินค้า" },
     {
-      key: "productType",
-      label: "ประเภท",
+      key: "productType", label: "ประเภท",
       render: (v) => (
         <span className={`badge ${v === "material" ? "badge-warning" : "badge-primary"}`}>
           {v === "material" ? "วัตถุดิบ" : "ผลิตภัณฑ์"}
@@ -28,17 +27,14 @@ export default function Products() {
       ),
     },
     { key: "price", label: "ราคา", render: (v) => <strong style={{ color:"var(--primary)" }}>฿{Number(v||0).toLocaleString()}</strong> },
-    { key: "unit", label: "หน่วย" },
-    { key: "category", label: "หมวดหมู่" },
+    { key: "description", label: "รายละเอียด" },
   ];
 
   const fields = [
-    { key: "name", label: "ชื่อสินค้า", required: true, placeholder: "กรอกชื่อสินค้า" },
+    { key: "name",        label: "ชื่อสินค้า",    required: true, placeholder: "กรอกชื่อสินค้า" },
     { key: "productType", label: "ประเภทสินค้า", type: "select", required: true, options: productTypeOptions },
-    { key: "price", label: "ราคา (บาท)", type: "number", required: true, placeholder: "0.00" },
-    { key: "unit", label: "หน่วย", placeholder: "เช่น ชิ้น, กล่อง, กก." },
-    { key: "category", label: "หมวดหมู่", placeholder: "เช่น อาหาร, เครื่องดื่ม" },
-    { key: "description", label: "รายละเอียด", type: "textarea", placeholder: "รายละเอียดสินค้า" },
+    { key: "price",       label: "ราคา (บาท)",   type: "number", required: true, placeholder: "0.00" },
+    { key: "description", label: "รายละเอียด",   type: "textarea", placeholder: "รายละเอียดสินค้า" },
   ];
 
   return (

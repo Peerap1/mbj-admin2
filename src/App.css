@@ -3,7 +3,7 @@
 /* ── SALES GRID ── */
 .sales-grid {
   display: grid;
-  grid-template-columns: 1fr 480px;
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
   align-items: start;
 }
@@ -73,8 +73,6 @@
 
 /* ── CART ── */
 .cart-card {
-  position: sticky;
-  top: calc(var(--header-height) + 16px);
   min-width: 0;
 }
 
@@ -190,17 +188,42 @@
 .shipping-option {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
+  gap: 8px;
+  padding: 8px 12px;
   border: 1.5px solid var(--gray-200);
   border-radius: 8px;
   cursor: pointer;
   transition: var(--transition);
   background: white;
+  white-space: nowrap;
 }
-.shipping-option:hover { border-color: var(--primary); background: var(--primary-50); }
+.shipping-option:hover  { border-color: var(--primary); background: var(--primary-50); }
 .shipping-option.selected { border-color: var(--primary); background: var(--primary-50); }
-.shipping-option input[type="radio"] { accent-color: var(--primary); flex-shrink: 0; }
+.shipping-option input[type="radio"] {
+  accent-color: var(--primary);
+  flex-shrink: 0;
+  width: 14px; height: 14px;
+  margin: 0;
+}
+.shipping-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-800);
+  flex-shrink: 0;
+}
+.shipping-sub {
+  font-size: 11px;
+  color: var(--gray-400);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.shipping-price {
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-left: auto;
+}
 
 /* ── CART TOTALS ── */
 .cart-total {
@@ -285,11 +308,10 @@
 
 /* ── RESPONSIVE ── */
 @media (max-width: 1100px) {
-  .sales-grid { grid-template-columns: 1fr 420px; }
+  .sales-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 900px) {
   .sales-grid { grid-template-columns: 1fr; }
-  .cart-card  { position: static; }
 }
 
 /* ── BOX HEADER BAR ── */
@@ -401,4 +423,96 @@
   background: var(--primary);
   color: white;
   font-weight: 700;
+}
+
+/* ── PRODUCT LIST (replaces product-grid) ── */
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: 380px;
+  overflow-y: auto;
+}
+.product-list::-webkit-scrollbar { width: 4px; }
+.product-list::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 4px; }
+
+.product-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--gray-100);
+  cursor: pointer;
+  transition: var(--transition);
+  background: white;
+}
+.product-list-item:last-child { border-bottom: none; }
+.product-list-item:hover { background: var(--primary-50); }
+
+.pli-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+.pli-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-800);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pli-desc {
+  font-size: 11px;
+  color: var(--gray-400);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+.pli-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.pli-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
+}
+.pli-add {
+  font-size: 11px;
+  background: var(--primary);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── TABLE: truncate long text + tooltip ── */
+.table-wrapper table tbody td {
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Columns that should never truncate */
+.table-wrapper table tbody td.td-badge,
+.table-wrapper table tbody td.td-action,
+.table-wrapper table tbody td.td-num {
+  max-width: none;
+  white-space: nowrap;
+  overflow: visible;
+}
+/* Tooltip via title attribute — enhanced with CSS */
+.table-wrapper table tbody td[title] {
+  cursor: default;
+  position: relative;
 }

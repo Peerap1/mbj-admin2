@@ -83,12 +83,22 @@ export default function CrudPage({ title, subtitle, items, columns, fields, onAd
                 <tr><td colSpan={columns.length + 3} style={{ textAlign:"center", padding:40, color:"var(--gray-400)" }}>ไม่พบข้อมูล</td></tr>
               ) : filtered.map((item, i) => (
                 <tr key={item.id}>
-                  <td style={{ color:"var(--gray-400)", fontSize:12 }}>{i + 1}</td>
-                  {columns.map((c) => (
-                    <td key={c.key}>{c.render ? c.render(item[c.key], item) : item[c.key] || "-"}</td>
-                  ))}
-                  {renderExtra && <td>{renderExtra(item)}</td>}
-                  <td>
+                  <td className="td-num" style={{ color:"var(--gray-400)", fontSize:12, maxWidth:"none" }}>{i + 1}</td>
+                  {columns.map((c) => {
+                    const raw = item[c.key];
+                    const isRendered = !!c.render;
+                    const textVal = !isRendered && raw ? String(raw) : null;
+                    return (
+                      <td key={c.key}
+                        className={isRendered ? "td-badge" : ""}
+                        title={textVal && textVal.length > 20 ? textVal : undefined}
+                        style={isRendered ? { maxWidth:"none", overflow:"visible" } : {}}>
+                        {isRendered ? c.render(raw, item) : raw || "-"}
+                      </td>
+                    );
+                  })}
+                  {renderExtra && <td className="td-badge" style={{ maxWidth:"none" }}>{renderExtra(item)}</td>}
+                  <td className="td-action" style={{ maxWidth:"none" }}>
                     <div style={{ display:"flex", gap:6, justifyContent:"flex-end" }}>
                       <button className="btn btn-secondary btn-sm" onClick={() => openEdit(item)}>แก้ไข</button>
                       <button className="btn btn-danger btn-sm" onClick={() => setDeleteConfirm(item)}>ลบ</button>
