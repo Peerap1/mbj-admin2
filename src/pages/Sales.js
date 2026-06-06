@@ -44,7 +44,7 @@ export default function Sales() {
   const [tab,       setTab]       = useState("all");
   const [form, setForm] = useState({
     customerId: "", bankId: "", note: "",
-    shippingType: "free", shippingCustom: "",
+    shippingType: "", shippingCustom: "",
   });
   const [loading,      setLoading]      = useState(false);
   const [lastSavedSale, setLastSavedSale] = useState(null); // ใบส่งของเฉพาะหลัง save
@@ -107,7 +107,7 @@ export default function Sales() {
   const subtotal     = allItems.reduce((s, r) => s + (Number(r.price)||0)*(Number(r.qty)||0), 0);
   const numBoxes     = boxes.length;
   const shippingCost = (() => {
-    if (form.shippingType === "free")    return 0;
+    if (!form.shippingType || form.shippingType === "free") return 0;
     if (form.shippingType === "per_box") return calcShippingPerBox(numBoxes);
     return Number(form.shippingCustom) || 0;
   })();
@@ -122,6 +122,7 @@ export default function Sales() {
     if (!form.customerId) { alert("กรุณาเลือกลูกค้า"); return; }
     const hasItems = boxes.some((b) => b.items.some((r) => r.productId && Number(r.qty) > 0));
     if (!hasItems) { alert("กรุณาเพิ่มสินค้าอย่างน้อย 1 รายการ"); return; }
+    if (!form.shippingType) { alert("กรุณาเลือกค่าจัดส่ง"); return; }
     setLoading(true);
     try {
       const saleData = {
@@ -141,7 +142,7 @@ export default function Sales() {
         total:     grandTotal,
         note:      form.note,
         createdBy: user?.username,
-        status:    "completed",
+        status:    "pending",
         createdAt: Date.now(),
         // snapshot for slip
         _slipCustomer: selectedCustomer ? { ...selectedCustomer } : null,
@@ -151,7 +152,7 @@ export default function Sales() {
       // เก็บ snapshot ไว้แสดงใบส่งของ แล้ว reset form
       setLastSavedSale(saleData);
       setBoxes([newBox()]);
-      setForm({ customerId:"", bankId:"", note:"", shippingType:"free", shippingCustom:"" });
+      setForm({ customerId:"", bankId:"", note:"", shippingType:"", shippingCustom:"" });
       setShowSlip(true); // เปิดใบส่งของทันที
     } catch { alert("เกิดข้อผิดพลาด"); }
     setLoading(false);
@@ -165,7 +166,7 @@ export default function Sales() {
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Sarabun',sans-serif;font-size:14px;color:#1e293b;padding:36px 40px}
+body{font-family:'Sarabun',sans-serif;font-size:13px;color:#1e293b;padding:20px 28px}
 .wrap{max-width:700px;margin:0 auto}
 .hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2.5px solid #1a56db;padding-bottom:18px;margin-bottom:22px}
 .sname{font-size:18px;font-weight:700;color:#1a56db}.sinfo{font-size:12px;color:#475569;margin-top:5px;line-height:1.9}
@@ -178,13 +179,16 @@ th{background:#f1f5f9;padding:8px 12px;text-align:left;font-weight:600;color:#47
 td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
 .grand td{font-weight:800;color:#1a56db;font-size:16px;background:#eff6ff;padding:12px}
 .foot{margin-top:28px;text-align:center;font-size:12px;color:#cbd5e1;padding-top:14px;border-top:1px dashed #e2e8f0}
-@media print{body{padding:20px}}
+@media print{body{padding:12px 16px}header,footer,nav{display:none!important}}
 </style></head><body><div class="wrap">${printRef.current.innerHTML}</div></body></html>`);
     w.document.close(); w.focus();
     setTimeout(() => w.print(), 450);
   };
 
-  const today = new Date().toLocaleDateString("th-TH", { dateStyle: "full" });
+  const today = (() => {
+    const d = new Date();
+    return d.toLocaleDateString("th-TH", { day:"numeric", month:"long", year:"numeric" });
+  })();
   const slip = lastSavedSale;
   const slipShippingLabel = {
     free:    "ส่งฟรี",
@@ -233,11 +237,11 @@ td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
               </div>
             </div>
             {selectedCustomer?.address && (
-              <div style={{ background:"var(--gray-50)", border:"1px solid var(--gray-200)", borderRadius:8, padding:"10px 14px", marginBottom:14, fontSize:13 }}>
+              <div style={{ background:"var(--gray-50)", border:"1px solid var(--gray-200)", borderRadius:8, padding:"10px 14px", marginBottom:14, fontSize:13, overflow:"hidden" }}>
                 <div style={{ fontSize:10, fontWeight:700, color:"var(--gray-400)", letterSpacing:".06em", textTransform:"uppercase", marginBottom:4 }}>📦 ที่อยู่จัดส่ง</div>
-                <div style={{ fontWeight:600 }}>{selectedCustomer.name}</div>
-                {selectedCustomer.phone   && <div style={{ color:"var(--gray-500)" }}>{selectedCustomer.phone}</div>}
-                {selectedCustomer.address && <div style={{ color:"var(--gray-600)" }}>{selectedCustomer.address}</div>}
+                <div style={{ fontWeight:600, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }} title={selectedCustomer.name}>{selectedCustomer.name}</div>
+                {selectedCustomer.phone   && <div style={{ color:"var(--gray-500)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{selectedCustomer.phone}</div>}
+                {selectedCustomer.address && <div style={{ color:"var(--gray-600)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }} title={selectedCustomer.address}>{selectedCustomer.address}</div>}
               </div>
             )}
             <div className="form-group" style={{ marginBottom:0 }}>
@@ -267,8 +271,8 @@ td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
                       <span className={`badge ${(p.productType||"product")==="material"?"badge-warning":"badge-primary"}`} style={{ fontSize:10, padding:"2px 7px", flexShrink:0 }}>
                         {(p.productType||"product")==="material"?"วัตถุดิบ":"ผลิตภัณฑ์"}
                       </span>
-                      <span className="pli-name">{p.name}</span>
-                      {p.description && <span className="pli-desc">{p.description}</span>}
+                      <span className="pli-name" title={p.name && p.name.length > 18 ? p.name : undefined}>{p.name}</span>
+                      {p.description && <span className="pli-desc" title={p.description}>{p.description}</span>}
                     </div>
                     <div className="pli-right">
                       <span className="pli-price">฿{Number(p.price||0).toLocaleString()}</span>
@@ -362,7 +366,7 @@ td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
           <div className="card">
             <div style={{ marginBottom:16 }}>
               <div style={{ fontSize:13, fontWeight:700, color:"var(--gray-600)", marginBottom:8 }}>
-                ค่าจัดส่ง ({numBoxes} กล่อง)
+                ค่าจัดส่ง ({numBoxes} กล่อง) <span style={{ color:"var(--danger)" }}>*</span>
               </div>
               <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
                 {[
@@ -521,17 +525,7 @@ td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
                       <div style={{ background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:8, padding:"10px 16px", fontSize:13, color:"#334155" }}>{slip.note}</div>
                     </div>
                   )}
-                  {slip._slipBank && (
-                    <div style={{ marginBottom:14 }}>
-                      <div style={{ fontSize:10, fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".08em", marginBottom:7 }}>ข้อมูลการชำระเงิน</div>
-                      <div style={{ background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:8, padding:"10px 16px", fontSize:13, color:"#334155", lineHeight:1.9 }}>
-                        <strong>{slip._slipBank.name}</strong><br/>
-                        เลขบัญชี: {slip._slipBank.accountNo}
-                        {slip._slipBank.accountName && <><br/>ชื่อบัญชี: {slip._slipBank.accountName}</>}
-                        {slip._slipBank.branch && <><br/>สาขา: {slip._slipBank.branch}</>}
-                      </div>
-                    </div>
-                  )}
+
                   <div style={{ marginTop:28, textAlign:"center", fontSize:12, color:"#cbd5e1", paddingTop:14, borderTop:"1px dashed #e2e8f0" }}>
                     ขอบคุณที่ใช้บริการ — {SELLER.name} โทร {SELLER.phone}
                   </div>

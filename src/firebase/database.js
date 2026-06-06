@@ -78,3 +78,15 @@ export const getSales = (callback) => {
 export const addSale = (data) => push(ref(db, "sales"), { ...data, createdAt: Date.now(), status: "pending" });
 export const updateSale = (id, data) => update(ref(db, `sales/${id}`), data);
 export const deleteSale = (id) => remove(ref(db, `sales/${id}`));
+
+// ─── EMPLOYEES ──────────────────────────────────────────────────────────────
+export const getEmployees = (callback) => {
+  const r = ref(db, "employees");
+  return onValue(r, (snap) => {
+    const data = snap.val() || {};
+    callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
+  });
+};
+export const addEmployee    = (data) => push(ref(db, "employees"), { ...data, createdAt: Date.now() });
+export const updateEmployee = (id, data) => update(ref(db, `employees/${id}`), data);
+export const deleteEmployee = (id) => remove(ref(db, `employees/${id}`));

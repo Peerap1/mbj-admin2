@@ -1,6 +1,6 @@
 // src/pages/History.js
 import React, { useState, useEffect, useRef } from "react";
-import { getSales, deleteSale } from "../firebase/database";
+import { getSales, deleteSale, updateSale } from "../firebase/database";
 
 const SELLER = {
   name:    "ข้าวแต๋นน้ำแตงโมแม่บัวจันทร์",
@@ -37,8 +37,8 @@ export default function History() {
     )
     .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-  const statusLabel = { completed:"สำเร็จ", pending:"รอดำเนินการ", cancelled:"ยกเลิก" };
-  const statusBadge = { completed:"badge-success", pending:"badge-warning", cancelled:"badge-danger" };
+  const statusLabel = { paid:"ชำระเงินแล้ว", pending:"รอชำระเงิน", cancelled:"ยกเลิก", completed:"สำเร็จ" };
+  const statusBadge = { paid:"badge-success", pending:"badge-warning", cancelled:"badge-danger", completed:"badge-gray" };
   const shippingLabel = { free:"ส่งฟรี", per_box:"ตามจำนวนกล่อง", per_item:"ตามรายการ", custom:"กำหนดเอง" };
 
   const formatDate = (ts) => {
@@ -56,6 +56,12 @@ export default function History() {
     setDeleting(false);
   };
 
+  const toggleStatus = async (sale) => {
+    const newStatus = sale.status === "paid" ? "pending" : "paid";
+    try { await updateSale(sale.id, { status: newStatus }); }
+    catch { alert("เกิดข้อผิดพลาด"); }
+  };
+
   const handlePrint = () => {
     if (!slipSale) return;
     const w = window.open("", "_blank", "width=860,height=700");
@@ -64,7 +70,7 @@ export default function History() {
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Sarabun',sans-serif;font-size:14px;color:#1e293b;padding:36px 40px}
+body{font-family:'Sarabun',sans-serif;font-size:13px;color:#1e293b;padding:20px 28px}
 .wrap{max-width:700px;margin:0 auto}
 .hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2.5px solid #1a56db;padding-bottom:18px;margin-bottom:22px}
 .sname{font-size:18px;font-weight:700;color:#1a56db}.sinfo{font-size:12px;color:#475569;margin-top:5px;line-height:1.9}
@@ -77,13 +83,16 @@ th{background:#f1f5f9;padding:8px 12px;text-align:left;font-weight:600;color:#47
 td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
 .grand td{font-weight:800;color:#1a56db;font-size:16px;background:#eff6ff;padding:12px}
 .foot{margin-top:28px;text-align:center;font-size:12px;color:#cbd5e1;padding-top:14px;border-top:1px dashed #e2e8f0}
-@media print{body{padding:20px}}
+@media print{body{padding:12px 16px}header,footer,nav{display:none!important}}
 </style></head><body><div class="wrap">${printRef.current.innerHTML}</div></body></html>`);
     w.document.close(); w.focus();
     setTimeout(() => w.print(), 450);
   };
 
-  const today = new Date().toLocaleDateString("th-TH", { dateStyle:"full" });
+  const today = (() => {
+    const d = new Date();
+    return d.toLocaleDateString("th-TH", { day:"numeric", month:"long", year:"numeric" });
+  })();
   const s = slipSale;
   const slipShipping = s ? (shippingLabel[s.shippingType] || "") : "";
 
@@ -140,9 +149,12 @@ td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
                   <td title={sale.createdBy}>{sale.createdBy || "-"}</td>
                   <td style={{ fontSize:12, color:"var(--gray-500)", maxWidth:"none" }}>{formatDate(sale.createdAt)}</td>
                   <td style={{ maxWidth:"none" }}>
-                    <span className={`badge ${statusBadge[sale.status] || "badge-gray"}`}>
-                      {statusLabel[sale.status] || sale.status}
-                    </span>
+                    <button
+                      className={`status-toggle ${sale.status === "paid" ? "paid" : "pending"}`}
+                      onClick={() => toggleStatus(sale)}
+                      title="คลิกเพื่อเปลี่ยนสถานะ">
+                      {sale.status === "paid" ? "✓ ชำระแล้ว" : "⏳ รอชำระ"}
+                    </button>
                   </td>
                   <td style={{ maxWidth:"none" }}>
                     <div style={{ display:"flex", gap:5 }}>
@@ -255,7 +267,6 @@ td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
               <button className="btn btn-secondary" onClick={() => { setSelected(null); setSlipSale(selected); }}>
                 ใบส่งของ
               </button>
-              <button className="btn btn-danger" onClick={() => { setSelected(null); setDeleteConfirm(selected); }}>ลบรายการนี้</button>
               <button className="btn btn-secondary" onClick={() => setSelected(null)}>ปิด</button>
             </div>
           </div>
@@ -290,7 +301,7 @@ td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
                     <div style={{ textAlign:"right" }}>
                       <div style={{ fontSize:24, fontWeight:700, color:"#0f172a" }}>ใบส่งของ</div>
                       <div style={{ fontSize:12, color:"#94a3b8", marginTop:4, lineHeight:1.8 }}>
-                        วันที่: {s ? new Date(s.createdAt||Date.now()).toLocaleDateString("th-TH",{dateStyle:"full"}) : today}<br/>
+                        วันที่: {s ? new Date(s.createdAt||Date.now()).toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"}) : today}<br/>
                         ผู้ขาย: {s?.createdBy}
                       </div>
                     </div>
@@ -374,12 +385,7 @@ td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
                       <div style={{ background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:8, padding:"10px 16px", fontSize:13, color:"#334155" }}>{s.note}</div>
                     </div>
                   )}
-                  {s?.bankName && (
-                    <div style={{ marginBottom:14 }}>
-                      <div style={{ fontSize:10, fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".08em", marginBottom:7 }}>ข้อมูลการชำระเงิน</div>
-                      <div style={{ background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:8, padding:"10px 16px", fontSize:13, color:"#334155" }}>{s.bankName}</div>
-                    </div>
-                  )}
+
 
                   <div style={{ marginTop:28, textAlign:"center", fontSize:12, color:"#cbd5e1", paddingTop:14, borderTop:"1px dashed #e2e8f0" }}>
                     ขอบคุณที่ใช้บริการ — {SELLER.name} โทร {SELLER.phone}

@@ -516,3 +516,62 @@
   cursor: default;
   position: relative;
 }
+
+/* ── PRODUCT LIST ITEM - truncate long text ── */
+.pli-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+.pli-desc {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+/* ── FORM GROUP - truncate select/input overflow ── */
+.form-group select,
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="tel"] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── BOX SELECT truncate ── */
+.box-select {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* ── STATUS BADGE TOGGLE ── */
+.status-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  font-family: 'Sarabun', sans-serif;
+}
+.status-toggle.pending {
+  background: var(--warning-light);
+  color: #d97706;
+}
+.status-toggle.pending:hover {
+  background: #fde68a;
+}
+.status-toggle.paid {
+  background: var(--success-light);
+  color: #059669;
+}
+.status-toggle.paid:hover {
+  background: #a7f3d0;
+}
