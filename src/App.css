@@ -143,12 +143,13 @@
 }
 .qty-btn:hover { border-color: var(--primary); color: var(--primary); }
 .qty-input {
-  width: 44px;
+  width: 56px;
   text-align: center;
-  padding: 4px 2px;
+  padding: 4px 3px;
   font-size: 13px;
   font-weight: 600;
   border-radius: 5px;
+  flex-shrink: 0;
 }
 
 /* Unit price input */
@@ -346,7 +347,7 @@
 .box-item-header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   padding: 5px 4px 6px;
   border-bottom: 1.5px solid var(--gray-100);
   font-size: 10px;
@@ -359,12 +360,20 @@
 
 .box-item-row {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 6px;
   padding: 5px 4px;
   border-bottom: 1px solid var(--gray-50);
+  flex-wrap: wrap;        /* ← allow wrap when too narrow */
 }
 .box-item-row:hover { background: var(--gray-50); border-radius: 6px; }
+
+/* Product select always full-width-first when wrapped */
+.box-item-row .row-select { flex: 1 1 160px; min-width: 0; }
+.box-item-row .row-qty    { flex: 0 0 auto; display:flex; align-items:center; gap:2px; }
+.box-item-row .row-price  { flex: 0 0 76px; }
+.box-item-row .row-total  { flex: 0 0 76px; text-align:right; font-size:12px; font-weight:700; color:var(--primary); display:flex; align-items:center; justify-content:flex-end; }
+.box-item-row .row-del    { flex: 0 0 auto; display:flex; align-items:center; }
 
 .box-select {
   width: 100%;

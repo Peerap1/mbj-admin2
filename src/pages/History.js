@@ -70,20 +70,24 @@ export default function History() {
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Sarabun',sans-serif;font-size:13px;color:#1e293b;padding:20px 28px}
-.wrap{max-width:700px;margin:0 auto}
-.hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2.5px solid #1a56db;padding-bottom:18px;margin-bottom:22px}
-.sname{font-size:18px;font-weight:700;color:#1a56db}.sinfo{font-size:12px;color:#475569;margin-top:5px;line-height:1.9}
-.title{font-size:24px;font-weight:700;text-align:right;color:#0f172a}.meta{font-size:12px;color:#94a3b8;text-align:right;margin-top:4px;line-height:1.8}
-.sec-h{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;margin-top:16px}
-.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.9;color:#334155}
-.box-hd{background:#1a56db;color:white;padding:7px 14px;border-radius:6px 6px 0 0;font-weight:700;font-size:13px;margin-top:14px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{background:#f1f5f9;padding:8px 12px;text-align:left;font-weight:600;color:#475569;border-bottom:1px solid #e2e8f0}
-td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
-.grand td{font-weight:800;color:#1a56db;font-size:16px;background:#eff6ff;padding:12px}
-.foot{margin-top:28px;text-align:center;font-size:12px;color:#cbd5e1;padding-top:14px;border-top:1px dashed #e2e8f0}
-@media print{body{padding:12px 16px}header,footer,nav{display:none!important}}
+body{font-family:'Sarabun',sans-serif;font-size:11px;color:#1e293b;padding:14px 20px;line-height:1.4}
+.wrap{max-width:680px;margin:0 auto}
+.hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a56db;padding-bottom:10px;margin-bottom:12px}
+.sname{font-size:14px;font-weight:700;color:#1a56db}.sinfo{font-size:10px;color:#475569;margin-top:3px;line-height:1.5}
+.title{font-size:18px;font-weight:700;text-align:right;color:#0f172a}.meta{font-size:10px;color:#94a3b8;text-align:right;margin-top:3px;line-height:1.5}
+.sec-h{font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;margin-top:10px}
+.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px 10px;font-size:11px;line-height:1.5;color:#334155}
+.box-hd{background:#1a56db;color:white;padding:4px 10px;border-radius:4px 4px 0 0;font-weight:700;font-size:11px;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:#f1f5f9;padding:5px 8px;text-align:left;font-weight:600;color:#475569;border-bottom:1px solid #e2e8f0}
+td{padding:4px 8px;border-bottom:1px solid #f8f8f8}
+.grand td{font-weight:800;color:#1a56db;font-size:13px;background:#eff6ff;padding:7px 8px}
+.foot{margin-top:14px;text-align:center;font-size:10px;color:#cbd5e1;padding-top:8px;border-top:1px dashed #e2e8f0}
+@media print{
+  @page{margin:8mm 10mm;size:A4}
+  body{padding:0}
+  html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
 </style></head><body><div class="wrap">${printRef.current.innerHTML}</div></body></html>`);
     w.document.close(); w.focus();
     setTimeout(() => w.print(), 450);
@@ -362,6 +366,10 @@ td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
                   {/* Grand total */}
                   <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13, marginBottom:18 }}>
                     <tbody>
+                      <tr>
+                        <td colSpan={3} style={{ padding:"9px 12px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>จำนวนกล่องทั้งหมด</td>
+                        <td style={{ padding:"9px 12px", textAlign:"right", borderBottom:"1px solid #f1f5f9", width:120 }}><strong>{s?.numBoxes || "–"} กล่อง</strong></td>
+                      </tr>
                       <tr>
                         <td colSpan={3} style={{ padding:"9px 12px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>ยอดสินค้ารวมทุกกล่อง</td>
                         <td style={{ padding:"9px 12px", textAlign:"right", borderBottom:"1px solid #f1f5f9", width:120 }}>฿{Number(s?.subtotal||0).toLocaleString()}</td>

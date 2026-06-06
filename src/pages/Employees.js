@@ -51,7 +51,7 @@ function EmployeeModal({ mode, initial, onSave, onClose, empType }) {
           {form.employeeType === "daily" && (
             <>
               <div className="form-group">
-                <label>ค่าจ้างรายวัน (บาท/วัน)</label>
+                <label>ค่าจ้าง (บาท/ชั่วโมง)</label>
                 <input type="number" placeholder="0.00" value={form.dailyRate||""} onChange={(e)=>set("dailyRate",e.target.value)} />
               </div>
               <div className="form-group">
@@ -164,8 +164,8 @@ function EmpTable({ employees, onEdit, onDelete }) {
                   )}
                   {e.employeeType === "daily" && (
                     <div style={{ fontSize:13, lineHeight:1.7 }}>
-                      {e.dailyRate && <div><span style={{ color:"var(--gray-400)", fontSize:11 }}>รายวัน </span><strong style={{ color:"var(--success)" }}>฿{Number(e.dailyRate).toLocaleString()}</strong></div>}
-                      {e.isPieceWorker && e.pieceRate && <div><span style={{ color:"var(--gray-400)", fontSize:11 }}>กดแผ่น </span><strong style={{ color:"var(--warning)" }}>฿{Number(e.pieceRate).toLocaleString()}/ชม.</strong></div>}
+                      {e.dailyRate && <div><span style={{ color:"var(--gray-400)", fontSize:11 }}>รายวัน </span><strong style={{ color:"var(--success)" }}>฿{Number(e.dailyRate).toLocaleString()}<span style={{ fontWeight:400, fontSize:11, color:"var(--gray-400)" }}>/ชม.</span></strong></div>}
+                      {e.isPieceWorker && e.pieceRate && <div><span style={{ color:"var(--gray-400)", fontSize:11 }}>กดแผ่น </span><strong style={{ color:"var(--warning)" }}>฿{Number(e.pieceRate).toLocaleString()}<span style={{ fontWeight:400, fontSize:11, color:"var(--gray-400)" }}>/ชม.</span></strong></div>}
                     </div>
                   )}
                 </td>
