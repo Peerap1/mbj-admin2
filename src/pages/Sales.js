@@ -3,10 +3,67 @@ import React, { useState, useEffect, useRef } from "react";
 import { getCustomers, getProducts, getBanks, addSale } from "../firebase/database";
 import { useAuth } from "../context/AuthContext";
 
+// ─── Searchable customer dropdown ──────────────────────────────
+function CustomerSearch({ customers, value, onChange }) {
+  const [query, setQuery]   = useState("");
+  const [open,  setOpen]    = useState(false);
+  const ref = useRef();
+
+  const selected = customers.find((c) => c.id === value);
+  const filtered = customers.filter((c) =>
+    c.name?.toLowerCase().includes(query.toLowerCase()) ||
+    c.phone?.toLowerCase().includes(query.toLowerCase())
+  );
+
+  useEffect(() => {
+    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const select = (c) => { onChange(c.id); setQuery(""); setOpen(false); };
+  const clear  = () => { onChange(""); setQuery(""); setOpen(false); };
+
+  return (
+    <div ref={ref} style={{ position:"relative" }}>
+      <div className={`cs-box ${open?"open":""}`} onClick={() => setOpen(true)}>
+        {selected && !open ? (
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"8px 12px" }}>
+            <span style={{ fontSize:14, color:"var(--gray-800)", fontWeight:500 }}>{selected.name}</span>
+            <button type="button" className="cs-clear" onClick={(e) => { e.stopPropagation(); clear(); }}>✕</button>
+          </div>
+        ) : (
+          <input
+            autoFocus={open}
+            type="text"
+            placeholder={open ? "ค้นหาชื่อหรือเบอร์โทร..." : "-- เลือกลูกค้า --"}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onClick={() => setOpen(true)}
+            style={{ border:"none", outline:"none", width:"100%", padding:"8px 12px", background:"transparent", fontSize:14 }}
+          />
+        )}
+      </div>
+      {open && (
+        <div className="cs-dropdown">
+          {filtered.length === 0 ? (
+            <div style={{ padding:"12px 14px", color:"var(--gray-400)", fontSize:13 }}>ไม่พบลูกค้า</div>
+          ) : filtered.map((c) => (
+            <div key={c.id} className="cs-option" onClick={() => select(c)}>
+              <div style={{ fontWeight:600, fontSize:13 }}>{c.name}</div>
+              {c.phone && <div style={{ fontSize:11, color:"var(--gray-400)" }}>{c.phone}</div>}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 const SELLER = {
   name:    "ข้าวแต๋นน้ำแตงโมแม่บัวจันทร์",
   address: "5 หมู่ 2 ตำบลบ้านเป้า อำเภอเมือง จังหวัดลำปาง 52100",
-  phone:   "084-574-8834",
+  phone:   "099-916-6264",
 };
 
 const calcShippingPerBox = (n) => {
@@ -223,10 +280,11 @@ td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
             <div className="form-row">
               <div className="form-group">
                 <label>ลูกค้า <span style={{ color:"var(--danger)" }}>*</span></label>
-                <select value={form.customerId} onChange={(e) => setForm({ ...form, customerId: e.target.value })}>
-                  <option value="">-- เลือกลูกค้า --</option>
-                  {customers.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
-                </select>
+                <CustomerSearch
+                  customers={customers}
+                  value={form.customerId}
+                  onChange={(id) => setForm({ ...form, customerId: id })}
+                />
               </div>
               <div className="form-group">
                 <label>ธนาคาร</label>
@@ -236,14 +294,25 @@ td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
                 </select>
               </div>
             </div>
-            {selectedCustomer?.address && (
-              <div style={{ background:"var(--gray-50)", border:"1px solid var(--gray-200)", borderRadius:8, padding:"10px 14px", marginBottom:14, fontSize:13, overflow:"hidden" }}>
-                <div style={{ fontSize:10, fontWeight:700, color:"var(--gray-400)", letterSpacing:".06em", textTransform:"uppercase", marginBottom:4 }}>📦 ที่อยู่จัดส่ง</div>
-                <div style={{ fontWeight:600, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }} title={selectedCustomer.name}>{selectedCustomer.name}</div>
-                {selectedCustomer.phone   && <div style={{ color:"var(--gray-500)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{selectedCustomer.phone}</div>}
-                {selectedCustomer.address && <div style={{ color:"var(--gray-600)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }} title={selectedCustomer.address}>{selectedCustomer.address}</div>}
-              </div>
-            )}
+            {/* Fixed-height address box - always reserves space to prevent layout jump */}
+            <div style={{ minHeight:72, marginBottom:14, borderRadius:8, overflow:"hidden",
+              background: selectedCustomer?.address ? "var(--gray-50)" : "transparent",
+              border: selectedCustomer?.address ? "1px solid var(--gray-200)" : "1px solid transparent",
+              padding: selectedCustomer?.address ? "10px 14px" : "0 14px",
+              transition:"all 0.15s ease", fontSize:13 }}>
+              {selectedCustomer?.address ? (
+                <>
+                  <div style={{ fontSize:10, fontWeight:700, color:"var(--gray-400)", letterSpacing:".06em", textTransform:"uppercase", marginBottom:4 }}>📦 ที่อยู่จัดส่ง</div>
+                  <div style={{ fontWeight:600, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }} title={selectedCustomer.name}>{selectedCustomer.name}</div>
+                  {selectedCustomer.phone   && <div style={{ color:"var(--gray-500)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{selectedCustomer.phone}</div>}
+                  {selectedCustomer.address && <div style={{ color:"var(--gray-600)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }} title={selectedCustomer.address}>{selectedCustomer.address}</div>}
+                </>
+              ) : (
+                <div style={{ height:"100%", display:"flex", alignItems:"center", color:"var(--gray-300)", fontSize:12 }}>
+                  เลือกลูกค้าเพื่อแสดงที่อยู่จัดส่ง
+                </div>
+              )}
+            </div>
             <div className="form-group" style={{ marginBottom:0 }}>
               <label>หมายเหตุ</label>
               <input type="text" placeholder="หมายเหตุ (ถ้ามี)" value={form.note}

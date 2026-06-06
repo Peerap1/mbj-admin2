@@ -144,14 +144,21 @@ export default function Reports() {
               </tr>
             </thead>
             <tbody>
-              {filtered.slice(0,10).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).map((s) => (
+              {filtered.slice(0,30).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).map((s) => (
                 <tr key={s.id}>
-                  <td>{s.customerName || "-"}</td>
-                  <td>{s.items?.length || 0} รายการ</td>
+                  <td title={s.customerName}>{s.customerName || "-"}</td>
+                  <td>{s.numBoxes ? `${s.numBoxes} กล่อง` : `${s.items?.length||0} รายการ`}</td>
                   <td><strong style={{ color:"var(--primary)" }}>฿{Number(s.total||0).toLocaleString()}</strong></td>
-                  <td>{s.createdBy || "-"}</td>
+                  <td title={s.createdBy}>{s.createdBy || "-"}</td>
                   <td style={{ fontSize:12, color:"var(--gray-500)" }}>{s.createdAt ? new Date(s.createdAt).toLocaleString("th-TH",{dateStyle:"short",timeStyle:"short"}) : "-"}</td>
-                  <td><span className={`badge ${s.status==="completed"?"badge-success":s.status==="cancelled"?"badge-danger":"badge-warning"}`}>{s.status==="completed"?"สำเร็จ":s.status==="cancelled"?"ยกเลิก":"รอดำเนินการ"}</span></td>
+                  <td>
+                    <span className={`badge ${
+                      s.status==="paid"||s.status==="completed" ? "badge-success" :
+                      s.status==="cancelled" ? "badge-danger" : "badge-warning"
+                    }`}>
+                      {s.status==="paid"?"ชำระแล้ว":s.status==="completed"?"สำเร็จ":s.status==="cancelled"?"ยกเลิก":"รอชำระ"}
+                    </span>
+                  </td>
                 </tr>
               ))}
               {filtered.length === 0 && (
