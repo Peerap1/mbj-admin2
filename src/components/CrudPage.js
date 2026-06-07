@@ -159,7 +159,7 @@ export default function CrudPage({ title, subtitle, items, columns, fields, onAd
             <div className="modal-body" style={{ textAlign:"center" }}>
               <div style={{ fontSize:40, marginBottom:12 }}>🗑️</div>
               <p>คุณต้องการลบ <strong>{deleteConfirm[columns[0]?.key] || ""}</strong> ใช่ไหม?</p>
-              <p style={{ fontSize:13, color:"var(--gray-400)", marginTop:6 }}>การกระทำนี้ไม่สามารถยกเลิกได้</p>
+              
             </div>
             <div className="modal-footer">
               <button className="btn btn-secondary" onClick={() => setDeleteConfirm(null)}>ยกเลิก</button>

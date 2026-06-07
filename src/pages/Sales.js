@@ -82,7 +82,7 @@ const shippingRateLabel = (n) => {
 };
 
 let boxCounter = 1;
-const newBox = () => ({ id: `box_${Date.now()}_${boxCounter++}`, items: [] });
+const newBox = () => ({ id: `box_${Date.now()}_${boxCounter++}`, items: [], boxQty: 1 });
 let rowCounter = 1;
 const newRow = (product = null) => ({
   rowId:       `row_${Date.now()}_${rowCounter++}`,
@@ -119,6 +119,11 @@ export default function Sales() {
   const addBox = () => setBoxes((prev) => [...prev, newBox()]);
   const removeBox = (boxId) =>
     setBoxes((prev) => prev.length > 1 ? prev.filter((b) => b.id !== boxId) : prev);
+
+  const updateBoxQty = (boxId, qty) =>
+    setBoxes((prev) => prev.map((b) =>
+      b.id === boxId ? { ...b, boxQty: Math.max(1, Number(qty)||1) } : b
+    ));
 
   const addRowToBox = (boxId) =>
     setBoxes((prev) => prev.map((b) =>
@@ -162,7 +167,7 @@ export default function Sales() {
   // ─── Totals ────────────────────────────────────────────────────
   const allItems     = boxes.flatMap((b) => b.items);
   const subtotal     = allItems.reduce((s, r) => s + (Number(r.price)||0)*(Number(r.qty)||0), 0);
-  const numBoxes     = boxes.length;
+  const numBoxes     = boxes.reduce((s,b) => s + (Number(b.boxQty)||1), 0);
   const shippingCost = (() => {
     if (!form.shippingType || form.shippingType === "free") return 0;
     if (form.shippingType === "per_box") return calcShippingPerBox(numBoxes);
@@ -191,7 +196,7 @@ export default function Sales() {
         bankName: selectedBank
           ? `${selectedBank.name} ${selectedBank.accountNo}${selectedBank.accountName ? " · "+selectedBank.accountName : ""}`
           : "",
-        boxes:        boxes.map((b) => ({ ...b })),
+        boxes:        boxes.map((b) => ({ ...b, boxQty: Number(b.boxQty)||1 })),
         subtotal,
         shippingType: form.shippingType,
         shippingCost,
@@ -223,21 +228,21 @@ export default function Sales() {
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Sarabun',sans-serif;font-size:5.5px;color:#1e293b;padding:5px 8px;line-height:1.2}
-.wrap{max-width:640px;margin:0 auto}
-.hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #1a56db;padding-bottom:5px;margin-bottom:7px}
-.sname{font-size:9px;font-weight:700;color:#1a56db}.sinfo{font-size:6.5px;color:#475569;margin-top:1px;line-height:1.3}
-.title{font-size:12px;font-weight:700;text-align:right;color:#0f172a}.meta{font-size:6.5px;color:#94a3b8;text-align:right;margin-top:1px;line-height:1.3}
-.sec-h{font-size:4.5px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.03em;margin-bottom:1px;margin-top:4px}
-.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:2px;padding:2px 5px;font-size:5.5px;line-height:1.2;color:#334155}
-.box-hd{background:#1a56db;color:white;padding:1.5px 5px;border-radius:2px 2px 0 0;font-weight:700;font-size:5.5px;margin-top:4px}
-table{width:100%;border-collapse:collapse;font-size:5.5px}
-th{background:#f1f5f9;padding:2px 4px;text-align:left;font-weight:600;color:#475569;border-bottom:1px solid #e2e8f0}
-td{padding:1px 4px;border-bottom:1px solid #f8f8f8}
-.grand td{font-weight:800;color:#1a56db;font-size:6.5px;background:#eff6ff;padding:3px 4px}
-.foot{margin-top:6px;text-align:center;font-size:5px;color:#cbd5e1;padding-top:4px;border-top:1px dashed #e2e8f0}
+body{font-family:'Sarabun',sans-serif;font-size:11px;color:#1e293b;padding:12px 16px;line-height:1.5}
+.wrap{max-width:680px;margin:0 auto}
+.hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a56db;padding-bottom:10px;margin-bottom:14px}
+.sname{font-size:14px;font-weight:700;color:#1a56db}.sinfo{font-size:10px;color:#475569;margin-top:3px;line-height:1.6}
+.title{font-size:18px;font-weight:700;text-align:right;color:#0f172a}.meta{font-size:10px;color:#94a3b8;text-align:right;margin-top:3px;line-height:1.6}
+.sec-h{font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;margin-top:12px}
+.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:6px 10px;font-size:11px;line-height:1.6;color:#334155}
+.box-hd{background:#1a56db;color:white;padding:4px 10px;border-radius:3px 3px 0 0;font-weight:700;font-size:11px;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:#f1f5f9;padding:5px 8px;text-align:left;font-weight:600;color:#475569;border-bottom:1.5px solid #e2e8f0}
+td{padding:4px 8px;border-bottom:1px solid #f5f5f5}
+.grand td{font-weight:800;color:#1a56db;font-size:12px;background:#eff6ff;padding:6px 8px}
+.foot{margin-top:12px;text-align:center;font-size:9px;color:#cbd5e1;padding-top:7px;border-top:1px dashed #e2e8f0}
 @media print{
-  @page{margin:5mm 6mm;size:A4}
+  @page{margin:8mm 10mm;size:A4}
   body{padding:0}
   html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
@@ -361,7 +366,19 @@ td{padding:1px 4px;border-bottom:1px solid #f8f8f8}
                   <span>รายการที่ {bIdx+1}</span>
                   <span style={{ fontSize:11, opacity:.7 }}>({box.items.length} สินค้า)</span>
                 </div>
-                <div style={{ display:"flex", gap:6 }}>
+                <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:5, background:"rgba(255,255,255,0.15)", borderRadius:6, padding:"3px 8px" }}>
+                    <span style={{ fontSize:11, color:"rgba(255,255,255,0.8)", whiteSpace:"nowrap" }}>จำนวนกล่อง</span>
+                    <button style={{ background:"none", border:"none", color:"white", fontSize:16, cursor:"pointer", lineHeight:1, padding:"0 2px" }}
+                      onClick={() => updateBoxQty(box.id, (Number(box.boxQty)||1)-1)}>−</button>
+                    <input type="number" min="1"
+                      value={box.boxQty||1}
+                      onChange={(e) => updateBoxQty(box.id, e.target.value)}
+                      style={{ width:36, textAlign:"center", border:"1px solid rgba(255,255,255,0.4)", borderRadius:4, background:"rgba(255,255,255,0.2)", color:"white", fontWeight:700, fontSize:13, padding:"2px 0" }} />
+                    <button style={{ background:"none", border:"none", color:"white", fontSize:16, cursor:"pointer", lineHeight:1, padding:"0 2px" }}
+                      onClick={() => updateBoxQty(box.id, (Number(box.boxQty)||1)+1)}>+</button>
+                    <span style={{ fontSize:11, color:"rgba(255,255,255,0.8)" }}>กล่อง</span>
+                  </div>
                   <button className="btn-icon-sm" onClick={() => addRowToBox(box.id)}>+ เพิ่มสินค้า</button>
                   {boxes.length > 1 && (
                     <button className="btn-icon-sm danger" onClick={() => removeBox(box.id)}>🗑</button>
@@ -414,7 +431,7 @@ td{padding:1px 4px;border-bottom:1px solid #f8f8f8}
                     ))}
                     {box.items.some((r) => r.productId) && (
                       <div style={{ display:"flex", justifyContent:"flex-end", paddingTop:7, marginTop:4, borderTop:"1px dashed var(--gray-200)", fontSize:12, fontWeight:600, color:"var(--gray-500)" }}>
-                        ยอดกล่องนี้ ฿{box.items.reduce((s,r)=>s+(Number(r.price||0)*Number(r.qty||0)),0).toLocaleString()}
+                        ยอดรายการที่ {bIdx+1} ({Number(box.boxQty)||1} กล่อง) ฿{box.items.reduce((s,r)=>s+(Number(r.price||0)*Number(r.qty||0)),0).toLocaleString()}
                       </div>
                     )}
                   </>
@@ -533,7 +550,7 @@ td{padding:1px 4px;border-bottom:1px solid #f8f8f8}
 
                   {slip._slipCustomer && (
                     <div style={{ marginBottom:18 }}>
-                      <div style={{ fontSize:"4.5px", fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".04em", marginBottom:3 }}>ที่อยู่ในการจัดส่งสินค้า</div>
+                      <div style={{ fontSize:10, fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".06em", marginBottom:6 }}>ที่อยู่ในการจัดส่งสินค้า</div>
                       <div style={{ background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:8, padding:"12px 16px", fontSize:13, lineHeight:1.9, color:"#334155" }}>
                         <strong>{slip._slipCustomer.name}</strong>
                         {slip._slipCustomer.phone   && <><br/>โทร: {slip._slipCustomer.phone}</>}
@@ -543,36 +560,36 @@ td{padding:1px 4px;border-bottom:1px solid #f8f8f8}
                   )}
 
                   <div style={{ marginBottom:14 }}>
-                    <div style={{ fontSize:"4.5px", fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".04em", marginBottom:4 }}>รายการสินค้า ({slip.numBoxes} รายการ)</div>
+                    <div style={{ fontSize:10, fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".06em", marginBottom:8 }}>รายการสินค้า ({slip.numBoxes} รายการ)</div>
                     <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
                       <thead>
                         <tr>
-                          <th style={{ background:"#f1f5f9", padding:"2px 4px", textAlign:"left", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0", fontSize:"5.5px" }}>สินค้า</th>
-                          <th style={{ background:"#f1f5f9", padding:"2px 4px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0", width:70, fontSize:"5.5px" }}>ราคา/หน่วย</th>
-                          <th style={{ background:"#f1f5f9", padding:"2px 4px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0", width:55, fontSize:"5.5px" }}>จำนวน</th>
-                          <th style={{ background:"#f1f5f9", padding:"2px 4px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0", width:70, fontSize:"5.5px" }}>รวม</th>
+                          <th style={{ background:"#f1f5f9", padding:"7px 10px", textAlign:"left", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0" }}>สินค้า</th>
+                          <th style={{ background:"#f1f5f9", padding:"7px 10px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0", width:90 }}>ราคา/หน่วย</th>
+                          <th style={{ background:"#f1f5f9", padding:"7px 10px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0", width:70 }}>จำนวน</th>
+                          <th style={{ background:"#f1f5f9", padding:"7px 10px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0", width:90 }}>รวม</th>
                         </tr>
                       </thead>
                       {(slip.boxes||[]).map((box, bIdx) => (
                         <tbody key={box.id||bIdx}>
                           {/* Box label row */}
                           <tr>
-                            <td colSpan={4} style={{ padding:"2px 5px", background:"#1a56db", color:"white", fontWeight:700, fontSize:"5.5px" }}>
-                              📦 รายการที่ {bIdx+1}
+                            <td colSpan={4} style={{ padding:"5px 10px", background:"#1a56db", color:"white", fontWeight:700, fontSize:12 }}>
+                              📦 รายการที่ {bIdx+1}  ({Number(box.boxQty)||1} กล่อง)
                             </td>
                           </tr>
                           {(box.items||[]).filter(r=>r.productId).map((row,i) => (
                             <tr key={row.rowId||i}>
-                              <td style={{ padding:"1px 4px", borderBottom:"1px solid #f8f8f8", fontSize:"5.5px" }}>{row.productName}</td>
-                              <td style={{ padding:"1px 4px", borderBottom:"1px solid #f8f8f8", fontSize:"5.5px", textAlign:"right" }}>฿{Number(row.price||0).toLocaleString()}</td>
-                              <td style={{ padding:"1px 4px", borderBottom:"1px solid #f8f8f8", fontSize:"5.5px", textAlign:"right" }}>{row.qty}</td>
-                              <td style={{ padding:"1px 4px", borderBottom:"1px solid #f8f8f8", fontSize:"5.5px", textAlign:"right" }}>฿{(Number(row.price||0)*Number(row.qty||0)).toLocaleString()}</td>
+                              <td style={{ padding:"6px 10px", borderBottom:"1px solid #f1f5f9" }}>{row.productName}</td>
+                              <td style={{ padding:"6px 10px", borderBottom:"1px solid #f1f5f9", textAlign:"right" }}>฿{Number(row.price||0).toLocaleString()}</td>
+                              <td style={{ padding:"6px 10px", borderBottom:"1px solid #f1f5f9", textAlign:"right" }}>{row.qty}</td>
+                              <td style={{ padding:"6px 10px", borderBottom:"1px solid #f1f5f9", textAlign:"right" }}>฿{(Number(row.price||0)*Number(row.qty||0)).toLocaleString()}</td>
                             </tr>
                           ))}
                           {/* Box subtotal */}
                           <tr>
-                            <td colSpan={3} style={{ padding:"2px 4px", textAlign:"right", color:"#64748b", fontSize:"5px", background:"#f8fafc", borderBottom:"1.5px solid #e2e8f0" }}>ยอดรายการที่ {bIdx+1}</td>
-                            <td style={{ padding:"2px 4px", textAlign:"right", fontWeight:700, background:"#f8fafc", borderBottom:"1.5px solid #e2e8f0", fontSize:"5.5px" }}>
+                            <td colSpan={3} style={{ padding:"5px 10px", textAlign:"right", color:"#64748b", fontSize:12, background:"#f8fafc", borderBottom:"1.5px solid #e2e8f0" }}>ยอดรายการที่ {bIdx+1}</td>
+                            <td style={{ padding:"5px 10px", textAlign:"right", fontWeight:700, background:"#f8fafc", borderBottom:"1.5px solid #e2e8f0" }}>
                               ฿{(box.items||[]).reduce((s,r)=>s+(Number(r.price||0)*Number(r.qty||0)),0).toLocaleString()}
                             </td>
                           </tr>
@@ -583,16 +600,16 @@ td{padding:1px 4px;border-bottom:1px solid #f8f8f8}
 
                   <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13, marginBottom:18 }}>
                     <tbody>
-                      <tr><td colSpan={3} style={{ padding:"2px 4px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f8f8f8", fontSize:"5px" }}>จำนวนรายการทั้งหมด</td><td style={{ padding:"2px 4px", textAlign:"right", borderBottom:"1px solid #f8f8f8", width:80, fontSize:"5px" }}>{slip.numBoxes} รายการ</td></tr>
-                      <tr><td colSpan={3} style={{ padding:"2px 4px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f8f8f8", fontSize:"5px" }}>ยอดสินค้ารวมทุกรายการ</td><td style={{ padding:"2px 4px", textAlign:"right", borderBottom:"1px solid #f8f8f8", width:80, fontSize:"5px" }}>฿{Number(slip.subtotal||0).toLocaleString()}</td></tr>
-                      <tr><td colSpan={3} style={{ padding:"2px 4px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f8f8f8", fontSize:"5px" }}>ค่าส่ง ({slipShippingLabel[slip.shippingType]||""})</td><td style={{ padding:"2px 4px", textAlign:"right", borderBottom:"1px solid #f8f8f8", fontSize:"5px" }}>{slip.shippingCost===0?"ฟรี":`฿${Number(slip.shippingCost||0).toLocaleString()}`}</td></tr>
-                      <tr><td colSpan={3} style={{ padding:"3px 4px", textAlign:"right", fontWeight:800, fontSize:"6.5px", color:"#1a56db", background:"#eff6ff" }}>ยอดรวมทั้งหมด</td><td style={{ padding:"3px 4px", textAlign:"right", fontWeight:800, fontSize:"6.5px", color:"#1a56db", background:"#eff6ff" }}>฿{Number(slip.total||0).toLocaleString()}</td></tr>
+                      <tr><td colSpan={3} style={{ padding:"7px 10px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>จำนวนรายการทั้งหมด</td><td style={{ padding:"7px 10px", textAlign:"right", borderBottom:"1px solid #f1f5f9", width:110 }}>{slip.numBoxes} กล่อง ({(slip.boxes||[]).length} รายการ)</td></tr>
+                      <tr><td colSpan={3} style={{ padding:"7px 10px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>ยอดสินค้ารวมทุกรายการ</td><td style={{ padding:"7px 10px", textAlign:"right", borderBottom:"1px solid #f1f5f9", width:110 }}>฿{Number(slip.subtotal||0).toLocaleString()}</td></tr>
+                      <tr><td colSpan={3} style={{ padding:"7px 10px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>ค่าส่ง ({slipShippingLabel[slip.shippingType]||""})</td><td style={{ padding:"2px 4px", textAlign:"right", borderBottom:"1px solid #f8f8f8", fontSize:"5px" }}>{slip.shippingCost===0?"ฟรี":`฿${Number(slip.shippingCost||0).toLocaleString()}`}</td></tr>
+                      <tr><td colSpan={3} style={{ padding:"9px 10px", textAlign:"right", fontWeight:800, fontSize:15, color:"#1a56db", background:"#eff6ff" }}>ยอดรวมทั้งหมด</td><td style={{ padding:"9px 10px", textAlign:"right", fontWeight:800, fontSize:15, color:"#1a56db", background:"#eff6ff" }}>฿{Number(slip.total||0).toLocaleString()}</td></tr>
                     </tbody>
                   </table>
 
                   {slip.note && (
                     <div style={{ marginBottom:14 }}>
-                      <div style={{ fontSize:"4.5px", fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".04em", marginBottom:3 }}>หมายเหตุ</div>
+                      <div style={{ fontSize:10, fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".06em", marginBottom:6 }}>หมายเหตุ</div>
                       <div style={{ background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:8, padding:"10px 16px", fontSize:13, color:"#334155" }}>{slip.note}</div>
                     </div>
                   )}

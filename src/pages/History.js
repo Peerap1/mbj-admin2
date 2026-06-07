@@ -38,9 +38,15 @@ function PaymentModal({ sale, banks, onConfirm, onClose }) {
             <label>ช่องทางชำระเงิน</label>
             <div style={{ display:"flex", gap:8 }}>
               {[["cash","💵 เงินสด"],["bank","🏦 โอนธนาคาร"]].map(([v,l]) => (
-                <label key={v} style={{ display:"flex", alignItems:"center", gap:6, padding:"8px 14px", border:`1.5px solid ${method===v?"var(--primary)":"var(--gray-200)"}`, borderRadius:8, cursor:"pointer", flex:1, justifyContent:"center", background: method===v?"var(--primary-50)":"white", fontSize:13, fontWeight:600 }}>
-                  <input type="radio" name="paymethod" value={v} checked={method===v} onChange={()=>setMethod(v)} style={{ accentColor:"var(--primary)" }}/>
-                  {l}
+                <label key={v} style={{
+                  display:"inline-flex", alignItems:"center", gap:6,
+                  padding:"8px 16px", border:`1.5px solid ${method===v?"var(--primary)":"var(--gray-200)"}`,
+                  borderRadius:8, cursor:"pointer", flex:1, justifyContent:"center",
+                  background:method===v?"var(--primary-50)":"white", whiteSpace:"nowrap"
+                }}>
+                  <input type="radio" name="paymethod" value={v} checked={method===v} onChange={()=>setMethod(v)}
+                    style={{ accentColor:"var(--primary)", margin:0, flexShrink:0 }} />
+                  <span style={{ fontSize:13, fontWeight:600, lineHeight:1 }}>{l}</span>
                 </label>
               ))}
             </div>
@@ -144,21 +150,21 @@ export default function History() {
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Sarabun',sans-serif;font-size:5.5px;color:#1e293b;padding:5px 8px;line-height:1.2}
-.wrap{max-width:640px;margin:0 auto}
-.hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #1a56db;padding-bottom:5px;margin-bottom:7px}
-.sname{font-size:9px;font-weight:700;color:#1a56db}.sinfo{font-size:6.5px;color:#475569;margin-top:1px;line-height:1.3}
-.title{font-size:12px;font-weight:700;text-align:right;color:#0f172a}.meta{font-size:6.5px;color:#94a3b8;text-align:right;margin-top:1px;line-height:1.3}
-.sec-h{font-size:4.5px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.03em;margin-bottom:1px;margin-top:4px}
-.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:2px;padding:2px 5px;font-size:5.5px;line-height:1.2;color:#334155}
-.box-hd{background:#1a56db;color:white;padding:1.5px 5px;border-radius:2px 2px 0 0;font-weight:700;font-size:5.5px;margin-top:4px}
-table{width:100%;border-collapse:collapse;font-size:5.5px}
-th{background:#f1f5f9;padding:2px 4px;text-align:left;font-weight:600;color:#475569;border-bottom:1px solid #e2e8f0}
-td{padding:1px 4px;border-bottom:1px solid #f8f8f8}
-.grand td{font-weight:800;color:#1a56db;font-size:6.5px;background:#eff6ff;padding:3px 4px}
-.foot{margin-top:6px;text-align:center;font-size:5px;color:#cbd5e1;padding-top:4px;border-top:1px dashed #e2e8f0}
+body{font-family:'Sarabun',sans-serif;font-size:11px;color:#1e293b;padding:12px 16px;line-height:1.5}
+.wrap{max-width:680px;margin:0 auto}
+.hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a56db;padding-bottom:10px;margin-bottom:14px}
+.sname{font-size:14px;font-weight:700;color:#1a56db}.sinfo{font-size:10px;color:#475569;margin-top:3px;line-height:1.6}
+.title{font-size:18px;font-weight:700;text-align:right;color:#0f172a}.meta{font-size:10px;color:#94a3b8;text-align:right;margin-top:3px;line-height:1.6}
+.sec-h{font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;margin-top:12px}
+.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:6px 10px;font-size:11px;line-height:1.6;color:#334155}
+.box-hd{background:#1a56db;color:white;padding:4px 10px;border-radius:3px 3px 0 0;font-weight:700;font-size:11px;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:#f1f5f9;padding:5px 8px;text-align:left;font-weight:600;color:#475569;border-bottom:1.5px solid #e2e8f0}
+td{padding:4px 8px;border-bottom:1px solid #f5f5f5}
+.grand td{font-weight:800;color:#1a56db;font-size:12px;background:#eff6ff;padding:6px 8px}
+.foot{margin-top:12px;text-align:center;font-size:9px;color:#cbd5e1;padding-top:7px;border-top:1px dashed #e2e8f0}
 @media print{
-  @page{margin:5mm 6mm;size:A4}
+  @page{margin:8mm 10mm;size:A4}
   body{padding:0}
   html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
@@ -252,7 +258,6 @@ td{padding:1px 4px;border-bottom:1px solid #f8f8f8}
             <div className="modal-body" style={{ maxHeight:"70vh", overflowY:"auto" }}>
               <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:16 }}>
                 <div><div style={{ fontSize:11, color:"var(--gray-400)", marginBottom:2 }}>ลูกค้า</div><strong>{selected.customerName||"-"}</strong></div>
-                <div><div style={{ fontSize:11, color:"var(--gray-400)", marginBottom:2 }}>ธนาคาร</div><strong style={{ fontSize:13 }}>{selected.bankName||"-"}</strong></div>
                 <div><div style={{ fontSize:11, color:"var(--gray-400)", marginBottom:2 }}>ผู้ขาย</div><strong>{selected.createdBy||"-"}</strong></div>
                 <div><div style={{ fontSize:11, color:"var(--gray-400)", marginBottom:2 }}>วันที่</div><strong>{formatDate(selected.createdAt)}</strong></div>
               </div>
@@ -487,7 +492,7 @@ td{padding:1px 4px;border-bottom:1px solid #f8f8f8}
               <p style={{ fontSize:13, color:"var(--gray-400)", marginTop:6 }}>
                 ยอด ฿{Number(deleteConfirm.total||0).toLocaleString()} · {formatDate(deleteConfirm.createdAt)}
               </p>
-              <p style={{ fontSize:12, color:"var(--danger)", marginTop:8 }}>การกระทำนี้ไม่สามารถยกเลิกได้</p>
+
             </div>
             <div className="modal-footer">
               <button className="btn btn-secondary" onClick={() => setDeleteConfirm(null)}>ยกเลิก</button>

@@ -101,7 +101,7 @@ function DeleteConfirm({ emp, onConfirm, onClose }) {
         <div className="modal-body" style={{ textAlign:"center" }}>
           <div style={{ fontSize:40, marginBottom:12 }}>🗑️</div>
           <p>ต้องการลบ <strong>{emp.name}</strong>?</p>
-          <p style={{ fontSize:12, color:"var(--danger)", marginTop:8 }}>การกระทำนี้ไม่สามารถยกเลิกได้</p>
+          
         </div>
         <div className="modal-footer">
           <button className="btn btn-secondary" onClick={onClose}>ยกเลิก</button>

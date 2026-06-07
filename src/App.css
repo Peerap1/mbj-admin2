@@ -695,3 +695,21 @@
   min-width: 30px;
 }
 .btn-icon-only svg { pointer-events: none; }
+
+/* ── SALARY UPLOAD ── */
+.salary-upload-zone {
+  border: 2px dashed var(--gray-300);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.salary-upload-zone:hover {
+  border-color: var(--primary);
+  background: var(--primary-50);
+}
