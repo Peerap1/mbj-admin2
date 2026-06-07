@@ -78,7 +78,7 @@ export default function Login() {
             {loading ? <span className="spinner"/> : "เข้าสู่ระบบ"}
           </button>
         </form>
-        <div className="login-footer"><p>© 2024 MBJ Admin System</p></div>
+
       </div>
     </div>
   );

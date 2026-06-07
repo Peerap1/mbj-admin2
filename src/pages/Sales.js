@@ -223,19 +223,19 @@ export default function Sales() {
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Sarabun',sans-serif;font-size:7px;color:#1e293b;padding:6px 10px;line-height:1.25}
+body{font-family:'Sarabun',sans-serif;font-size:5.5px;color:#1e293b;padding:5px 8px;line-height:1.2}
 .wrap{max-width:640px;margin:0 auto}
 .hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #1a56db;padding-bottom:5px;margin-bottom:7px}
 .sname{font-size:9px;font-weight:700;color:#1a56db}.sinfo{font-size:6.5px;color:#475569;margin-top:1px;line-height:1.3}
 .title{font-size:12px;font-weight:700;text-align:right;color:#0f172a}.meta{font-size:6.5px;color:#94a3b8;text-align:right;margin-top:1px;line-height:1.3}
-.sec-h{font-size:6px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;margin-top:5px}
-.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:2px;padding:3px 6px;font-size:7px;line-height:1.3;color:#334155}
-.box-hd{background:#1a56db;color:white;padding:2px 7px;border-radius:2px 2px 0 0;font-weight:700;font-size:7px;margin-top:5px}
-table{width:100%;border-collapse:collapse;font-size:7px}
-th{background:#f1f5f9;padding:2px 5px;text-align:left;font-weight:600;color:#475569;border-bottom:1px solid #e2e8f0}
-td{padding:1.5px 5px;border-bottom:1px solid #f8f8f8}
-.grand td{font-weight:800;color:#1a56db;font-size:8.5px;background:#eff6ff;padding:4px 5px}
-.foot{margin-top:8px;text-align:center;font-size:6.5px;color:#cbd5e1;padding-top:5px;border-top:1px dashed #e2e8f0}
+.sec-h{font-size:4.5px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.03em;margin-bottom:1px;margin-top:4px}
+.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:2px;padding:2px 5px;font-size:5.5px;line-height:1.2;color:#334155}
+.box-hd{background:#1a56db;color:white;padding:1.5px 5px;border-radius:2px 2px 0 0;font-weight:700;font-size:5.5px;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:5.5px}
+th{background:#f1f5f9;padding:2px 4px;text-align:left;font-weight:600;color:#475569;border-bottom:1px solid #e2e8f0}
+td{padding:1px 4px;border-bottom:1px solid #f8f8f8}
+.grand td{font-weight:800;color:#1a56db;font-size:6.5px;background:#eff6ff;padding:3px 4px}
+.foot{margin-top:6px;text-align:center;font-size:5px;color:#cbd5e1;padding-top:4px;border-top:1px dashed #e2e8f0}
 @media print{
   @page{margin:5mm 6mm;size:A4}
   body{padding:0}
@@ -281,7 +281,7 @@ td{padding:1.5px 5px;border-bottom:1px solid #f8f8f8}
           {/* Sale info */}
           <div className="card">
             <h3 style={{ fontSize:15, marginBottom:16, color:"var(--gray-800)" }}>ข้อมูลการขาย</h3>
-            <div className="form-row">
+            <div style={{ marginBottom:14 }}>
               <div className="form-group">
                 <label>ลูกค้า <span style={{ color:"var(--danger)" }}>*</span></label>
                 <CustomerSearch
@@ -289,13 +289,6 @@ td{padding:1.5px 5px;border-bottom:1px solid #f8f8f8}
                   value={form.customerId}
                   onChange={(id) => setForm({ ...form, customerId: id })}
                 />
-              </div>
-              <div className="form-group">
-                <label>ธนาคาร</label>
-                <select value={form.bankId} onChange={(e) => setForm({ ...form, bankId: e.target.value })}>
-                  <option value="">-- เลือกธนาคาร --</option>
-                  {banks.map((b) => <option key={b.id} value={b.id}>{b.name} – {b.accountNo}</option>)}
-                </select>
               </div>
             </div>
             {/* Fixed-height address box - always reserves space to prevent layout jump */}
@@ -365,8 +358,8 @@ td{padding:1.5px 5px;border-bottom:1px solid #f8f8f8}
               <div className="box-header-bar">
                 <div style={{ display:"flex", alignItems:"center", gap:8 }}>
                   <span>📦</span>
-                  <span>กล่องที่ {bIdx+1}</span>
-                  <span style={{ fontSize:11, opacity:.7 }}>({box.items.length} รายการ)</span>
+                  <span>รายการที่ {bIdx+1}</span>
+                  <span style={{ fontSize:11, opacity:.7 }}>({box.items.length} สินค้า)</span>
                 </div>
                 <div style={{ display:"flex", gap:6 }}>
                   <button className="btn-icon-sm" onClick={() => addRowToBox(box.id)}>+ เพิ่มสินค้า</button>
@@ -434,14 +427,14 @@ td{padding:1.5px 5px;border-bottom:1px solid #f8f8f8}
             <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
               <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd"/>
             </svg>
-            เพิ่มกล่องที่ {boxes.length+1}
+            เพิ่มรายการที่ {boxes.length+1}
           </button>
 
           {/* Summary */}
           <div className="card">
             <div style={{ marginBottom:16 }}>
               <div style={{ fontSize:13, fontWeight:700, color:"var(--gray-600)", marginBottom:8 }}>
-                ค่าจัดส่ง ({numBoxes} กล่อง) <span style={{ color:"var(--danger)" }}>*</span>
+                ค่าจัดส่ง ({numBoxes} รายการ) <span style={{ color:"var(--danger)" }}>*</span>
               </div>
               <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
                 {[
@@ -486,7 +479,7 @@ td{padding:1.5px 5px;border-bottom:1px solid #f8f8f8}
 
             <div style={{ paddingTop:14, borderTop:"1.5px dashed var(--gray-200)" }}>
               <div style={{ display:"flex", justifyContent:"space-between", fontSize:13, color:"var(--gray-500)", marginBottom:5 }}>
-                <span>ยอดสินค้า ({numBoxes} กล่อง)</span><span>฿{subtotal.toLocaleString()}</span>
+                <span>ยอดสินค้า ({numBoxes} รายการ)</span><span>฿{subtotal.toLocaleString()}</span>
               </div>
               <div style={{ display:"flex", justifyContent:"space-between", fontSize:13, color:"var(--gray-500)", marginBottom:10 }}>
                 <span>ค่าส่ง</span>
@@ -540,7 +533,7 @@ td{padding:1.5px 5px;border-bottom:1px solid #f8f8f8}
 
                   {slip._slipCustomer && (
                     <div style={{ marginBottom:18 }}>
-                      <div style={{ fontSize:10, fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".08em", marginBottom:7 }}>ที่อยู่ในการจัดส่งสินค้า</div>
+                      <div style={{ fontSize:"4.5px", fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".04em", marginBottom:3 }}>ที่อยู่ในการจัดส่งสินค้า</div>
                       <div style={{ background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:8, padding:"12px 16px", fontSize:13, lineHeight:1.9, color:"#334155" }}>
                         <strong>{slip._slipCustomer.name}</strong>
                         {slip._slipCustomer.phone   && <><br/>โทร: {slip._slipCustomer.phone}</>}
@@ -550,36 +543,36 @@ td{padding:1.5px 5px;border-bottom:1px solid #f8f8f8}
                   )}
 
                   <div style={{ marginBottom:14 }}>
-                    <div style={{ fontSize:10, fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".08em", marginBottom:8 }}>รายการสินค้า ({slip.numBoxes} กล่อง)</div>
+                    <div style={{ fontSize:"4.5px", fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".04em", marginBottom:4 }}>รายการสินค้า ({slip.numBoxes} รายการ)</div>
                     <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
                       <thead>
                         <tr>
-                          <th style={{ background:"#f1f5f9", padding:"7px 10px", textAlign:"left", fontWeight:700, color:"#475569", borderBottom:"2px solid #e2e8f0" }}>สินค้า</th>
-                          <th style={{ background:"#f1f5f9", padding:"7px 10px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"2px solid #e2e8f0", width:90 }}>ราคา/หน่วย</th>
-                          <th style={{ background:"#f1f5f9", padding:"7px 10px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"2px solid #e2e8f0", width:70 }}>จำนวน</th>
-                          <th style={{ background:"#f1f5f9", padding:"7px 10px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"2px solid #e2e8f0", width:90 }}>รวม</th>
+                          <th style={{ background:"#f1f5f9", padding:"2px 4px", textAlign:"left", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0", fontSize:"5.5px" }}>สินค้า</th>
+                          <th style={{ background:"#f1f5f9", padding:"2px 4px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0", width:70, fontSize:"5.5px" }}>ราคา/หน่วย</th>
+                          <th style={{ background:"#f1f5f9", padding:"2px 4px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0", width:55, fontSize:"5.5px" }}>จำนวน</th>
+                          <th style={{ background:"#f1f5f9", padding:"2px 4px", textAlign:"right", fontWeight:700, color:"#475569", borderBottom:"1.5px solid #e2e8f0", width:70, fontSize:"5.5px" }}>รวม</th>
                         </tr>
                       </thead>
                       {(slip.boxes||[]).map((box, bIdx) => (
                         <tbody key={box.id||bIdx}>
                           {/* Box label row */}
                           <tr>
-                            <td colSpan={4} style={{ padding:"5px 10px", background:"#1a56db", color:"white", fontWeight:700, fontSize:12 }}>
-                              📦 กล่องที่ {bIdx+1}
+                            <td colSpan={4} style={{ padding:"2px 5px", background:"#1a56db", color:"white", fontWeight:700, fontSize:"5.5px" }}>
+                              📦 รายการที่ {bIdx+1}
                             </td>
                           </tr>
                           {(box.items||[]).filter(r=>r.productId).map((row,i) => (
                             <tr key={row.rowId||i}>
-                              <td style={{ padding:"6px 10px", borderBottom:"1px solid #f1f5f9" }}>{row.productName}</td>
-                              <td style={{ padding:"6px 10px", borderBottom:"1px solid #f1f5f9", textAlign:"right" }}>฿{Number(row.price||0).toLocaleString()}</td>
-                              <td style={{ padding:"6px 10px", borderBottom:"1px solid #f1f5f9", textAlign:"right" }}>{row.qty}</td>
-                              <td style={{ padding:"6px 10px", borderBottom:"1px solid #f1f5f9", textAlign:"right" }}>฿{(Number(row.price||0)*Number(row.qty||0)).toLocaleString()}</td>
+                              <td style={{ padding:"1px 4px", borderBottom:"1px solid #f8f8f8", fontSize:"5.5px" }}>{row.productName}</td>
+                              <td style={{ padding:"1px 4px", borderBottom:"1px solid #f8f8f8", fontSize:"5.5px", textAlign:"right" }}>฿{Number(row.price||0).toLocaleString()}</td>
+                              <td style={{ padding:"1px 4px", borderBottom:"1px solid #f8f8f8", fontSize:"5.5px", textAlign:"right" }}>{row.qty}</td>
+                              <td style={{ padding:"1px 4px", borderBottom:"1px solid #f8f8f8", fontSize:"5.5px", textAlign:"right" }}>฿{(Number(row.price||0)*Number(row.qty||0)).toLocaleString()}</td>
                             </tr>
                           ))}
                           {/* Box subtotal */}
                           <tr>
-                            <td colSpan={3} style={{ padding:"5px 10px", textAlign:"right", color:"#64748b", fontSize:12, background:"#f8fafc", borderBottom:"2px solid #e2e8f0" }}>ยอดกล่องที่ {bIdx+1}</td>
-                            <td style={{ padding:"5px 10px", textAlign:"right", fontWeight:700, background:"#f8fafc", borderBottom:"2px solid #e2e8f0" }}>
+                            <td colSpan={3} style={{ padding:"2px 4px", textAlign:"right", color:"#64748b", fontSize:"5px", background:"#f8fafc", borderBottom:"1.5px solid #e2e8f0" }}>ยอดรายการที่ {bIdx+1}</td>
+                            <td style={{ padding:"2px 4px", textAlign:"right", fontWeight:700, background:"#f8fafc", borderBottom:"1.5px solid #e2e8f0", fontSize:"5.5px" }}>
                               ฿{(box.items||[]).reduce((s,r)=>s+(Number(r.price||0)*Number(r.qty||0)),0).toLocaleString()}
                             </td>
                           </tr>
@@ -590,16 +583,16 @@ td{padding:1.5px 5px;border-bottom:1px solid #f8f8f8}
 
                   <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13, marginBottom:18 }}>
                     <tbody>
-                      <tr><td colSpan={3} style={{ padding:"9px 12px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>จำนวนกล่องทั้งหมด</td><td style={{ padding:"9px 12px", textAlign:"right", borderBottom:"1px solid #f1f5f9", width:120 }}><strong>{slip.numBoxes} กล่อง</strong></td></tr>
-                      <tr><td colSpan={3} style={{ padding:"9px 12px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>ยอดสินค้ารวมทุกกล่อง</td><td style={{ padding:"9px 12px", textAlign:"right", borderBottom:"1px solid #f1f5f9", width:120 }}>฿{Number(slip.subtotal||0).toLocaleString()}</td></tr>
-                      <tr><td colSpan={3} style={{ padding:"9px 12px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>ค่าส่ง ({slipShippingLabel[slip.shippingType]||""})</td><td style={{ padding:"9px 12px", textAlign:"right", borderBottom:"1px solid #f1f5f9" }}>{slip.shippingCost===0?"ฟรี":`฿${Number(slip.shippingCost||0).toLocaleString()}`}</td></tr>
-                      <tr><td colSpan={3} style={{ padding:"12px", textAlign:"right", fontWeight:800, fontSize:16, color:"#1a56db", background:"#eff6ff" }}>ยอดรวมทั้งหมด</td><td style={{ padding:"12px", textAlign:"right", fontWeight:800, fontSize:16, color:"#1a56db", background:"#eff6ff" }}>฿{Number(slip.total||0).toLocaleString()}</td></tr>
+                      <tr><td colSpan={3} style={{ padding:"2px 4px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f8f8f8", fontSize:"5px" }}>จำนวนรายการทั้งหมด</td><td style={{ padding:"2px 4px", textAlign:"right", borderBottom:"1px solid #f8f8f8", width:80, fontSize:"5px" }}>{slip.numBoxes} รายการ</td></tr>
+                      <tr><td colSpan={3} style={{ padding:"2px 4px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f8f8f8", fontSize:"5px" }}>ยอดสินค้ารวมทุกรายการ</td><td style={{ padding:"2px 4px", textAlign:"right", borderBottom:"1px solid #f8f8f8", width:80, fontSize:"5px" }}>฿{Number(slip.subtotal||0).toLocaleString()}</td></tr>
+                      <tr><td colSpan={3} style={{ padding:"2px 4px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f8f8f8", fontSize:"5px" }}>ค่าส่ง ({slipShippingLabel[slip.shippingType]||""})</td><td style={{ padding:"2px 4px", textAlign:"right", borderBottom:"1px solid #f8f8f8", fontSize:"5px" }}>{slip.shippingCost===0?"ฟรี":`฿${Number(slip.shippingCost||0).toLocaleString()}`}</td></tr>
+                      <tr><td colSpan={3} style={{ padding:"3px 4px", textAlign:"right", fontWeight:800, fontSize:"6.5px", color:"#1a56db", background:"#eff6ff" }}>ยอดรวมทั้งหมด</td><td style={{ padding:"3px 4px", textAlign:"right", fontWeight:800, fontSize:"6.5px", color:"#1a56db", background:"#eff6ff" }}>฿{Number(slip.total||0).toLocaleString()}</td></tr>
                     </tbody>
                   </table>
 
                   {slip.note && (
                     <div style={{ marginBottom:14 }}>
-                      <div style={{ fontSize:10, fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".08em", marginBottom:7 }}>หมายเหตุ</div>
+                      <div style={{ fontSize:"4.5px", fontWeight:700, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".04em", marginBottom:3 }}>หมายเหตุ</div>
                       <div style={{ background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:8, padding:"10px 16px", fontSize:13, color:"#334155" }}>{slip.note}</div>
                     </div>
                   )}

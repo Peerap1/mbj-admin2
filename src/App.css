@@ -685,3 +685,13 @@
   background: var(--tab-color, var(--primary));
   color: white;
 }
+
+/* ── ICON-ONLY BUTTONS ── */
+.btn-icon-only {
+  padding: 6px 7px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+}
+.btn-icon-only svg { pointer-events: none; }
