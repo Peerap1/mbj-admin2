@@ -138,6 +138,10 @@ tbody td {
   padding: 11px 14px;
   border-bottom: 1px solid var(--gray-100);
   vertical-align: middle;
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 tbody tr:hover { background: var(--gray-50); }
 tbody tr:last-child td { border-bottom: none; }

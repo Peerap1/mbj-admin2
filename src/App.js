@@ -9,6 +9,8 @@ import History from "./pages/History";
 import Customers from "./pages/Customers";
 import Products from "./pages/Products";
 import Banks from "./pages/Banks";
+import Employees from "./pages/Employees";
+import Salary from "./pages/Salary";
 import Reports from "./pages/Reports";
 import "./index.css";
 import "./App.css";
@@ -33,6 +35,8 @@ function AppRoutes() {
         <Route path="products"  element={<PrivateRoute menuKey="products"><Products /></PrivateRoute>} />
         <Route path="banks"     element={<PrivateRoute menuKey="banks"><Banks /></PrivateRoute>} />
         <Route path="reports"   element={<PrivateRoute menuKey="reports"><Reports /></PrivateRoute>} />
+        <Route path="employees" element={<PrivateRoute menuKey="employees"><Employees /></PrivateRoute>} />
+        <Route path="salary"    element={<PrivateRoute menuKey="salary"><Salary /></PrivateRoute>} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

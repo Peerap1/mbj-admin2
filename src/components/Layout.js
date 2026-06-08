@@ -12,6 +12,8 @@ const MenuIcon = ({ name }) => {
     customers: <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>,
     products: <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4zM3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>,
     banks: <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM2 9v5a2 2 0 002 2h12a2 2 0 002-2V9H2zm4 3a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1z"/></svg>,
+    salary: <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/></svg>,
+    employees: <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>,
     reports: <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm2-3a1 1 0 011 1v5a1 1 0 11-2 0v-5a1 1 0 011-1zm4-1a1 1 0 10-2 0v7a1 1 0 102 0V8z" clipRule="evenodd"/></svg>,
   };
   return icons[name] || null;
@@ -104,6 +106,12 @@ export default function Layout() {
                       <MenuIcon name="banks" /><span>รายการธนาคาร</span>
                     </NavLink>
                   )}
+                  {canSee("employees") && (
+                    <NavLink to="/employees" className={({isActive}) => `nav-sub-item ${isActive ? "active" : ""}`}
+                      onClick={() => setSidebarOpen(false)}>
+                      <MenuIcon name="employees" /><span>พนักงาน</span>
+                    </NavLink>
+                  )}
                 </div>
               )}
             </div>
@@ -112,6 +120,12 @@ export default function Layout() {
               <NavLink to="/reports" className={({isActive}) => `nav-item ${isActive ? "active" : ""}`}
                 onClick={() => setSidebarOpen(false)}>
                 <MenuIcon name="reports" /><span>รายงาน</span>
+              </NavLink>
+            )}
+            {canSee("salary") && (
+              <NavLink to="/salary" className={({isActive}) => `nav-item ${isActive ? "active" : ""}`}
+                onClick={() => setSidebarOpen(false)}>
+                <MenuIcon name="salary" /><span>คำนวนเงินเดือน</span>
               </NavLink>
             )}
           </nav>

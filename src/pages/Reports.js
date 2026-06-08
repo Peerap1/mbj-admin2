@@ -39,15 +39,20 @@ export default function Reports() {
   });
 
   const totalRevenue = filtered.reduce((s, x) => s + Number(x.total || 0), 0);
-  const completedCount = filtered.filter((s) => s.status === "completed").length;
+  const paidCount    = filtered.filter((s) => s.status === "paid" || s.status === "completed").length;
+  const pendingCount = filtered.filter((s) => s.status === "pending").length;
 
-  // Top products
+  // Top products — from boxes structure
   const productMap = {};
   filtered.forEach((s) => {
-    (s.items || []).forEach((item) => {
-      if (!productMap[item.name]) productMap[item.name] = { qty: 0, revenue: 0 };
-      productMap[item.name].qty += item.qty;
-      productMap[item.name].revenue += Number(item.price || 0) * item.qty;
+    const allItems = s.boxes
+      ? s.boxes.flatMap(b => b.items || [])
+      : (s.items || []);
+    allItems.filter(r => r.productId || r.name).forEach((item) => {
+      const name = item.productName || item.name || "ไม่ระบุ";
+      if (!productMap[name]) productMap[name] = { qty: 0, revenue: 0 };
+      productMap[name].qty += Number(item.qty || 0);
+      productMap[name].revenue += Number(item.price || 0) * Number(item.qty || 0);
     });
   });
   const topProducts = Object.entries(productMap)
@@ -88,7 +93,7 @@ export default function Reports() {
       {/* Stats */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(200px,1fr))", gap:16, marginBottom:22 }}>
         <StatCard icon="💰" label="รายได้รวม" value={`฿${totalRevenue.toLocaleString()}`} color="var(--primary)" />
-        <StatCard icon="📋" label="จำนวนรายการ" value={filtered.length} sub={`สำเร็จ ${completedCount} รายการ`} color="var(--success)" />
+        <StatCard icon="📋" label="จำนวนรายการ" value={filtered.length} sub={`ชำระแล้ว ${paidCount} · รอชำระ ${pendingCount}`} color="var(--success)" />
         <StatCard icon="👥" label="ลูกค้าทั้งหมด" value={customers.length} color="#7c3aed" />
         <StatCard icon="📦" label="สินค้าทั้งหมด" value={products.length} color="var(--warning)" />
       </div>
@@ -144,14 +149,21 @@ export default function Reports() {
               </tr>
             </thead>
             <tbody>
-              {filtered.slice(0,10).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).map((s) => (
+              {filtered.slice(0,30).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).map((s) => (
                 <tr key={s.id}>
-                  <td>{s.customerName || "-"}</td>
-                  <td>{s.items?.length || 0} รายการ</td>
+                  <td title={s.customerName}>{s.customerName || "-"}</td>
+                  <td>{s.numBoxes ? `${s.numBoxes} กล่อง` : `${s.items?.length||0} รายการ`}</td>
                   <td><strong style={{ color:"var(--primary)" }}>฿{Number(s.total||0).toLocaleString()}</strong></td>
-                  <td>{s.createdBy || "-"}</td>
+                  <td title={s.createdBy}>{s.createdBy || "-"}</td>
                   <td style={{ fontSize:12, color:"var(--gray-500)" }}>{s.createdAt ? new Date(s.createdAt).toLocaleString("th-TH",{dateStyle:"short",timeStyle:"short"}) : "-"}</td>
-                  <td><span className={`badge ${s.status==="completed"?"badge-success":s.status==="cancelled"?"badge-danger":"badge-warning"}`}>{s.status==="completed"?"สำเร็จ":s.status==="cancelled"?"ยกเลิก":"รอดำเนินการ"}</span></td>
+                  <td>
+                    <span className={`badge ${
+                      s.status==="paid"||s.status==="completed" ? "badge-success" :
+                      s.status==="cancelled" ? "badge-danger" : "badge-warning"
+                    }`}>
+                      {s.status==="paid"?"ชำระแล้ว":s.status==="completed"?"สำเร็จ":s.status==="cancelled"?"ยกเลิก":"รอชำระ"}
+                    </span>
+                  </td>
                 </tr>
               ))}
               {filtered.length === 0 && (
