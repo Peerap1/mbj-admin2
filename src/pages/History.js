@@ -118,6 +118,7 @@ export default function History() {
   const statusBadge = { paid:"badge-success", pending:"badge-warning", cancelled:"badge-danger", completed:"badge-gray" };
   const shippingLabel = { free:"เธชเนเธเธเธฃเธต", per_box:"เธ•เธฒเธกเธเธณเธเธงเธเธเธฅเนเธญเธ", per_item:"เธ•เธฒเธกเธฃเธฒเธขเธเธฒเธฃ", custom:"เธเธณเธซเธเธ”เน€เธญเธ" };
 
+  
   const formatDate = (ts) => {
     if (!ts) return "-";
     return new Date(ts).toLocaleString("th-TH", { dateStyle:"short", timeStyle:"short" });
