@@ -83,7 +83,6 @@ export default function History() {
   const [sales, setSales]                 = useState([]);
   const [banks, setBanks]                 = useState([]);
   const [search, setSearch]               = useState("");
-  const [selected, setSelected]           = useState(null);
   const [slipSale, setSlipSale]           = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [deleting, setDeleting]           = useState(false);
@@ -234,9 +233,7 @@ export default function History() {
                   </td>
                   <td style={{ maxWidth:"none" }}>
                     <div style={{ display:"flex", gap:5 }}>
-                      <button className="btn btn-secondary btn-sm btn-icon-only" title="รายละเอียด" onClick={() => setSelected(sale)}>
-                        <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/></svg>
-                      </button>
+
                       <button className="btn btn-secondary btn-sm btn-icon-only" title="ใบส่งของ/ใบเสร็จ" onClick={() => setSlipSale(sale)}>
                         <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path fillRule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a1 1 0 001 1h8a1 1 0 001-1v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a1 1 0 00-1-1H6a1 1 0 00-1 1zm2 0h6v3H7V4zm-1 9H6v-2h8v2H6z" clipRule="evenodd"/></svg>
                       </button>
@@ -252,83 +249,6 @@ export default function History() {
         </div>
       </div>
 
-      {/* ── Detail Modal ── */}
-      {selected && (
-        <div className="modal-overlay" onClick={() => setSelected(null)}>
-          <div className="modal" style={{ maxWidth:700 }} onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>รายละเอียดการขาย</h3>
-              <button className="btn-icon btn-secondary" onClick={() => setSelected(null)}>✕</button>
-            </div>
-            <div className="modal-body" style={{ maxHeight:"70vh", overflowY:"auto" }}>
-              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:16 }}>
-                <div><div style={{ fontSize:11, color:"var(--gray-400)", marginBottom:2 }}>ลูกค้า</div><strong>{selected.customerName||"-"}</strong></div>
-                <div><div style={{ fontSize:11, color:"var(--gray-400)", marginBottom:2 }}>ผู้ขาย</div><strong>{selected.createdBy||"-"}</strong></div>
-                <div><div style={{ fontSize:11, color:"var(--gray-400)", marginBottom:2 }}>วันที่</div><strong>{formatDate(selected.createdAt)}</strong></div>
-              </div>
-
-              {selected.customerAddress && (
-                <div style={{ background:"var(--gray-50)", border:"1px solid var(--gray-200)", borderRadius:8, padding:"10px 13px", marginBottom:14, fontSize:13 }}>
-                  <div style={{ fontSize:11, color:"var(--gray-400)", marginBottom:3, fontWeight:700 }}>📦 ที่อยู่จัดส่ง</div>
-                  {selected.customerPhone && <div>{selected.customerPhone}</div>}
-                  <div>{selected.customerAddress}</div>
-                </div>
-              )}
-
-              {selected.payment && (
-                <div style={{ background:"var(--success-light)", border:"1px solid #6ee7b7", borderRadius:8, padding:"10px 13px", marginBottom:14, fontSize:13, color:"#064e3b" }}>
-                  <div style={{ fontWeight:700, marginBottom:3 }}>✓ ชำระเงินแล้ว</div>
-                  <div>{selected.payment.method === "cash" ? "เงินสด" : `โอน ${selected.payment.bankName}`}</div>
-                  {selected.paidAt && <div style={{ fontSize:12, color:"#065f46" }}>วันที่ชำระ: {formatDate(selected.paidAt)}</div>}
-                  {selected.payment.note && <div>{selected.payment.note}</div>}
-                </div>
-              )}
-
-              {/* Slip table reused */}
-              {selected.boxes ? (
-                <SlipTable boxes={selected.boxes} />
-              ) : (
-                <table style={{ width:"100%", fontSize:13, marginBottom:14 }}>
-                  <thead><tr><th>สินค้า</th><th style={{textAlign:"right"}}>ราคา</th><th style={{textAlign:"right"}}>จำนวน</th><th style={{textAlign:"right"}}>รวม</th></tr></thead>
-                  <tbody>
-                    {(selected.items||[]).map((item,j)=>(
-                      <tr key={j}>
-                        <td title={item.name}>{item.name}</td>
-                        <td style={{textAlign:"right",maxWidth:"none"}}>฿{Number(item.price||0).toLocaleString()}</td>
-                        <td style={{textAlign:"right",maxWidth:"none"}}>{item.qty}</td>
-                        <td style={{textAlign:"right",maxWidth:"none"}}>฿{(Number(item.price||0)*item.qty).toLocaleString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-
-              <div style={{ paddingTop:12, borderTop:"1px solid var(--gray-100)" }}>
-                <div style={{ display:"flex", justifyContent:"space-between", fontSize:13, color:"var(--gray-500)", marginBottom:5 }}>
-                  <span>ยอดสินค้า</span><span>฿{Number(selected.subtotal||0).toLocaleString()}</span>
-                </div>
-                <div style={{ display:"flex", justifyContent:"space-between", fontSize:13, color:"var(--gray-500)", marginBottom:8 }}>
-                  <span>ค่าส่ง ({shippingLabel[selected.shippingType]||"-"})</span>
-                  <span>{selected.shippingCost>0?`฿${Number(selected.shippingCost).toLocaleString()}`:"ฟรี"}</span>
-                </div>
-                <div style={{ display:"flex", justifyContent:"space-between", fontWeight:700, fontSize:16 }}>
-                  <span>ยอดรวมทั้งหมด</span>
-                  <span style={{ color:"var(--primary)", fontSize:20 }}>฿{Number(selected.total||0).toLocaleString()}</span>
-                </div>
-              </div>
-              {selected.note && (
-                <div style={{ marginTop:12, background:"var(--gray-50)", padding:"9px 13px", borderRadius:7, fontSize:13 }}>
-                  <strong>หมายเหตุ:</strong> {selected.note}
-                </div>
-              )}
-            </div>
-            <div className="modal-footer">
-              <button className="btn btn-secondary" onClick={() => { setSelected(null); setSlipSale(selected); }}>ใบส่งของ</button>
-              <button className="btn btn-secondary" onClick={() => setSelected(null)}>ปิด</button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ── Slip Modal ── */}
       {slipSale && (

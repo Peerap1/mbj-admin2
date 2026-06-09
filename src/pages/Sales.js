@@ -509,14 +509,7 @@ export default function Sales() {
             <div className="modal-body" style={{ padding:"4px 24px 24px", maxHeight:"80vh", overflowY:"auto" }}>
               <div ref={printRef}>
                 <SlipContent sale={slip} createdBy={user?.username} />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}/div>
+              </div></div>
           </div>
         </div>
       )}

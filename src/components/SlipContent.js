@@ -106,18 +106,24 @@ export function SlipContent({ sale, createdBy }) {
       <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13, marginBottom:14 }}>
         <tbody>
           <tr>
+            <td colSpan={5} style={{ padding:"6px 10px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>กล่องรวม</td>
+            <td style={{ padding:"6px 10px", textAlign:"right", borderBottom:"1px solid #f1f5f9", width:110 }}>
+              {(sale.boxes||[]).reduce((s,b)=>s+(Number(b.boxQty)||1),0)} กล่อง
+            </td>
+          </tr>
+          <tr>
             <td colSpan={5} style={{ padding:"6px 10px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>ยอดสินค้ารวม</td>
-            <td style={{ padding:"6px 10px", textAlign:"right", borderBottom:"1px solid #f1f5f9", width:110 }}>฿{Number(sale.subtotal||0).toLocaleString()}</td>
+            <td style={{ padding:"6px 10px", textAlign:"right", borderBottom:"1px solid #f1f5f9", width:110 }}>{Number(sale.subtotal||0).toLocaleString()}</td>
           </tr>
           <tr>
             <td colSpan={5} style={{ padding:"6px 10px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>ค่าส่ง</td>
             <td style={{ padding:"6px 10px", textAlign:"right", borderBottom:"1px solid #f1f5f9" }}>
-              {(sale.shippingCost||0) === 0 ? "ฟรี" : `฿${Number(sale.shippingCost||0).toLocaleString()}`}
+              {(sale.shippingCost||0) === 0 ? "ฟรี" : Number(sale.shippingCost||0).toLocaleString()}
             </td>
           </tr>
           <tr>
             <td colSpan={5} style={{ padding:"9px 10px", textAlign:"right", fontWeight:800, fontSize:15, color:"#1a56db", background:"#eff6ff" }}>ยอดรวมทั้งหมด</td>
-            <td style={{ padding:"9px 10px", textAlign:"right", fontWeight:800, fontSize:15, color:"#1a56db", background:"#eff6ff" }}>฿{Number(sale.total||0).toLocaleString()}</td>
+            <td style={{ padding:"9px 10px", textAlign:"right", fontWeight:800, fontSize:15, color:"#1a56db", background:"#eff6ff" }}>{Number(sale.total||0).toLocaleString()}</td>
           </tr>
         </tbody>
       </table>
@@ -179,7 +185,7 @@ export function buildPrintHTML(sale, createdBy) {
     <div class="sec-h">หมายเหตุ</div>
     <div class="info-box">${sale.note}</div>` : "";
 
-  const shipping = (sale?.shippingCost||0) === 0 ? "ฟรี" : `฿${Number(sale?.shippingCost||0).toLocaleString()}`;
+  const shipping = (sale?.shippingCost||0) === 0 ? "ฟรี" : `${Number(sale?.shippingCost||0).toLocaleString()}`;
 
   return `<!DOCTYPE html><html><head>
 <meta charset="utf-8"/><title>${isReceipt?"ใบเสร็จ":"ใบส่งของ"}</title>
@@ -223,9 +229,10 @@ ${addrHTML}
 </table>
 <table style="margin-top:6px">
   <tbody>
-    <tr><td colspan="5" style="text-align:right;color:#475569;padding:5px 8px;border-bottom:1px solid #f5f5f5">ยอดสินค้ารวม</td><td style="text-align:right;padding:5px 8px;border-bottom:1px solid #f5f5f5;width:110px">฿${Number(sale?.subtotal||0).toLocaleString()}</td></tr>
+    <tr><td colspan="5" style="text-align:right;color:#475569;padding:5px 8px;border-bottom:1px solid #f5f5f5">กล่องรวม</td><td style="text-align:right;padding:5px 8px;border-bottom:1px solid #f5f5f5;width:110px">${(sale?.boxes||[]).reduce((s,b)=>s+(Number(b.boxQty)||1),0)} กล่อง</td></tr>
+    <tr><td colspan="5" style="text-align:right;color:#475569;padding:5px 8px;border-bottom:1px solid #f5f5f5">ยอดสินค้ารวม</td><td style="text-align:right;padding:5px 8px;border-bottom:1px solid #f5f5f5;width:110px">${Number(sale?.subtotal||0).toLocaleString()}</td></tr>
     <tr><td colspan="5" style="text-align:right;color:#475569;padding:5px 8px;border-bottom:1px solid #f5f5f5">ค่าส่ง</td><td style="text-align:right;padding:5px 8px;border-bottom:1px solid #f5f5f5">${shipping}</td></tr>
-    <tr><td colspan="5" style="text-align:right;font-weight:800;font-size:13px;color:#1a56db;background:#eff6ff;padding:7px 8px">ยอดรวมทั้งหมด</td><td style="text-align:right;font-weight:800;font-size:13px;color:#1a56db;background:#eff6ff;padding:7px 8px">฿${Number(sale?.total||0).toLocaleString()}</td></tr>
+    <tr><td colspan="5" style="text-align:right;font-weight:800;font-size:13px;color:#1a56db;background:#eff6ff;padding:7px 8px">ยอดรวมทั้งหมด</td><td style="text-align:right;font-weight:800;font-size:13px;color:#1a56db;background:#eff6ff;padding:7px 8px">${Number(sale?.total||0).toLocaleString()}</td></tr>
   </tbody>
 </table>
 ${noteHTML}

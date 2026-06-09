@@ -79,27 +79,32 @@ function buildOutputWorkbook(originalWb, processed) {
     if (!data) return;
     const { rows, highlights } = data;
 
-    // Build data array without internal fields
-    const clean = rows.map(({ _dt, _origIdx, ...rest }) => rest); // no status column
+    // Add status column with text (no fill colors)
+    const clean = rows.map(({ _dt, _origIdx, ...rest }) => ({
+      ...rest,
+      สถานะ: highlights[_origIdx] === "FFCCCC" ? "⚠ ไม่ครบ (<4)" :
+             highlights[_origIdx] === "FFFF99" ? "⚠ เกิน (>4)" : "✓ ปกติ",
+    }));
 
     const ws = XLSX.utils.json_to_sheet(clean);
 
-    // Apply cell styles using SheetJS Pro-style s property
-    // SheetJS community supports basic styles when using write with bookSST
-    const range = XLSX.utils.decode_range(ws["!ref"] || "A1");
-    const numCols = range.e.c + 1;
-
-    rows.forEach((row, rIdx) => {
-      const color = highlights[row._origIdx];
-      if (!color) return;
-      for (let col = 0; col < numCols; col++) {
-        const cellAddr = XLSX.utils.encode_cell({ r: rIdx + 1, c: col });
-        if (!ws[cellAddr]) ws[cellAddr] = { t: "z", v: "" };
+    // Color status column text only (red/yellow font, no fill)
+    const headers = Object.keys(clean[0] || {});
+    const statusColIdx = headers.indexOf("สถานะ");
+    if (statusColIdx >= 0) {
+      rows.forEach((row, rIdx) => {
+        const color = highlights[row._origIdx];
+        if (!color) return;
+        const cellAddr = XLSX.utils.encode_cell({ r: rIdx + 1, c: statusColIdx });
+        if (!ws[cellAddr]) ws[cellAddr] = { t: "s", v: "" };
         ws[cellAddr].s = {
-          fill: { fgColor: { rgb: color }, patternType: "solid" }
+          font: {
+            color: { rgb: color === "FFCCCC" ? "CC0000" : "AA6600" },
+            bold: true,
+          }
         };
-      }
-    });
+      });
+    }
 
     XLSX.utils.book_append_sheet(outWb, ws, sheetName);
   });
