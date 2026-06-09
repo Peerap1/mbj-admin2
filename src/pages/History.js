@@ -1,4 +1,4 @@
-﻿// src/pages/History.js
+// src/pages/History.js
 import React, { useState, useEffect, useRef } from "react";
 import { getSales, deleteSale, updateSale, getBanks } from "../firebase/database";
 import { SlipContent, buildPrintHTML } from "../components/SlipContent";
@@ -114,6 +114,7 @@ export default function History() {
     try {
       await deleteSale(id);
       setDeleteConfirm(null);
+      if (selected?.id === id) setSelected(null);
     } catch { alert("เกิดข้อผิดพลาด"); }
     setDeleting(false);
   };
