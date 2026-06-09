@@ -33,7 +33,7 @@ function PaymentModal({ sale, banks, onConfirm, onClose }) {
         </div>
         <div className="modal-body">
           <div style={{ fontSize:13, color:"var(--gray-600)", marginBottom:14 }}>
-            ลูกค้า: <strong>{sale.customerName}</strong> · ยอด <strong style={{ color:"var(--primary)" }}>฿{Number(sale.total||0).toLocaleString()}</strong>
+            ลูกค้า: <strong>{sale.customerName}</strong> · ยอด <strong style={{ color:"var(--primary)" }}>{Number(sale.total||0).toLocaleString()}</strong>
           </div>
           <div className="form-group">
             <label>ช่องทางชำระเงิน</label>
@@ -164,14 +164,14 @@ export default function History() {
               )}
               <td style={{ padding:"4px 8px", borderBottom: rIdx===rows.length-1?"2px solid #e2e8f0":"1px solid #f1f5f9" }}>{row.productName}</td>
               <td style={{ padding:"4px 8px", textAlign:"right", borderBottom: rIdx===rows.length-1?"2px solid #e2e8f0":"1px solid #f1f5f9" }}>{row.qty}</td>
-              <td style={{ padding:"4px 8px", textAlign:"right", borderBottom: rIdx===rows.length-1?"2px solid #e2e8f0":"1px solid #f1f5f9" }}>฿{Number(row.price||0).toLocaleString()}</td>
+              <td style={{ padding:"4px 8px", textAlign:"right", borderBottom: rIdx===rows.length-1?"2px solid #e2e8f0":"1px solid #f1f5f9" }}>{Number(row.price||0).toLocaleString()}</td>
               {rIdx === 0 && (
                 <td rowSpan={rows.length} style={{ padding:"5px 8px", textAlign:"center", fontWeight:700, verticalAlign:"middle", borderBottom:"2px solid #e2e8f0", background:"#f8fafc" }}>
                   {bQty}
                 </td>
               )}
               <td style={{ padding:"4px 8px", textAlign:"right", fontWeight:600, color:"#1a56db", borderBottom: rIdx===rows.length-1?"2px solid #e2e8f0":"1px solid #f1f5f9" }}>
-                ฿{(Number(row.price||0)*Number(row.qty||0)*bQty).toLocaleString()}
+                {(Number(row.price||0)*Number(row.qty||0)*bQty).toLocaleString()}
               </td>
             </tr>
           ));
@@ -216,7 +216,7 @@ export default function History() {
                   <td style={{ color:"var(--gray-400)", fontSize:12, maxWidth:"none" }}>{i+1}</td>
                   <td title={sale.customerName}><strong>{sale.customerName || "-"}</strong></td>
                   <td style={{ maxWidth:"none" }}>
-                    <strong style={{ color:"var(--primary)" }}>฿{Number(sale.total||0).toLocaleString()}</strong>
+                    <strong style={{ color:"var(--primary)" }}>{Number(sale.total||0).toLocaleString()}</strong>
                   </td>
                   <td title={sale.createdBy}>{sale.createdBy || "-"}</td>
                   <td style={{ fontSize:12, color:"var(--gray-500)", maxWidth:"none" }}>{formatDate(sale.createdAt)}</td>
@@ -294,7 +294,7 @@ export default function History() {
               <div style={{ fontSize:40, marginBottom:12 }}>🗑️</div>
               <p>ต้องการลบรายการขายของ <strong>{deleteConfirm.customerName}</strong>?</p>
               <p style={{ fontSize:13, color:"var(--gray-400)", marginTop:6 }}>
-                ยอด ฿{Number(deleteConfirm.total||0).toLocaleString()} · {formatDate(deleteConfirm.createdAt)}
+                ยอด {Number(deleteConfirm.total||0).toLocaleString()} · {formatDate(deleteConfirm.createdAt)}
               </p>
             </div>
             <div className="modal-footer">

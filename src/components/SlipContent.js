@@ -35,14 +35,14 @@ export function SlipItemsTable({ boxes }) {
               )}
               <td style={{ padding:"4px 8px", borderBottom: rIdx===rows.length-1 ? "2px solid #e2e8f0" : "1px solid #f1f5f9" }}>{row.productName}</td>
               <td style={{ padding:"4px 8px", textAlign:"right", borderBottom: rIdx===rows.length-1 ? "2px solid #e2e8f0" : "1px solid #f1f5f9" }}>{row.qty}</td>
-              <td style={{ padding:"4px 8px", textAlign:"right", borderBottom: rIdx===rows.length-1 ? "2px solid #e2e8f0" : "1px solid #f1f5f9" }}>฿{Number(row.price||0).toLocaleString()}</td>
+              <td style={{ padding:"4px 8px", textAlign:"right", borderBottom: rIdx===rows.length-1 ? "2px solid #e2e8f0" : "1px solid #f1f5f9" }}>{Number(row.price||0).toLocaleString()}</td>
               {rIdx === 0 && (
                 <td rowSpan={rows.length} style={{ padding:"5px 8px", textAlign:"center", verticalAlign:"middle", borderBottom:"2px solid #e2e8f0", background:"#f8fafc" }}>
                   {bQty}
                 </td>
               )}
               <td style={{ padding:"4px 8px", textAlign:"right", fontWeight:600, color:"#1a56db", borderBottom: rIdx===rows.length-1 ? "2px solid #e2e8f0" : "1px solid #f1f5f9" }}>
-                ฿{(Number(row.price||0) * Number(row.qty||0) * bQty).toLocaleString()}
+                {(Number(row.price||0) * Number(row.qty||0) * bQty).toLocaleString()}
               </td>
             </tr>
           ));
@@ -118,7 +118,7 @@ export function SlipContent({ sale, createdBy }) {
           <tr>
             <td colSpan={5} style={{ padding:"6px 10px", textAlign:"right", color:"#475569", borderBottom:"1px solid #f1f5f9" }}>ค่าส่ง</td>
             <td style={{ padding:"6px 10px", textAlign:"right", borderBottom:"1px solid #f1f5f9" }}>
-              {(sale.shippingCost||0) === 0 ? "ฟรี" : Number(sale.shippingCost||0).toLocaleString()}
+              {Number(sale.shippingCost||0).toLocaleString()}
             </td>
           </tr>
           <tr>
@@ -166,9 +166,9 @@ export function buildPrintHTML(sale, createdBy) {
         ${numCell}
         <td style="padding:4px 8px;border-bottom:${border}">${row.productName||""}</td>
         <td style="padding:4px 8px;text-align:right;border-bottom:${border}">${row.qty}</td>
-        <td style="padding:4px 8px;text-align:right;border-bottom:${border}">฿${Number(row.price||0).toLocaleString()}</td>
+        <td style="padding:4px 8px;text-align:right;border-bottom:${border}">${Number(row.price||0).toLocaleString()}</td>
         ${boxCell}
-        <td style="padding:4px 8px;text-align:right;font-weight:600;color:#1a56db;border-bottom:${border}">฿${amount.toLocaleString()}</td>
+        <td style="padding:4px 8px;text-align:right;font-weight:600;color:#1a56db;border-bottom:${border}">${amount.toLocaleString()}</td>
       </tr>`;
     });
   }).join("");
@@ -185,7 +185,7 @@ export function buildPrintHTML(sale, createdBy) {
     <div class="sec-h">หมายเหตุ</div>
     <div class="info-box">${sale.note}</div>` : "";
 
-  const shipping = (sale?.shippingCost||0) === 0 ? "ฟรี" : `${Number(sale?.shippingCost||0).toLocaleString()}`;
+  const shipping = `${Number(sale?.shippingCost||0).toLocaleString()}`;
 
   return `<!DOCTYPE html><html><head>
 <meta charset="utf-8"/><title>${isReceipt?"ใบเสร็จ":"ใบส่งของ"}</title>

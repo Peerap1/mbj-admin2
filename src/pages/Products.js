@@ -26,7 +26,7 @@ export default function Products() {
         </span>
       ),
     },
-    { key: "price", label: "ราคา", render: (v) => <strong style={{ color:"var(--primary)" }}>฿{Number(v||0).toLocaleString()}</strong> },
+    { key: "price", label: "ราคา", render: (v) => <strong style={{ color:"var(--primary)" }}>{Number(v||0).toLocaleString()}</strong> },
     { key: "description", label: "รายละเอียด" },
   ];
 

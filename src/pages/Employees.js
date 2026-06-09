@@ -159,13 +159,13 @@ function EmpTable({ employees, onEdit, onDelete }) {
                   {e.employeeType === "monthly" && e.monthlySalary && (
                     <div style={{ fontSize:13 }}>
                       <span style={{ color:"var(--gray-400)", fontSize:11 }}>เดือนละ </span>
-                      <strong style={{ color:"var(--primary)" }}>฿{Number(e.monthlySalary).toLocaleString()}</strong>
+                      <strong style={{ color:"var(--primary)" }}>{Number(e.monthlySalary).toLocaleString()}</strong>
                     </div>
                   )}
                   {e.employeeType === "daily" && (
                     <div style={{ fontSize:13, lineHeight:1.7 }}>
-                      {e.dailyRate && <div><span style={{ color:"var(--gray-400)", fontSize:11 }}>รายวัน </span><strong style={{ color:"var(--success)" }}>฿{Number(e.dailyRate).toLocaleString()}<span style={{ fontWeight:400, fontSize:11, color:"var(--gray-400)" }}>/ชม.</span></strong></div>}
-                      {e.isPieceWorker && e.pieceRate && <div><span style={{ color:"var(--gray-400)", fontSize:11 }}>กดแผ่น </span><strong style={{ color:"var(--warning)" }}>฿{Number(e.pieceRate).toLocaleString()}<span style={{ fontWeight:400, fontSize:11, color:"var(--gray-400)" }}>/ชม.</span></strong></div>}
+                      {e.dailyRate && <div><span style={{ color:"var(--gray-400)", fontSize:11 }}>รายวัน </span><strong style={{ color:"var(--success)" }}>{Number(e.dailyRate).toLocaleString()}<span style={{ fontWeight:400, fontSize:11, color:"var(--gray-400)" }}>/ชม.</span></strong></div>}
+                      {e.isPieceWorker && e.pieceRate && <div><span style={{ color:"var(--gray-400)", fontSize:11 }}>กดแผ่น </span><strong style={{ color:"var(--warning)" }}>{Number(e.pieceRate).toLocaleString()}<span style={{ fontWeight:400, fontSize:11, color:"var(--gray-400)" }}>/ชม.</span></strong></div>}
                     </div>
                   )}
                 </td>

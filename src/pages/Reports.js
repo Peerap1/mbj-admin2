@@ -92,7 +92,7 @@ export default function Reports() {
 
       {/* Stats */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(200px,1fr))", gap:16, marginBottom:22 }}>
-        <StatCard icon="💰" label="รายได้รวม" value={`฿${totalRevenue.toLocaleString()}`} color="var(--primary)" />
+        <StatCard icon="💰" label="รายได้รวม" value={`${totalRevenue.toLocaleString()}`} color="var(--primary)" />
         <StatCard icon="📋" label="จำนวนรายการ" value={filtered.length} sub={`ชำระแล้ว ${paidCount} · รอชำระ ${pendingCount}`} color="var(--success)" />
         <StatCard icon="👥" label="ลูกค้าทั้งหมด" value={customers.length} color="#7c3aed" />
         <StatCard icon="📦" label="สินค้าทั้งหมด" value={products.length} color="var(--warning)" />
@@ -111,7 +111,7 @@ export default function Reports() {
                 <div style={{ fontSize:14, fontWeight:500 }}>{name}</div>
                 <div style={{ fontSize:12, color:"var(--gray-400)" }}>{data.qty} ชิ้น</div>
               </div>
-              <div style={{ fontWeight:700, color:"var(--primary)", fontSize:14 }}>฿{data.revenue.toLocaleString()}</div>
+              <div style={{ fontWeight:700, color:"var(--primary)", fontSize:14 }}>{data.revenue.toLocaleString()}</div>
             </div>
           ))}
         </div>
@@ -127,7 +127,7 @@ export default function Reports() {
               <div style={{ flex:1 }}>
                 <div style={{ fontSize:14, fontWeight:500 }}>{name}</div>
               </div>
-              <div style={{ fontWeight:700, color:"var(--success)", fontSize:14 }}>฿{total.toLocaleString()}</div>
+              <div style={{ fontWeight:700, color:"var(--success)", fontSize:14 }}>{total.toLocaleString()}</div>
             </div>
           ))}
         </div>
@@ -153,7 +153,7 @@ export default function Reports() {
                 <tr key={s.id}>
                   <td title={s.customerName}>{s.customerName || "-"}</td>
                   <td>{s.numBoxes ? `${s.numBoxes} กล่อง` : `${s.items?.length||0} รายการ`}</td>
-                  <td><strong style={{ color:"var(--primary)" }}>฿{Number(s.total||0).toLocaleString()}</strong></td>
+                  <td><strong style={{ color:"var(--primary)" }}>{Number(s.total||0).toLocaleString()}</strong></td>
                   <td title={s.createdBy}>{s.createdBy || "-"}</td>
                   <td style={{ fontSize:12, color:"var(--gray-500)" }}>{s.createdAt ? new Date(s.createdAt).toLocaleString("th-TH",{dateStyle:"short",timeStyle:"short"}) : "-"}</td>
                   <td>

@@ -77,9 +77,9 @@ const calcShippingPerBox = (n) => {
 const shippingRateLabel = (n) => {
   if (n <= 0)  return "";
   if (n >= 10) return `${n} กล่อง → ฟรี!`;
-  if (n >= 5)  return `${n} × 100 = ฿${(n*100).toLocaleString()}`;
-  if (n >= 3)  return `${n} × 120 = ฿${(n*120).toLocaleString()}`;
-  return `${n} × 150 = ฿${(n*150).toLocaleString()}`;
+  if (n >= 5)  return `${n} × 100 = ${(n*100).toLocaleString()}`;
+  if (n >= 3)  return `${n} × 120 = ${(n*120).toLocaleString()}`;
+  return `${n} × 150 = ${(n*150).toLocaleString()}`;
 };
 
 let boxCounter = 1;
@@ -318,7 +318,7 @@ export default function Sales() {
                       {p.description && <span className="pli-desc" title={p.description}>{p.description}</span>}
                     </div>
                     <div className="pli-right">
-                      <span className="pli-price">฿{Number(p.price||0).toLocaleString()}</span>
+                      <span className="pli-price">{Number(p.price||0).toLocaleString()}</span>
                       <span className="pli-add">+ เพิ่ม</span>
                     </div>
                   </div>
@@ -394,7 +394,7 @@ export default function Sales() {
                             value={row.price} onChange={(e) => updateRow(box.id, row.rowId, "price", e.target.value)} />
                         </div>
                         <div className="row-total">
-                          {row.productId ? `฿${(Number(row.price||0)*Number(row.qty||0)).toLocaleString()}` : "–"}
+                          {row.productId ? `${(Number(row.price||0)*Number(row.qty||0)).toLocaleString()}` : "–"}
                         </div>
                         <div className="row-del">
                           <button className="cart-remove" onClick={() => removeRow(box.id, row.rowId)}>✕</button>
@@ -403,7 +403,7 @@ export default function Sales() {
                     ))}
                     {box.items.some((r) => r.productId) && (
                       <div style={{ display:"flex", justifyContent:"flex-end", paddingTop:7, marginTop:4, borderTop:"1px dashed var(--gray-200)", fontSize:12, fontWeight:600, color:"var(--gray-500)" }}>
-                        ยอดรายการที่ {bIdx+1} = ฿{(box.items.reduce((s,r)=>s+(Number(r.price||0)*Number(r.qty||0)),0) * (Number(box.boxQty)||1)).toLocaleString()}
+                        ยอดรายการที่ {bIdx+1} = {(box.items.reduce((s,r)=>s+(Number(r.price||0)*Number(r.qty||0)),0) * (Number(box.boxQty)||1)).toLocaleString()}
                       </div>
                     )}
                   </>
@@ -427,8 +427,8 @@ export default function Sales() {
               </div>
               <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
                 {[
-                  { value:"free",    label:"ส่งฟรี",          sub:"ไม่มีค่าส่ง",              price:"฿0" },
-                  { value:"per_box", label:"ตามจำนวนกล่อง",  sub:shippingRateLabel(numBoxes), price: numBoxes>=10?"ฟรี":`฿${calcShippingPerBox(numBoxes).toLocaleString()}` },
+                  { value:"free",    label:"ส่งฟรี",          sub:"ไม่มีค่าส่ง",              price:"0" },
+                  { value:"per_box", label:"ตามจำนวนกล่อง",  sub:shippingRateLabel(numBoxes), price: numBoxes>=10?"0":`${calcShippingPerBox(numBoxes).toLocaleString()}` },
                   { value:"custom",  label:"กำหนดค่าส่งเอง", sub:"ระบุจำนวนเอง",              price:null },
                 ].map((opt) => (
                   <label key={opt.value} className={`shipping-option ${form.shippingType===opt.value?"selected":""}`}>
@@ -468,17 +468,17 @@ export default function Sales() {
 
             <div style={{ paddingTop:14, borderTop:"1.5px dashed var(--gray-200)" }}>
               <div style={{ display:"flex", justifyContent:"space-between", fontSize:13, color:"var(--gray-500)", marginBottom:5 }}>
-                <span>ยอดสินค้า ({numBoxes} รายการ)</span><span>฿{subtotal.toLocaleString()}</span>
+                <span>ยอดสินค้า ({numBoxes} รายการ)</span><span>{subtotal.toLocaleString()}</span>
               </div>
               <div style={{ display:"flex", justifyContent:"space-between", fontSize:13, color:"var(--gray-500)", marginBottom:10 }}>
                 <span>ค่าส่ง</span>
                 <span style={{ color:shippingCost===0?"var(--success)":"inherit", fontWeight:shippingCost===0?600:400 }}>
-                  {shippingCost===0?"ฟรี":`฿${shippingCost.toLocaleString()}`}
+                  {shippingCost.toLocaleString()}
                 </span>
               </div>
               <div className="cart-total">
                 <span>ยอดรวมทั้งหมด</span>
-                <span className="total-amount">฿{grandTotal.toLocaleString()}</span>
+                <span className="total-amount">{grandTotal.toLocaleString()}</span>
               </div>
             </div>
 
