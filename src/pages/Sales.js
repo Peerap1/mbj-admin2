@@ -61,12 +61,6 @@ function CustomerSearch({ customers, value, onChange }) {
   );
 }
 
-const SELLER = {
-  name:    "ข้าวแต๋นน้ำแตงโมแม่บัวจันทร์",
-  address: "5 หมู่ 2 ตำบลบ้านเป้า อำเภอเมือง จังหวัดลำปาง 52100",
-  phone:   "099-916-6264",
-};
-
 const calcShippingPerBox = (n) => {
   if (n <= 0)  return 0;
   if (n >= 10) return 0;
