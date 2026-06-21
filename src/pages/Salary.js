@@ -26,6 +26,62 @@ function parseDateTime(raw) {
   return isNaN(d2) ? null : d2;
 }
 
+// ─── Safe name matching ─────────────────────────────────────────
+// Avoids false positives like "เคอ" matching "ใจเคอ", or "ป้อม" matching "ป้อมน้อย".
+// Strategy: 1) exact match  2) normalized exact match (strip spaces/honorifics)
+// 3) Levenshtein distance ≤ 1-2 chars relative to name length (typo tolerance only,
+//    NOT substring containment — this is what prevents the bugs above).
+function normalizeName(s) {
+  return String(s || "")
+    .trim()
+    .replace(/\s+/g, "")
+    .replace(/^(นาย|นาง|นางสาว|น\.ส\.|ด\.ช\.|ด\.ญ\.)/, "");
+}
+
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  if (m === 0) return n;
+  if (n === 0) return m;
+  const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      dp[i][j] = a[i-1] === b[j-1]
+        ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+    }
+  }
+  return dp[m][n];
+}
+
+// Find the best matching employee key for `rawName`, or null if no safe match exists.
+// `keys` = list of employee names already registered in the system.
+function findEmployeeKey(rawName, keys) {
+  const target = normalizeName(rawName);
+  if (!target) return null;
+
+  // 1) Exact match (after normalization)
+  const exact = keys.find((k) => normalizeName(k) === target);
+  if (exact) return exact;
+
+  // 2) Typo-tolerant match: only allow small edit distance relative to length,
+  //    and require length difference to be small too (rules out "เคอ" vs "ใจเคอ").
+  let best = null, bestDist = Infinity;
+  keys.forEach((k) => {
+    const norm = normalizeName(k);
+    const lenDiff = Math.abs(norm.length - target.length);
+    if (lenDiff > 2) return; // names of very different length are never a "typo"
+    const dist = levenshtein(norm, target);
+    const maxAllowed = norm.length <= 4 ? 1 : 2; // stricter tolerance for short names
+    if (dist <= maxAllowed && dist < bestDist) {
+      best = k;
+      bestDist = dist;
+    }
+  });
+  return best;
+}
+
 /* ════════════════════════════════════════════════════════════════
    TAB 1: วันทำงาน — read raw scan log, highlight bad rows
    ════════════════════════════════════════════════════════════════ */
@@ -195,7 +251,7 @@ function processPayroll(wb, employeeMap) {
   const dailyMinutesByPerson = {};
   const pressMinutesByPerson = {};
 
-  const pieceWorkerNames = Object.keys(employeeMap).filter((n) => employeeMap[n].isPieceWorker);
+  const employeeKeys = Object.keys(employeeMap);
 
   Object.entries(dailyGroups).forEach(([key, group]) => {
     const parts = key.split("|||");
@@ -208,7 +264,8 @@ function processPayroll(wb, employeeMap) {
     }
     dailyMinutesByPerson[name] = (dailyMinutesByPerson[name] || 0) + dayMinutes;
 
-    const isPieceWorker = pieceWorkerNames.some((p) => name.includes(p) || p.includes(name));
+    const matchedKey = findEmployeeKey(name, employeeKeys);
+    const isPieceWorker = matchedKey ? employeeMap[matchedKey].isPieceWorker : false;
     if (isPieceWorker && times.length >= 2) {
       const first = times[0];
       const bkkMin = ((first.getTime() + 7*3600000) / 60000) % 1440;
@@ -226,7 +283,7 @@ function processPayroll(wb, employeeMap) {
     const pressMin  = pressMinutesByPerson[name] || 0;
     const packMin   = Math.max(totalMin - pressMin, 0);
 
-    const empKey = Object.keys(employeeMap).find((n) => name.includes(n) || n.includes(name));
+    const empKey = findEmployeeKey(name, employeeKeys);
     const emp = empKey ? employeeMap[empKey] : null;
 
     const packHours  = packMin / 60;
