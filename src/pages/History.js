@@ -102,7 +102,6 @@ export default function History() {
     )
     .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-  const shippingLabel = { free:"ส่งฟรี", per_box:"ตามจำนวนกล่อง", per_item:"ตามรายการ", custom:"กำหนดเอง" };
 
   const formatDate = (ts) => {
     if (!ts) return "-";
@@ -114,7 +113,6 @@ export default function History() {
     try {
       await deleteSale(id);
       setDeleteConfirm(null);
-      if (selected?.id === id) setSelected(null);
     } catch { alert("เกิดข้อผิดพลาด"); }
     setDeleting(false);
   };
@@ -138,47 +136,6 @@ export default function History() {
   };
 
   const s = slipSale;
-  // Legacy SlipTable kept for detail modal backward compat
-  const SlipTable = ({ boxes }) => (
-    <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13, marginBottom:14 }}>
-      <thead>
-        <tr>
-          <th style={{ background:"#f1f5f9", padding:"6px 8px", textAlign:"center",  fontWeight:700, color:"#475569", borderBottom:"2px solid #e2e8f0", width:36 }}>รายการ</th>
-          <th style={{ background:"#f1f5f9", padding:"6px 8px", textAlign:"left",   fontWeight:700, color:"#475569", borderBottom:"2px solid #e2e8f0" }}>รายละเอียด</th>
-          <th style={{ background:"#f1f5f9", padding:"6px 8px", textAlign:"right",  fontWeight:700, color:"#475569", borderBottom:"2px solid #e2e8f0", width:60 }}>จำนวน</th>
-          <th style={{ background:"#f1f5f9", padding:"6px 8px", textAlign:"right",  fontWeight:700, color:"#475569", borderBottom:"2px solid #e2e8f0", width:90 }}>ราคา/หน่วย</th>
-          <th style={{ background:"#f1f5f9", padding:"6px 8px", textAlign:"right",  fontWeight:700, color:"#475569", borderBottom:"2px solid #e2e8f0", width:60 }}>กล่อง</th>
-          <th style={{ background:"#f1f5f9", padding:"6px 8px", textAlign:"right",  fontWeight:700, color:"#475569", borderBottom:"2px solid #e2e8f0", width:90 }}>จำนวนเงิน</th>
-        </tr>
-      </thead>
-      <tbody>
-        {(boxes||[]).flatMap((box, bIdx) => {
-          const bQty = Number(box.boxQty)||1;
-          const rows = (box.items||[]).filter(r=>r.productId);
-          return rows.map((row, rIdx) => (
-            <tr key={`${bIdx}-${rIdx}`}>
-              {rIdx === 0 && (
-                <td rowSpan={rows.length} style={{ padding:"5px 8px", textAlign:"center", fontWeight:700, verticalAlign:"middle", borderBottom:"2px solid #e2e8f0", background:"#f8fafc" }}>
-                  {bIdx+1}
-                </td>
-              )}
-              <td style={{ padding:"4px 8px", borderBottom: rIdx===rows.length-1?"2px solid #e2e8f0":"1px solid #f1f5f9" }}>{row.productName}</td>
-              <td style={{ padding:"4px 8px", textAlign:"right", borderBottom: rIdx===rows.length-1?"2px solid #e2e8f0":"1px solid #f1f5f9" }}>{row.qty}</td>
-              <td style={{ padding:"4px 8px", textAlign:"right", borderBottom: rIdx===rows.length-1?"2px solid #e2e8f0":"1px solid #f1f5f9" }}>{Number(row.price||0).toLocaleString()}</td>
-              {rIdx === 0 && (
-                <td rowSpan={rows.length} style={{ padding:"5px 8px", textAlign:"center", fontWeight:700, verticalAlign:"middle", borderBottom:"2px solid #e2e8f0", background:"#f8fafc" }}>
-                  {bQty}
-                </td>
-              )}
-              <td style={{ padding:"4px 8px", textAlign:"right", fontWeight:600, color:"#1a56db", borderBottom: rIdx===rows.length-1?"2px solid #e2e8f0":"1px solid #f1f5f9" }}>
-                {(Number(row.price||0)*Number(row.qty||0)*bQty).toLocaleString()}
-              </td>
-            </tr>
-          ));
-        })}
-      </tbody>
-    </table>
-  );
 
   return (
     <div>
