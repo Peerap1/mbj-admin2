@@ -269,7 +269,7 @@ function processPayroll(wb, employeeMap) {
     if (isPieceWorker && times.length >= 2) {
       const first = times[0];
       const bkkMin = ((first.getTime() + 7*3600000) / 60000) % 1440;
-      const startWindow = 1;
+      const startWindow = 10; // นับ press ตั้งแต่เที่ยงคืน 00:10
       const endWindow    = 2*60+50;
       if (bkkMin >= startWindow && bkkMin <= endWindow) {
         const pressMin = (times[1] - times[0]) / 60000;
