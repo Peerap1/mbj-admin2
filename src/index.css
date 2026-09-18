@@ -2,6 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap');
 
 :root {
+  /* Shared typography and spacing, based on the original application UI. */
+  --font-body: 'Sarabun', sans-serif;
+  --font-heading: 'Prompt', sans-serif;
+  --text-caption: 12px;
+  --text-small: 13px;
+  --text-control: 14px;
+  --text-body: 15px;
+  --text-section: 15px;
+  --text-page: 22px;
+  --space-card: 20px;
+  --space-section: 18px;
   --primary: #1a56db;
   --primary-hover: #1e40af;
   --primary-light: #dbeafe;
@@ -36,16 +47,16 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Sarabun', sans-serif;
+  font-family: var(--font-body);
   background: var(--gray-50);
   color: var(--gray-800);
-  font-size: 15px;
+  font-size: var(--text-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: 'Prompt', sans-serif;
+  font-family: var(--font-heading);
   font-weight: 600;
 }
 
@@ -53,16 +64,16 @@ a { text-decoration: none; color: inherit; }
 
 button {
   cursor: pointer;
-  font-family: 'Sarabun', sans-serif;
-  font-size: 14px;
+  font-family: var(--font-body);
+  font-size: var(--text-control);
   border: none;
   outline: none;
   transition: var(--transition);
 }
 
 input, select, textarea {
-  font-family: 'Sarabun', sans-serif;
-  font-size: 14px;
+  font-family: var(--font-body);
+  font-size: var(--text-control);
   outline: none;
   border: 1.5px solid var(--gray-200);
   border-radius: var(--radius-sm);
@@ -86,7 +97,7 @@ input:focus, select:focus, textarea:focus {
   padding: 9px 18px;
   border-radius: var(--radius-sm);
   font-weight: 500;
-  font-size: 14px;
+  font-size: var(--text-control);
   transition: var(--transition);
 }
 
@@ -110,7 +121,7 @@ input:focus, select:focus, textarea:focus {
 }
 .btn-danger:hover { background: #dc2626; }
 
-.btn-sm { padding: 6px 12px; font-size: 13px; }
+.btn-sm { padding: 6px 12px; font-size: var(--text-small); }
 .btn-icon { padding: 8px; border-radius: var(--radius-sm); }
 
 /* ── CARD ── */
@@ -119,12 +130,12 @@ input:focus, select:focus, textarea:focus {
   border-radius: var(--radius);
   border: 1px solid var(--gray-100);
   box-shadow: var(--shadow-sm);
-  padding: 20px;
+  padding: var(--space-card);
 }
 
 /* ── TABLE ── */
 .table-wrapper { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+table { width: 100%; border-collapse: collapse; font-size: var(--text-control); }
 thead th {
   background: var(--gray-50);
   padding: 11px 14px;
@@ -205,8 +216,8 @@ tbody tr:last-child td { border-bottom: none; }
   justify-content: space-between;
   margin-bottom: 22px;
 }
-.page-title { font-size: 22px; color: var(--gray-900); }
-.page-subtitle { font-size: 13px; color: var(--gray-400); margin-top: 2px; font-family: 'Sarabun', sans-serif; font-weight: 400; }
+.page-title { font-size: var(--text-page); color: var(--gray-900); }
+.page-subtitle { font-size: var(--text-small); color: var(--gray-400); margin-top: 2px; font-family: var(--font-body); font-weight: 400; }
 
 /* ── SEARCH ── */
 .search-bar {

@@ -83,6 +83,8 @@ const newRow = (product = null) => ({
   rowId:       `row_${Date.now()}_${rowCounter++}`,
   productId:   product?.id    || "",
   productName: product?.name  || "",
+  sku: product?.sku || "",
+  unit: product?.unit || "",
   price:       product?.price || "",
   qty:         1,
 });
@@ -134,8 +136,8 @@ export default function Sales() {
           if (field === "productId") {
             const p = products.find((x) => x.id === value);
             return p
-              ? { ...r, productId: p.id, productName: p.name, price: p.price || "" }
-              : { ...r, productId: "", productName: "", price: "" };
+              ? { ...r, productId: p.id, productName: p.name, price: p.price || "", sku: p.sku || "", unit: p.unit || "" }
+              : { ...r, productId: "", productName: "", price: "", sku: "", unit: "" };
           }
           return { ...r, [field]: value };
         }),
@@ -183,6 +185,9 @@ export default function Sales() {
     const hasItems = boxes.some((b) => b.items.some((r) => r.productId && Number(r.qty) > 0));
     if (!hasItems) { alert("กรุณาเพิ่มสินค้าอย่างน้อย 1 รายการ"); return; }
     if (!form.shippingType) { alert("กรุณาเลือกค่าจัดส่ง"); return; }
+    if (!selectedCustomer || boxes.some(b => !Number.isInteger(Number(b.boxQty)) || Number(b.boxQty) < 1 || !b.items.length || b.items.some(r => !r.productId || !Number.isFinite(Number(r.qty)) || Number(r.qty) <= 0 || r.price === "" || !Number.isFinite(Number(r.price)) || Number(r.price) < 0)) || (form.shippingType === "custom" && (form.shippingCustom === "" || !Number.isFinite(Number(form.shippingCustom)) || Number(form.shippingCustom) < 0))) {
+      alert("กรุณาตรวจสอบสินค้า ราคา จำนวน กล่อง และค่าส่งให้ครบถ้วนและไม่ติดลบ"); return;
+    }
     setLoading(true);
     try {
       const saleData = {
@@ -190,6 +195,8 @@ export default function Sales() {
         customerName:    selectedCustomer?.name    || "",
         customerPhone:   selectedCustomer?.phone   || "",
         customerAddress: selectedCustomer?.address || "",
+        customerProvince: selectedCustomer?.province || "",
+        salesOwner: selectedCustomer?.salesOwner || "",
         bankId:   form.bankId,
         bankName: selectedBank
           ? `${selectedBank.name} ${selectedBank.accountNo}${selectedBank.accountName ? " · "+selectedBank.accountName : ""}`
@@ -208,9 +215,9 @@ export default function Sales() {
         _slipCustomer: selectedCustomer ? { ...selectedCustomer } : null,
         _slipBank:     selectedBank     ? { ...selectedBank }     : null,
       };
-      await addSale(saleData);
+      const savedSale = await addSale(saleData);
       // เก็บ snapshot ไว้แสดงใบส่งของ แล้ว reset form
-      setLastSavedSale(saleData);
+      setLastSavedSale(savedSale);
       setBoxes([newBox()]);
       setForm({ customerId:"", bankId:"", note:"", shippingType:"", shippingCustom:"" });
       setShowSlip(true); // เปิดใบส่งของทันที
@@ -221,6 +228,7 @@ export default function Sales() {
   // ─── Print ─────────────────────────────────────────────────────
   const handlePrint = () => {
     const w = window.open("", "_blank", "width=860,height=700");
+    if (!w) { alert("กรุณาอนุญาตหน้าต่างป๊อปอัปเพื่อพิมพ์เอกสาร"); return; }
     w.document.write(buildPrintHTML(lastSavedSale, user?.username));
     w.document.close(); w.focus();
     setTimeout(() => w.print(), 450);
@@ -274,6 +282,7 @@ export default function Sales() {
                   <div style={{ fontWeight:600, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }} title={selectedCustomer.name}>{selectedCustomer.name}</div>
                   {selectedCustomer.phone   && <div style={{ color:"var(--gray-500)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{selectedCustomer.phone}</div>}
                   {selectedCustomer.address && <div style={{ color:"var(--gray-600)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }} title={selectedCustomer.address}>{selectedCustomer.address}</div>}
+                  {selectedCustomer.province && <div>{selectedCustomer.province}</div>}
                 </>
               ) : (
                 <div style={{ height:"100%", display:"flex", alignItems:"center", color:"var(--gray-300)", fontSize:12 }}>

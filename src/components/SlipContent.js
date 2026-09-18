@@ -2,6 +2,13 @@
 // Shared delivery slip — used by both Sales.js and History.js
 import React from "react";
 
+function slipBoxes(sale) {
+  return sale.boxes ? Object.values(sale.boxes) : [{ boxQty: 1, items: Object.values(sale.items || {}).map((item, index) => ({ ...item, productId: item.productId || `legacy-${index}`, productName: item.productName || item.name || "" })) }];
+}
+
+const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+const escapePrintData = value => typeof value === "string" ? escapeHTML(value) : Array.isArray(value) ? value.map(escapePrintData) : value && typeof value === "object" ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, escapePrintData(item)])) : value;
+
 const SELLER = {
   name:    "ข้าวแต๋นน้ำแตงโมแม่บัวจันทร์",
   address: "5 หมู่ 2 ตำบลบ้านเป้า อำเภอเมือง จังหวัดลำปาง 52100",
@@ -55,6 +62,7 @@ export function SlipItemsTable({ boxes }) {
 // ─── Full slip body (screen preview) ────────────────────────────
 export function SlipContent({ sale, createdBy }) {
   if (!sale) return null;
+  sale = { ...sale, boxes: slipBoxes(sale) };
   const isReceipt = sale.status === "paid";
   const dateStr = sale.createdAt
     ? new Date(sale.createdAt).toLocaleDateString("th-TH", { day:"numeric", month:"long", year:"numeric" })
@@ -74,6 +82,7 @@ export function SlipContent({ sale, createdBy }) {
           <div style={{ fontSize:20, fontWeight:700, color:"#0f172a" }}>{isReceipt ? "ใบเสร็จ" : "ใบส่งของ"}</div>
           <div style={{ fontSize:11, color:"#94a3b8", marginTop:3, lineHeight:1.7 }}>
             วันที่: {dateStr}<br/>
+            Order: {sale.orderNo || sale.id || "–"}<br/>
             ผู้ขาย: {createdBy || sale.createdBy || "-"}
           </div>
         </div>
@@ -87,6 +96,7 @@ export function SlipContent({ sale, createdBy }) {
             <strong>{sale.customerName}</strong>
             {sale.customerPhone   && <><br/>โทร: {sale.customerPhone}</>}
             {sale.customerAddress && <><br/>{sale.customerAddress}</>}
+            {sale.customerProvince && !sale.customerAddress?.includes(sale.customerProvince) && <><br/>{sale.customerProvince}</>}
           </div>
         </div>
       )}
@@ -144,6 +154,8 @@ export function SlipContent({ sale, createdBy }) {
 
 // ─── Shared print function ───────────────────────────────────────
 export function buildPrintHTML(sale, createdBy) {
+  sale = escapePrintData({ ...sale, boxes: slipBoxes(sale || {}) });
+  createdBy = escapeHTML(createdBy);
   const isReceipt = sale?.status === "paid";
   const dateStr = sale?.createdAt
     ? new Date(sale.createdAt).toLocaleDateString("th-TH", { day:"numeric", month:"long", year:"numeric" })
@@ -179,6 +191,7 @@ export function buildPrintHTML(sale, createdBy) {
       <strong>${sale.customerName||""}</strong>
       ${sale.customerPhone ? `<br>โทร: ${sale.customerPhone}` : ""}
       ${sale.customerAddress ? `<br>${sale.customerAddress}` : ""}
+      ${sale.customerProvince && !sale.customerAddress?.includes(sale.customerProvince) ? `<br>${sale.customerProvince}` : ""}
     </div>` : "";
 
   const noteHTML = sale?.note ? `
@@ -212,7 +225,7 @@ td{padding:4px 8px;border-bottom:1px solid #f5f5f5}
 </style></head><body><div class="wrap">
 <div class="hd">
   <div><div class="sname">${SELLER.name}</div><div class="sinfo">${SELLER.address}<br>โทร: ${SELLER.phone}</div></div>
-  <div><div class="title">${isReceipt?"ใบเสร็จ":"ใบส่งของ"}</div><div class="meta">วันที่: ${dateStr}<br>ผู้ขาย: ${createdBy||sale?.createdBy||"-"}</div></div>
+  <div><div class="title">${isReceipt?"ใบเสร็จ":"ใบส่งของ"}</div><div class="meta">วันที่: ${dateStr}<br>Order: ${sale.orderNo || sale.id || "–"}<br>ผู้ขาย: ${createdBy||sale?.createdBy||"-"}</div></div>
 </div>
 ${addrHTML}
 <div style="height:10px"></div>

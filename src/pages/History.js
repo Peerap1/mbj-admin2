@@ -1,5 +1,6 @@
 // src/pages/History.js
 import React, { useState, useEffect, useRef } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { getSales, deleteSale, updateSale, getBanks } from "../firebase/database";
 import { SlipContent, buildPrintHTML } from "../components/SlipContent";
 
@@ -80,6 +81,8 @@ function PaymentModal({ sale, banks, onConfirm, onClose }) {
 }
 
 export default function History() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedOrder = searchParams.get("order");
   const [sales, setSales]                 = useState([]);
   const [banks, setBanks]                 = useState([]);
   const [search, setSearch]               = useState("");
@@ -95,9 +98,21 @@ export default function History() {
     return () => { u1(); u2(); };
   }, []);
 
+  useEffect(() => {
+    if (requestedOrder) {
+      const sale = sales.find(item => item.id === requestedOrder);
+      if (sale) setSlipSale(sale);
+    }
+  }, [requestedOrder, sales]);
+  const closeSlip = () => {
+    setSlipSale(null);
+    if (requestedOrder) setSearchParams({}, { replace: true });
+  };
+
   const filtered = sales
     .filter((s) =>
       s.customerName?.toLowerCase().includes(search.toLowerCase()) ||
+      s.orderNo?.toLowerCase().includes(search.toLowerCase()) ||
       s.createdBy?.toLowerCase().includes(search.toLowerCase())
     )
     .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
@@ -130,6 +145,7 @@ export default function History() {
   const handlePrint = () => {
     if (!slipSale) return;
     const w = window.open("", "_blank", "width=860,height=700");
+    if (!w) { alert("กรุณาอนุญาตหน้าต่างป๊อปอัปเพื่อพิมพ์เอกสาร"); return; }
     w.document.write(buildPrintHTML(slipSale, slipSale.createdBy));
     w.document.close(); w.focus();
     setTimeout(() => w.print(), 450);
@@ -171,7 +187,7 @@ export default function History() {
               ) : filtered.map((sale, i) => (
                 <tr key={sale.id}>
                   <td style={{ color:"var(--gray-400)", fontSize:12, maxWidth:"none" }}>{i+1}</td>
-                  <td title={sale.customerName}><strong>{sale.customerName || "-"}</strong></td>
+                  <td title={sale.customerName}>{sale.customerId ? <Link className="analysis-link" to={`/customers/${sale.customerId}`}>{sale.customerName || "-"}</Link> : <strong>{sale.customerName || "-"}</strong>}</td>
                   <td style={{ maxWidth:"none" }}>
                     <strong style={{ color:"var(--primary)" }}>{Number(sale.total||0).toLocaleString()}</strong>
                   </td>
@@ -209,7 +225,7 @@ export default function History() {
 
       {/* ── Slip Modal ── */}
       {slipSale && (
-        <div className="modal-overlay" onClick={() => setSlipSale(null)}>
+        <div className="modal-overlay" onClick={closeSlip}>
           <div className="modal" style={{ maxWidth:780 }} onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>{s?.status === "paid" ? "ใบเสร็จ" : "ใบส่งของ"}</h3>
@@ -220,7 +236,7 @@ export default function History() {
                   </svg>
                   พิมพ์ / PDF
                 </button>
-                <button className="btn-icon btn-secondary" onClick={() => setSlipSale(null)}>✕</button>
+                <button className="btn-icon btn-secondary" onClick={closeSlip}>✕</button>
               </div>
             </div>
             <div className="modal-body" style={{ padding:"4px 24px 24px", maxHeight:"80vh", overflowY:"auto" }}>

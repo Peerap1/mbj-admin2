@@ -12,6 +12,8 @@ import Banks from "./pages/Banks";
 import Employees from "./pages/Employees";
 import Salary from "./pages/Salary";
 import Reports from "./pages/Reports";
+import CustomerDetail from "./pages/CustomerDetail";
+import "./components/Analysis.css";
 import "./index.css";
 import "./App.css";
 
@@ -32,6 +34,7 @@ function AppRoutes() {
         <Route path="sales"     element={<PrivateRoute menuKey="sales"><Sales /></PrivateRoute>} />
         <Route path="history"   element={<PrivateRoute menuKey="history"><History /></PrivateRoute>} />
         <Route path="customers" element={<PrivateRoute menuKey="customers"><Customers /></PrivateRoute>} />
+        <Route path="customers/:id" element={<PrivateRoute menuKey="customers"><CustomerDetail /></PrivateRoute>} />
         <Route path="products"  element={<PrivateRoute menuKey="products"><Products /></PrivateRoute>} />
         <Route path="banks"     element={<PrivateRoute menuKey="banks"><Banks /></PrivateRoute>} />
         <Route path="reports"   element={<PrivateRoute menuKey="reports"><Reports /></PrivateRoute>} />
