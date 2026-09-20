@@ -1,7 +1,7 @@
 // src/components/CrudPage.js
 import React, { useState } from "react";
 
-export default function CrudPage({ title, subtitle, items, columns, fields, onAdd, onEdit, onDelete, renderExtra }) {
+export default function CrudPage({ title, subtitle, items, columns, fields, onAdd, onEdit, onDelete, renderExtra, initialValues = {} }) {
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(null); // null | { mode:"add"|"edit", data:{} }
   const [form, setForm] = useState({});
@@ -15,7 +15,7 @@ export default function CrudPage({ title, subtitle, items, columns, fields, onAd
   );
 
   const openAdd = () => {
-    setForm({});
+    setForm({ ...initialValues });
     setModal({ mode: "add" });
   };
 
@@ -123,7 +123,9 @@ export default function CrudPage({ title, subtitle, items, columns, fields, onAd
               {fields.map((f) => (
                 <div className="form-group" key={f.key}>
                   <label>{f.label}{f.required && <span style={{ color:"var(--danger)" }}> *</span>}</label>
-                  {f.type === "textarea" ? (
+                  {modal.mode === "add" && f.readOnlyOnAdd ? (
+                    <input type="text" value={form[f.key] || ""} readOnly aria-label={f.label} />
+                  ) : f.type === "textarea" ? (
                     <textarea rows={3} placeholder={f.placeholder || ""} value={form[f.key] || ""}
                       onChange={(e) => setForm({ ...form, [f.key]: e.target.value })} />
                   ) : f.type === "select" ? (

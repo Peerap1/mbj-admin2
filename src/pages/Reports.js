@@ -32,7 +32,7 @@ export default function Reports() {
   const topCustomers = [...customerTotals.values()].sort((a, b) => b.value - a.value).slice(0, 10);
   const types = [...typeTotals].map(([key, value]) => ({ key, label: key, value })).sort((a, b) => b.value - a.value);
   const topProducts = productTotals(filtered, products).sort((a, b) => b[metric] - a[metric]).slice(0, 10)
-    .map(p => ({ key: p.key, label: `${p.sku ? p.sku + " · " : ""}${p.name}${metric === "quantity" ? ` (${p.unit || "ไม่ระบุหน่วย"})` : ""}`, value: p[metric] }));
+    .map(p => ({ key: p.key, label: `${p.name}${metric === "quantity" ? ` (${p.unit || "ไม่ระบุหน่วย"})` : ""}`, value: p[metric] }));
   const monthly = useMemo(() => invalid ? [] : monthlySeries(filtered, all, start, end), [filtered, all, start, end, invalid]);
   const atRisk = invalid ? [] : customers.map(c => ({ ...c, stats: customerStats(all.filter(s => s.customerId === c.id), new Date(`${end}T23:59:59+07:00`).getTime()) }))
     .filter(c => c.stats.count && (c.stats.days > 90 || (c.stats.cycle != null && c.stats.days > c.stats.cycle)))
@@ -108,13 +108,15 @@ export default function Reports() {
       <section className="card"><h3>ยอดขายตามประเภทลูกค้า</h3><Bars rows={types} onSelect={r => choose({ kind: "type", ...r })} /></section>
       <section className="card"><h3>Top 10 ลูกค้า</h3><Bars rows={topCustomers} onSelect={r => r.id ? navigate(`/customers/${r.id}`) : choose({ kind: "customer", ...r })} /></section>
     </div>
-    <section className="card analysis-section"><div className="analysis-filters"><h3>Top 10 สินค้า</h3><label>จัดอันดับตาม<select value={metric} onChange={e => setMetric(e.target.value)}><option value="net">ยอดขาย</option><option value="quantity">จำนวนขาย</option></select></label></div><Bars rows={topProducts} unit={metric === "net" ? "บาท" : "หน่วย"} onSelect={r => choose({ kind: "product", ...r })} /></section>
-    <section className="card analysis-section"><h3>ลูกค้าที่ควรติดตาม</h3><p className="analysis-hint">ประเมิน ณ วันที่สิ้นสุดช่วงที่เลือก จากประวัติทั้งหมดก่อนวันนั้น · เกิน 90 วัน หรือเกินรอบซื้อเฉลี่ย · เรียงตามยอดซื้อปีก่อน</p>
+    <div className="analysis-panels">
+    <section className="card"><div className="analysis-filters"><h3>Top 10 สินค้า</h3><label>จัดอันดับตาม<select value={metric} onChange={e => setMetric(e.target.value)}><option value="net">ยอดขาย</option><option value="quantity">จำนวนขาย</option></select></label></div><Bars rows={topProducts} unit={metric === "net" ? "บาท" : "หน่วย"} onSelect={r => choose({ kind: "product", ...r })} /></section>
+    <section className="card"><h3>ลูกค้าที่ควรติดตาม</h3><p className="analysis-hint">ประเมิน ณ วันที่สิ้นสุดช่วงที่เลือก จากประวัติทั้งหมดก่อนวันนั้น · เกิน 90 วัน หรือเกินรอบซื้อเฉลี่ย · เรียงตามยอดซื้อปีก่อน</p>
       <div className="table-wrapper"><table><thead><tr><th>ลูกค้า / ผู้ดูแล</th><th>ซื้อล่าสุด</th><th>ไม่ซื้อมา (วัน)</th><th>รอบเฉลี่ย (วัน)</th><th>สถานะ / เหตุผล</th><th>ยอดปีก่อน</th></tr></thead><tbody>
         {atRisk.map(c => <tr key={c.id}><td><Link className="analysis-link" to={`/customers/${c.id}`}>{c.name}</Link><br />{c.salesOwner || "ยังไม่มีผู้ดูแล"}</td><td>{formatDate(c.stats.last)}</td><td>{c.stats.days}</td><td>{c.stats.cycle ?? "ข้อมูลไม่พอ"}</td><td>{c.stats.status === "Active" ? "เลยรอบซื้อปกติ" : c.stats.status}</td><td>{amount(c.stats.previousRevenue)}</td></tr>)}
         {!atRisk.length && <tr><td colSpan={6}>ไม่มีลูกค้าที่เข้าเกณฑ์</td></tr>}
       </tbody></table></div>
     </section>
+    </div>
     <section className="card analysis-section"><h3>{selection ? `รายการขาย: ${selection.label}` : "รายการขายล่าสุด"} ({recent.length})</h3>
       {selection && <button className="btn btn-secondary btn-sm" onClick={() => choose(null)}><ActionIcon name="reset" />แสดงทั้งหมดในช่วงวันที่</button>}
       <div className="table-wrapper"><table><thead><tr><th>Order</th><th>ลูกค้า</th><th>วันที่</th><th>ยอดสินค้า</th><th>สถานะ</th><th>เอกสาร</th></tr></thead><tbody>

@@ -64,7 +64,7 @@ export default function Customers() {
     { key: "province", label: "จังหวัด", type: "select", options: provinceOptions },
     { key: "customerType", label: "ประเภทลูกค้า", type: "select", options: customerTypes },
     { key: "acquisitionChannel", label: "ช่องทางที่ได้ลูกค้ามา", type: "select", options: channels },
-    { key: "salesOwner", label: "ผู้ดูแลลูกค้า", type: "select", options: ownerOptions },
+    { key: "salesOwner", label: "ผู้ดูแลลูกค้า", type: "select", options: ownerOptions, readOnlyOnAdd: true },
     { key: "note", label: "หมายเหตุ", placeholder: "หมายเหตุ (ถ้ามี)" },
   ];
 
@@ -75,7 +75,8 @@ export default function Customers() {
       items={items}
       columns={columns}
       fields={fields}
-      onAdd={data => addCustomer(cleanForm(data))}
+      initialValues={{ salesOwner: user?.username || "" }}
+      onAdd={data => addCustomer({ ...cleanForm(data), salesOwner: user?.username || "" })}
       onEdit={(id, data) => updateCustomer(id, cleanForm(data))}
       onDelete={deleteCustomer}
     />
