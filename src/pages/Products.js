@@ -12,7 +12,7 @@ export default function Products() {
   }, []);
 
   const productTypeOptions = [
-    { value: "product",  label: "ผลิตภัณฑ์" },
+    { value: "product", label: "ผลิตภัณฑ์" },
     { value: "material", label: "วัตถุดิบ" },
   ];
 
@@ -21,24 +21,46 @@ export default function Products() {
     { key: "sku", label: "SKU" },
     { key: "unit", label: "หน่วย" },
     {
-      key: "productType", label: "ประเภท",
+      key: "productType",
+      label: "ประเภท",
       render: (v) => (
         <span className={`badge ${v === "material" ? "badge-warning" : "badge-primary"}`}>
           {v === "material" ? "วัตถุดิบ" : "ผลิตภัณฑ์"}
         </span>
       ),
     },
-    { key: "price", label: "ราคา", render: (v) => <strong style={{ color:"var(--primary)" }}>{Number(v||0).toLocaleString()}</strong> },
+    {
+      key: "price",
+      label: "ราคา",
+      render: (v) => (
+        <strong style={{ color: "var(--primary)" }}>{Number(v || 0).toLocaleString()}</strong>
+      ),
+    },
     { key: "description", label: "รายละเอียด" },
   ];
 
   const fields = [
-    { key: "name",        label: "ชื่อสินค้า",    required: true, placeholder: "กรอกชื่อสินค้า" },
+    { key: "name", label: "ชื่อสินค้า", required: true, placeholder: "กรอกชื่อสินค้า" },
     { key: "sku", label: "SKU", required: true, placeholder: "เช่น SKU01 (ไม่ซ้ำกับสินค้าอื่น)" },
-    { key: "unit", label: "หน่วย", type: "select", required: true, options: ["ถุง", "แพ็ก", "ชิ้น", "กิโลกรัม", "ลัง", "กล่อง"].map(value => ({ value, label: value })) },
-    { key: "productType", label: "ประเภทสินค้า", type: "select", required: true, options: productTypeOptions },
-    { key: "price",       label: "ราคา (บาท)",   type: "number", required: true, placeholder: "0.00" },
-    { key: "description", label: "รายละเอียด",   type: "textarea", placeholder: "รายละเอียดสินค้า" },
+    {
+      key: "unit",
+      label: "หน่วย",
+      type: "select",
+      required: true,
+      options: ["ถุง", "แพ็ก", "ชิ้น", "กิโลกรัม", "ลัง", "กล่อง"].map((value) => ({
+        value,
+        label: value,
+      })),
+    },
+    {
+      key: "productType",
+      label: "ประเภทสินค้า",
+      type: "select",
+      required: true,
+      options: productTypeOptions,
+    },
+    { key: "price", label: "ราคา (บาท)", type: "number", required: true, placeholder: "0.00" },
+    { key: "description", label: "รายละเอียด", type: "textarea", placeholder: "รายละเอียดสินค้า" },
   ];
 
   return (
@@ -48,7 +70,7 @@ export default function Products() {
       items={products}
       columns={columns}
       fields={fields}
-      onAdd={data => saveProduct(null, data)}
+      onAdd={(data) => saveProduct(null, data)}
       onEdit={saveProduct}
       onDelete={deleteProduct}
     />
@@ -56,11 +78,15 @@ export default function Products() {
 
   function saveProduct(id, data) {
     const sku = data.sku?.trim();
-    if (!sku || products.some(p => p.id !== id && p.sku?.trim().toLowerCase() === sku.toLowerCase())) {
+    if (
+      !sku ||
+      products.some((p) => p.id !== id && p.sku?.trim().toLowerCase() === sku.toLowerCase())
+    ) {
       alert("กรุณาระบุ SKU ที่ไม่ซ้ำกับสินค้าอื่น");
       throw new Error("Duplicate or empty SKU");
     }
-    if (!Number.isFinite(Number(data.price)) || Number(data.price) < 0) throw new Error("Invalid price");
+    if (!Number.isFinite(Number(data.price)) || Number(data.price) < 0)
+      throw new Error("Invalid price");
     const { id: ignored, ...payload } = data;
     return id ? updateProduct(id, { ...payload, sku }) : addProduct({ ...payload, sku });
   }

@@ -47,7 +47,7 @@ npm install
 เปิดไฟล์ `src/firebase/config.js` แล้วแก้ไข `databaseURL` ให้ตรงกับ project ของคุณ:
 
 ```js
-databaseURL: "https://mbj-admin-default-rtdb.asia-southeast1.firebasedatabase.app"
+databaseURL: "https://mbj-admin-default-rtdb.asia-southeast1.firebasedatabase.app";
 ```
 
 > หา databaseURL ได้จาก Firebase Console → Realtime Database → URL ที่แสดงด้านบน
@@ -83,11 +83,11 @@ firebase deploy
 
 ## Users เริ่มต้น (สร้างอัตโนมัติใน Database)
 
-| Username | Password   | Role  | สิทธิ์                                    |
-|----------|-----------|-------|------------------------------------------|
-| admin    | admin1234 | admin | เห็นทุกเมนู                               |
-| suser    | suser1234 | suser | เห็นทุกเมนู                               |
-| user     | user1234  | user  | การขาย, ประวัติการขาย, ลูกค้า, สินค้า   |
+| Username | Password  | Role  | สิทธิ์                                |
+| -------- | --------- | ----- | ------------------------------------- |
+| admin    | admin1234 | admin | เห็นทุกเมนู                           |
+| suser    | suser1234 | suser | เห็นทุกเมนู                           |
+| user     | user1234  | user  | การขาย, ประวัติการขาย, ลูกค้า, สินค้า |
 
 ---
 

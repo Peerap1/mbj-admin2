@@ -1,0 +1,8 @@
+node_modules/
+build/
+.firebase/
+.git/
+coverage/
+package-lock.json
+.env
+.env.*

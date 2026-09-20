@@ -29,17 +29,87 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={user ? <Navigate to="/sales" /> : <Login />} />
-      <Route path="/" element={<PrivateRoute><Layout /></PrivateRoute>}>
+      <Route
+        path="/"
+        element={
+          <PrivateRoute>
+            <Layout />
+          </PrivateRoute>
+        }
+      >
         <Route index element={<Navigate to="/sales" replace />} />
-        <Route path="sales"     element={<PrivateRoute menuKey="sales"><Sales /></PrivateRoute>} />
-        <Route path="history"   element={<PrivateRoute menuKey="history"><History /></PrivateRoute>} />
-        <Route path="customers" element={<PrivateRoute menuKey="customers"><Customers /></PrivateRoute>} />
-        <Route path="customers/:id" element={<PrivateRoute menuKey="customers"><CustomerDetail /></PrivateRoute>} />
-        <Route path="products"  element={<PrivateRoute menuKey="products"><Products /></PrivateRoute>} />
-        <Route path="banks"     element={<PrivateRoute menuKey="banks"><Banks /></PrivateRoute>} />
-        <Route path="reports"   element={<PrivateRoute menuKey="reports"><Reports /></PrivateRoute>} />
-        <Route path="employees" element={<PrivateRoute menuKey="employees"><Employees /></PrivateRoute>} />
-        <Route path="salary"    element={<PrivateRoute menuKey="salary"><Salary /></PrivateRoute>} />
+        <Route
+          path="sales"
+          element={
+            <PrivateRoute menuKey="sales">
+              <Sales />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="history"
+          element={
+            <PrivateRoute menuKey="history">
+              <History />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="customers"
+          element={
+            <PrivateRoute menuKey="customers">
+              <Customers />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="customers/:id"
+          element={
+            <PrivateRoute menuKey="customers">
+              <CustomerDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="products"
+          element={
+            <PrivateRoute menuKey="products">
+              <Products />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="banks"
+          element={
+            <PrivateRoute menuKey="banks">
+              <Banks />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="reports"
+          element={
+            <PrivateRoute menuKey="reports">
+              <Reports />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="employees"
+          element={
+            <PrivateRoute menuKey="employees">
+              <Employees />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="salary"
+          element={
+            <PrivateRoute menuKey="salary">
+              <Salary />
+            </PrivateRoute>
+          }
+        />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

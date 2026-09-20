@@ -1,19 +1,13 @@
 // src/firebase/database.js
 import { db } from "./config";
-import {
-  ref,
-  set,
-  get,
-  push,
-  update,
-  remove,
-  onValue,
-  runTransaction,
-} from "firebase/database";
+import { ref, set, get, push, update, remove, onValue, runTransaction } from "firebase/database";
 
 // Server-side transactions keep human-readable document numbers unique across users.
 const nextCode = async (counter, prefix, width) => {
-  const result = await runTransaction(ref(db, `counters/${counter}`), value => (Number(value) || 0) + 1);
+  const result = await runTransaction(
+    ref(db, `counters/${counter}`),
+    (value) => (Number(value) || 0) + 1,
+  );
   if (!result.committed) throw new Error("Unable to allocate document number");
   return `${prefix}${String(result.snapshot.val()).padStart(width, "0")}`;
 };
@@ -25,20 +19,23 @@ export const loginUser = async (username, password) => {
   if (!snap.exists()) return null;
   const users = snap.val();
   const found = Object.entries(users).find(
-    ([, u]) => u.username === username && u.password === password
+    ([, u]) => u.username === username && u.password === password,
   );
   if (!found) return null;
   return { id: found[0], ...found[1] };
 };
 
-
 // ─── CUSTOMERS ──────────────────────────────────────────────────────────────
 export const getCustomers = (callback, onError) => {
   const r = ref(db, "customers");
-  return onValue(r, (snap) => {
-    const data = snap.val() || {};
-    callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
-  }, onError);
+  return onValue(
+    r,
+    (snap) => {
+      const data = snap.val() || {};
+      callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
+    },
+    onError,
+  );
 };
 
 export const addCustomer = async (data) => {
@@ -53,10 +50,14 @@ export const deleteCustomer = (id) => remove(ref(db, `customers/${id}`));
 // ─── PRODUCTS ───────────────────────────────────────────────────────────────
 export const getProducts = (callback, onError) => {
   const r = ref(db, "products");
-  return onValue(r, (snap) => {
-    const data = snap.val() || {};
-    callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
-  }, onError);
+  return onValue(
+    r,
+    (snap) => {
+      const data = snap.val() || {};
+      callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
+    },
+    onError,
+  );
 };
 
 export const addProduct = (data) => push(ref(db, "products"), { ...data, createdAt: Date.now() });
@@ -79,10 +80,14 @@ export const deleteBank = (id) => remove(ref(db, `banks/${id}`));
 // ─── SALES ──────────────────────────────────────────────────────────────────
 export const getSales = (callback, onError) => {
   const r = ref(db, "sales");
-  return onValue(r, (snap) => {
-    const data = snap.val() || {};
-    callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
-  }, onError);
+  return onValue(
+    r,
+    (snap) => {
+      const data = snap.val() || {};
+      callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
+    },
+    onError,
+  );
 };
 
 export const addSale = async (data) => {
@@ -103,6 +108,6 @@ export const getEmployees = (callback) => {
     callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
   });
 };
-export const addEmployee    = (data) => push(ref(db, "employees"), { ...data, createdAt: Date.now() });
+export const addEmployee = (data) => push(ref(db, "employees"), { ...data, createdAt: Date.now() });
 export const updateEmployee = (id, data) => update(ref(db, `employees/${id}`), data);
 export const deleteEmployee = (id) => remove(ref(db, `employees/${id}`));

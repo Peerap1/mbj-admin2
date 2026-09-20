@@ -10,7 +10,7 @@ const firebaseConfig = {
   messagingSenderId: "922634034449",
   appId: "1:922634034449:web:3d7a686a100071b81a80b0",
   measurementId: "G-CQSV8BB2RM",
-  databaseURL: "https://mbj-admin-default-rtdb.asia-southeast1.firebasedatabase.app"
+  databaseURL: "https://mbj-admin-default-rtdb.asia-southeast1.firebasedatabase.app",
 };
 
 const app = initializeApp(firebaseConfig);

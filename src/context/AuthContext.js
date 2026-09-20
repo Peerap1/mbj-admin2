@@ -8,7 +8,9 @@ export const AuthProvider = ({ children }) => {
     try {
       const saved = sessionStorage.getItem("mbj_user");
       return saved ? JSON.parse(saved) : null;
-    } catch { return null; }
+    } catch {
+      return null;
+    }
   });
 
   const login = (userData) => {
@@ -30,9 +32,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, canSee }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user, login, logout, canSee }}>{children}</AuthContext.Provider>
   );
 };
 
