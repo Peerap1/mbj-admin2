@@ -1,8 +1,6 @@
-// src/firebase/database.js
 import { db } from "./config";
-import { ref, set, get, push, update, remove, onValue, runTransaction } from "firebase/database";
-
-// Server-side transactions keep human-readable document numbers unique across users.
+import { ref, set, get, push, runTransaction } from "firebase/database";
+import { createCollection } from "./collection";
 const nextCode = async (counter, prefix, width) => {
   const result = await runTransaction(
     ref(db, `counters/${counter}`),
@@ -12,7 +10,6 @@ const nextCode = async (counter, prefix, width) => {
   return `${prefix}${String(result.snapshot.val()).padStart(width, "0")}`;
 };
 
-// ─── AUTH ───────────────────────────────────────────────────────────────────
 export const loginUser = async (username, password) => {
   const usersRef = ref(db, "users");
   const snap = await get(usersRef);
@@ -25,69 +22,11 @@ export const loginUser = async (username, password) => {
   return { id: found[0], ...found[1] };
 };
 
-// ─── CUSTOMERS ──────────────────────────────────────────────────────────────
-export const getCustomers = (callback, onError) => {
-  const r = ref(db, "customers");
-  return onValue(
-    r,
-    (snap) => {
-      const data = snap.val() || {};
-      callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
-    },
-    onError,
-  );
-};
-
 export const addCustomer = async (data) => {
   const target = push(ref(db, "customers"));
   const customerCode = await nextCode("customers", "C", 4);
   await set(target, { ...data, customerCode, createdAt: Date.now() });
   return target;
-};
-export const updateCustomer = (id, data) => update(ref(db, `customers/${id}`), data);
-export const deleteCustomer = (id) => remove(ref(db, `customers/${id}`));
-
-// ─── PRODUCTS ───────────────────────────────────────────────────────────────
-export const getProducts = (callback, onError) => {
-  const r = ref(db, "products");
-  return onValue(
-    r,
-    (snap) => {
-      const data = snap.val() || {};
-      callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
-    },
-    onError,
-  );
-};
-
-export const addProduct = (data) => push(ref(db, "products"), { ...data, createdAt: Date.now() });
-export const updateProduct = (id, data) => update(ref(db, `products/${id}`), data);
-export const deleteProduct = (id) => remove(ref(db, `products/${id}`));
-
-// ─── BANKS ──────────────────────────────────────────────────────────────────
-export const getBanks = (callback) => {
-  const r = ref(db, "banks");
-  return onValue(r, (snap) => {
-    const data = snap.val() || {};
-    callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
-  });
-};
-
-export const addBank = (data) => push(ref(db, "banks"), { ...data, createdAt: Date.now() });
-export const updateBank = (id, data) => update(ref(db, `banks/${id}`), data);
-export const deleteBank = (id) => remove(ref(db, `banks/${id}`));
-
-// ─── SALES ──────────────────────────────────────────────────────────────────
-export const getSales = (callback, onError) => {
-  const r = ref(db, "sales");
-  return onValue(
-    r,
-    (snap) => {
-      const data = snap.val() || {};
-      callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
-    },
-    onError,
-  );
 };
 
 export const addSale = async (data) => {
@@ -97,17 +36,31 @@ export const addSale = async (data) => {
   await set(target, saved);
   return { ...saved, id: target.key };
 };
-export const updateSale = (id, data) => update(ref(db, `sales/${id}`), data);
-export const deleteSale = (id) => remove(ref(db, `sales/${id}`));
 
-// ─── EMPLOYEES ──────────────────────────────────────────────────────────────
-export const getEmployees = (callback) => {
-  const r = ref(db, "employees");
-  return onValue(r, (snap) => {
-    const data = snap.val() || {};
-    callback(Object.entries(data).map(([id, v]) => ({ id, ...v })));
-  });
-};
-export const addEmployee = (data) => push(ref(db, "employees"), { ...data, createdAt: Date.now() });
-export const updateEmployee = (id, data) => update(ref(db, `employees/${id}`), data);
-export const deleteEmployee = (id) => remove(ref(db, `employees/${id}`));
+const customers = createCollection("customers");
+export const getCustomers = customers.subscribe;
+export const updateCustomer = customers.update;
+export const deleteCustomer = customers.remove;
+
+const products = createCollection("products");
+export const getProducts = products.subscribe;
+export const updateProduct = products.update;
+export const deleteProduct = products.remove;
+export const addProduct = products.add;
+
+const banks = createCollection("banks");
+export const getBanks = banks.subscribe;
+export const updateBank = banks.update;
+export const deleteBank = banks.remove;
+export const addBank = banks.add;
+
+const sales = createCollection("sales");
+export const getSales = sales.subscribe;
+export const updateSale = sales.update;
+export const deleteSale = sales.remove;
+
+const employees = createCollection("employees");
+export const getEmployees = employees.subscribe;
+export const updateEmployee = employees.update;
+export const deleteEmployee = employees.remove;
+export const addEmployee = employees.add;

@@ -1,144 +1,23 @@
+import useCollection from "../hooks/useCollection";
+import PaymentModal from "../features/sales/PaymentModal";
 // src/pages/History.js
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { getSales, deleteSale, updateSale, getBanks } from "../firebase/database";
-import { SlipContent, buildPrintHTML } from "../components/SlipContent";
+import SlipModal from "../features/sales/SlipModal";
 
 // ─── Payment modal ──────────────────────────────────────────────
-function PaymentModal({ sale, banks, onConfirm, onClose }) {
-  const [method, setMethod] = useState("cash");
-  const [bankId, setBankId] = useState("");
-  const [note, setNote] = useState("");
-  const [saving, setSaving] = useState(false);
-
-  const handleSave = async () => {
-    if (method === "bank" && !bankId) {
-      alert("กรุณาเลือกธนาคาร");
-      return;
-    }
-    setSaving(true);
-    const bank = banks.find((b) => b.id === bankId);
-    await onConfirm(sale.id, {
-      method,
-      bankId: method === "bank" ? bankId : null,
-      bankName: method === "bank" ? `${bank?.name} ${bank?.accountNo}` : null,
-      note,
-    });
-    setSaving(false);
-    onClose();
-  };
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" style={{ maxWidth: 400 }} onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h3>บันทึกการชำระเงิน</h3>
-          <button className="btn-icon btn-secondary" onClick={onClose}>
-            ✕
-          </button>
-        </div>
-        <div className="modal-body">
-          <div style={{ fontSize: 13, color: "var(--gray-600)", marginBottom: 14 }}>
-            ลูกค้า: <strong>{sale.customerName}</strong> · ยอด{" "}
-            <strong style={{ color: "var(--primary)" }}>
-              {Number(sale.total || 0).toLocaleString()}
-            </strong>
-          </div>
-          <div className="form-group">
-            <label>ช่องทางชำระเงิน</label>
-            <div style={{ display: "flex", gap: 10 }}>
-              {[
-                ["cash", "เงินสด"],
-                ["bank", "โอนธนาคาร"],
-              ].map(([v, l]) => (
-                <label
-                  key={v}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    padding: "10px 16px",
-                    border: `1.5px solid ${method === v ? "var(--primary)" : "var(--gray-200)"}`,
-                    borderRadius: 8,
-                    cursor: "pointer",
-                    flex: 1,
-                    justifyContent: "center",
-                    background: method === v ? "var(--primary-50)" : "white",
-                  }}
-                >
-                  <input
-                    type="radio"
-                    name="paymethod"
-                    value={v}
-                    checked={method === v}
-                    onChange={() => setMethod(v)}
-                    style={{ accentColor: "var(--primary)", width: 15, height: 15, margin: 0 }}
-                  />
-                  <span style={{ fontSize: 14, fontWeight: 600 }}>{l}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-          {method === "bank" && (
-            <div className="form-group">
-              <label>เลือกธนาคาร</label>
-              <select value={bankId} onChange={(e) => setBankId(e.target.value)}>
-                <option value="">-- เลือกธนาคาร --</option>
-                {banks.map((b) => (
-                  <option key={b.id} value={b.id}>
-                    {b.name} – {b.accountNo}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-          <div className="form-group" style={{ marginBottom: 0 }}>
-            <label>หมายเหตุ</label>
-            <input
-              type="text"
-              placeholder="หมายเหตุ (ถ้ามี)"
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="modal-footer">
-          <button className="btn btn-secondary" onClick={onClose}>
-            ยกเลิก
-          </button>
-          <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
-            {saving ? (
-              <span className="spinner" style={{ width: 16, height: 16 }} />
-            ) : (
-              "✓ บันทึกการชำระ"
-            )}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function History() {
   const [searchParams, setSearchParams] = useSearchParams();
   const requestedOrder = searchParams.get("order");
-  const [sales, setSales] = useState([]);
-  const [banks, setBanks] = useState([]);
+  const { data: sales, loading: salesLoading, error: salesError } = useCollection(getSales);
+  const { data: banks, loading: banksLoading, error: banksError } = useCollection(getBanks);
   const [search, setSearch] = useState("");
   const [slipSale, setSlipSale] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [payModal, setPayModal] = useState(null);
-  const printRef = useRef();
-
-  useEffect(() => {
-    const u1 = getSales(setSales);
-    const u2 = getBanks(setBanks);
-    return () => {
-      u1();
-      u2();
-    };
-  }, []);
 
   useEffect(() => {
     if (requestedOrder) {
@@ -192,21 +71,9 @@ export default function History() {
     }
   };
 
-  const handlePrint = () => {
-    if (!slipSale) return;
-    const w = window.open("", "_blank", "width=860,height=700");
-    if (!w) {
-      alert("กรุณาอนุญาตหน้าต่างป๊อปอัปเพื่อพิมพ์เอกสาร");
-      return;
-    }
-    w.document.write(buildPrintHTML(slipSale, slipSale.createdBy));
-    w.document.close();
-    w.focus();
-    setTimeout(() => w.print(), 450);
-  };
-
-  const s = slipSale;
-
+  const dataError = salesError || banksError;
+  if (dataError) return <p className="analysis-error">{dataError}</p>;
+  if (salesLoading || banksLoading) return <p>กำลังโหลดข้อมูล…</p>;
   return (
     <div>
       <div className="page-header">
@@ -337,38 +204,7 @@ export default function History() {
       </div>
 
       {/* ── Slip Modal ── */}
-      {slipSale && (
-        <div className="modal-overlay" onClick={closeSlip}>
-          <div className="modal" style={{ maxWidth: 780 }} onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>{s?.status === "paid" ? "ใบเสร็จ" : "ใบส่งของ"}</h3>
-              <div style={{ display: "flex", gap: 8 }}>
-                <button className="btn btn-primary btn-sm" onClick={handlePrint}>
-                  <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
-                    <path
-                      fillRule="evenodd"
-                      d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a1 1 0 001 1h8a1 1 0 001-1v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a1 1 0 00-1-1H6a1 1 0 00-1 1zm2 0h6v3H7V4zm-1 9H6v-2h8v2H6z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  พิมพ์ / PDF
-                </button>
-                <button className="btn-icon btn-secondary" onClick={closeSlip}>
-                  ✕
-                </button>
-              </div>
-            </div>
-            <div
-              className="modal-body"
-              style={{ padding: "4px 24px 24px", maxHeight: "80vh", overflowY: "auto" }}
-            >
-              <div ref={printRef}>
-                <SlipContent sale={s} createdBy={s?.createdBy} />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {slipSale && <SlipModal sale={slipSale} createdBy={slipSale.createdBy} onClose={closeSlip} />}
 
       {/* ── Payment Modal ── */}
       {payModal && (

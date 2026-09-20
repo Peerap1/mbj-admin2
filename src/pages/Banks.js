@@ -1,15 +1,11 @@
+import useCollection from "../hooks/useCollection";
 // src/pages/Banks.js
-import React, { useState, useEffect } from "react";
+import React from "react";
 import CrudPage from "../components/CrudPage";
 import { getBanks, addBank, updateBank, deleteBank } from "../firebase/database";
 
 export default function Banks() {
-  const [banks, setBanks] = useState([]);
-
-  useEffect(() => {
-    const unsub = getBanks(setBanks);
-    return unsub;
-  }, []);
+  const { data: banks, loading: banksLoading, error: banksError } = useCollection(getBanks);
 
   const bankOptions = [
     { value: "ธนาคารกสิกรไทย", label: "ธนาคารกสิกรไทย (KBANK)" },
@@ -38,6 +34,9 @@ export default function Banks() {
     { key: "note", label: "หมายเหตุ", placeholder: "หมายเหตุ (ถ้ามี)" },
   ];
 
+  const dataError = banksError;
+  if (dataError) return <p className="analysis-error">{dataError}</p>;
+  if (banksLoading) return <p>กำลังโหลดข้อมูล…</p>;
   return (
     <CrudPage
       title="รายการธนาคาร"

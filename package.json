@@ -11,6 +11,7 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
+    "lint": "eslint src --ext .js --max-warnings=0",
     "format": "prettier --write src public docs README.md package.json firebase.json database.rules.json .prettierrc.json",
     "format:check": "prettier --check src public docs README.md package.json firebase.json database.rules.json .prettierrc.json",
     "start": "react-scripts start",

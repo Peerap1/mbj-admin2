@@ -1,5 +1,6 @@
+import useCollection from "../hooks/useCollection";
 // src/pages/Customers.js
-import React, { useState, useEffect } from "react";
+import React from "react";
 import CrudPage from "../components/CrudPage";
 import { Link } from "react-router-dom";
 import {
@@ -13,137 +14,22 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { customerStats, formatDate } from "../utils/customerAnalysis";
 
-const options = (values) => values.map((value) => ({ value, label: value }));
-const customerTypes = options([
-  "ร้านของฝาก",
-  "ร้านค้าปลีก",
-  "ยี่ปั๊ว / ขายส่ง",
-  "ตัวแทนจำหน่าย",
-  "Modern Trade",
-  "Online Reseller",
-  "ลูกค้าบุคคลทั่วไป",
-  "โรงแรม / ร้านอาหาร / คาเฟ่",
-  "Corporate / ของฝากองค์กร",
-  "Export",
-  "อื่น ๆ",
-]);
-const channels = options([
-  "ลูกค้าเดิม",
-  "ลูกค้าแนะนำ",
-  "Sales",
-  "Facebook",
-  "LINE",
-  "TikTok",
-  "Shopee",
-  "Lazada",
-  "Website",
-  "หน้าร้านโรงงาน",
-  "งานแสดงสินค้า",
-  "Business Matching",
-  "หน่วยงานราชการ / OTOP",
-  "อื่น ๆ",
-]);
-
-const provinceOptions = [
-  "กรุงเทพมหานคร",
-  "กระบี่",
-  "กาญจนบุรี",
-  "กาฬสินธุ์",
-  "กำแพงเพชร",
-  "ขอนแก่น",
-  "จันทบุรี",
-  "ฉะเชิงเทรา",
-  "ชลบุรี",
-  "ชัยนาท",
-  "ชัยภูมิ",
-  "ชุมพร",
-  "เชียงราย",
-  "เชียงใหม่",
-  "ตรัง",
-  "ตราด",
-  "ตาก",
-  "นครนายก",
-  "นครปฐม",
-  "นครพนม",
-  "นครราชสีมา",
-  "นครศรีธรรมราช",
-  "นครสวรรค์",
-  "นนทบุรี",
-  "นราธิวาส",
-  "น่าน",
-  "บึงกาฬ",
-  "บุรีรัมย์",
-  "ปทุมธานี",
-  "ประจวบคีรีขันธ์",
-  "ปราจีนบุรี",
-  "ปัตตานี",
-  "พระนครศรีอยุธยา",
-  "พะเยา",
-  "พังงา",
-  "พัทลุง",
-  "พิจิตร",
-  "พิษณุโลก",
-  "เพชรบุรี",
-  "เพชรบูรณ์",
-  "แพร่",
-  "ภูเก็ต",
-  "มหาสารคาม",
-  "มุกดาหาร",
-  "แม่ฮ่องสอน",
-  "ยโสธร",
-  "ยะลา",
-  "ร้อยเอ็ด",
-  "ระนอง",
-  "ระยอง",
-  "ราชบุรี",
-  "ลพบุรี",
-  "ลำปาง",
-  "ลำพูน",
-  "เลย",
-  "ศรีสะเกษ",
-  "สกลนคร",
-  "สงขลา",
-  "สตูล",
-  "สมุทรปราการ",
-  "สมุทรสงคราม",
-  "สมุทรสาคร",
-  "สระแก้ว",
-  "สระบุรี",
-  "สิงห์บุรี",
-  "สุโขทัย",
-  "สุพรรณบุรี",
-  "สุราษฎร์ธานี",
-  "สุรินทร์",
-  "หนองคาย",
-  "หนองบัวลำภู",
-  "อ่างทอง",
-  "อำนาจเจริญ",
-  "อุดรธานี",
-  "อุตรดิตถ์",
-  "อุทัยธานี",
-  "อุบลราชธานี",
-].map((province) => ({ value: province, label: province }));
-
+import { options, customerTypes, channels, provinceOptions } from "../features/customers/fields";
 export default function Customers() {
-  const [customers, setCustomers] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const [sales, setSales] = useState([]);
-  const [salesReady, setSalesReady] = useState(false);
+  const {
+    data: customers,
+    loading: customersLoading,
+    error: customersError,
+  } = useCollection(getCustomers);
+  const {
+    data: employees,
+    loading: employeesLoading,
+    error: employeesError,
+  } = useCollection(getEmployees);
+  const { data: sales, loading: salesLoading, error: salesError } = useCollection(getSales);
+
   const { user } = useAuth();
 
-  useEffect(() => {
-    const unsub = getCustomers(setCustomers);
-    const owners = getEmployees(setEmployees);
-    const orders = getSales((data) => {
-      setSales(data);
-      setSalesReady(true);
-    });
-    return () => {
-      unsub();
-      owners();
-      orders();
-    };
-  }, []);
   const ownerOptions = options([
     ...new Set(
       [
@@ -157,8 +43,8 @@ export default function Customers() {
     const stats = customerStats(sales.filter((s) => s.customerId === c.id));
     return {
       ...c,
-      firstOrder: salesReady ? formatDate(stats.first) : "กำลังโหลด…",
-      activityStatus: salesReady ? stats.status : "กำลังโหลด…",
+      firstOrder: !salesLoading ? formatDate(stats.first) : "กำลังโหลด…",
+      activityStatus: !salesLoading ? stats.status : "กำลังโหลด…",
     };
   });
   const cleanForm = ({ firstOrder, activityStatus, id, ...data }) => data;
@@ -209,6 +95,9 @@ export default function Customers() {
     { key: "note", label: "หมายเหตุ", placeholder: "หมายเหตุ (ถ้ามี)" },
   ];
 
+  const dataError = customersError || employeesError || salesError;
+  if (dataError) return <p className="analysis-error">{dataError}</p>;
+  if (customersLoading || employeesLoading || salesLoading) return <p>กำลังโหลดข้อมูล…</p>;
   return (
     <CrudPage
       title="ลูกค้า"

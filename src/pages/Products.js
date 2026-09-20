@@ -1,15 +1,15 @@
+import useCollection from "../hooks/useCollection";
 // src/pages/Products.js
-import React, { useState, useEffect } from "react";
+import React from "react";
 import CrudPage from "../components/CrudPage";
 import { getProducts, addProduct, updateProduct, deleteProduct } from "../firebase/database";
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const unsub = getProducts(setProducts);
-    return unsub;
-  }, []);
+  const {
+    data: products,
+    loading: productsLoading,
+    error: productsError,
+  } = useCollection(getProducts);
 
   const productTypeOptions = [
     { value: "product", label: "ผลิตภัณฑ์" },
@@ -63,6 +63,9 @@ export default function Products() {
     { key: "description", label: "รายละเอียด", type: "textarea", placeholder: "รายละเอียดสินค้า" },
   ];
 
+  const dataError = productsError;
+  if (dataError) return <p className="analysis-error">{dataError}</p>;
+  if (productsLoading) return <p>กำลังโหลดข้อมูล…</p>;
   return (
     <CrudPage
       title="สินค้า"
