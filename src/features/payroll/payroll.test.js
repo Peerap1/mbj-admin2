@@ -64,11 +64,13 @@ test.each([
 
 test.each([
   ["00:09", 0],
-  ["00:10", 170 / 60],
-  ["02:50", 10 / 60],
-  ["02:51", 0],
+  ["00:10", 350 / 60],
+  ["02:50", 190 / 60],
+  ["02:51", 189 / 60],
+  ["05:30", 30 / 60],
+  ["05:31", 0],
 ])("preserves the press start-window boundary %s", (start, expected) => {
-  const [result] = processPayroll(workbook([start, "03:00"]), {
+  const [result] = processPayroll(workbook([start, "06:00"]), {
     สมชาย: { dailyRate: 50, pieceRate: 80, isPieceWorker: true },
   });
   expect(result.pressHours).toBe(Math.round(expected * 100) / 100);

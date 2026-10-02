@@ -206,7 +206,7 @@ export function processPayroll(wb, employeeMap) {
       const first = times[0];
       const bkkMin = ((first.getTime() + 7 * 3600000) / 60000) % 1440;
       const startWindow = 10; // นับ press ตั้งแต่เที่ยงคืน 00:10
-      const endWindow = 2 * 60 + 50;
+      const endWindow = 5 * 60 + 30;
       if (bkkMin >= startWindow && bkkMin <= endWindow) {
         const pressMin = (times[1] - times[0]) / 60000;
         pressMinutesByPerson[name] = (pressMinutesByPerson[name] || 0) + pressMin;
