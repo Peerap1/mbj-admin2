@@ -64,7 +64,6 @@ export default function SaleCustomerForm({ customers, form, setForm, selectedCus
                 overflow: "hidden",
                 textOverflow: "ellipsis",
               }}
-              title={selectedCustomer.name}
             >
               {selectedCustomer.name}
             </div>
@@ -88,7 +87,6 @@ export default function SaleCustomerForm({ customers, form, setForm, selectedCus
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                 }}
-                title={selectedCustomer.address}
               >
                 {selectedCustomer.address}
               </div>

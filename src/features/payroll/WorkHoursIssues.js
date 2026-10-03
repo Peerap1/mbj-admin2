@@ -75,7 +75,7 @@ export default function WorkHoursIssues({ processed }) {
           <tbody>
             {allIssues.map((row, i) => (
               <tr key={i}>
-                <td title={row.name}>{row.name}</td>
+                <td>{row.name}</td>
                 <td style={{ maxWidth: "none" }}>{row.date}</td>
                 <td
                   style={{

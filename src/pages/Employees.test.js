@@ -109,7 +109,7 @@ test("editing a piece worker to daily retains payroll rates and moves the employ
   ];
   act(() => root.render(<Employees />));
   click(tab("กดแผ่น"));
-  click(container.querySelector('button[title="แก้ไข"]'));
+  click(container.querySelector('button[aria-label="แก้ไข"]'));
   click(container.querySelector('input[type="checkbox"]'));
   await save();
   expect(updateEmployee).toHaveBeenCalledWith(

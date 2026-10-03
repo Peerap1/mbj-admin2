@@ -71,7 +71,7 @@ test("edit form preserves entered fields but excludes derived table data and IDs
       />,
     ),
   );
-  click(container.querySelector('button[title="แก้ไข"]'));
+  click(container.querySelector('button[aria-label="แก้ไข"]'));
   await save();
   expect(onEdit).toHaveBeenCalledWith("c1", { name: "เดิม", salesOwner: "owner" });
 });

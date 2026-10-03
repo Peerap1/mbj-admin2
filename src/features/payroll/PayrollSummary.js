@@ -52,7 +52,7 @@ export default function PayrollSummary({ summary }) {
             <tbody>
               {summary.map((r, i) => (
                 <tr key={i}>
-                  <td title={r.name}>
+                  <td>
                     {r.name}
                     {!r.matched && (
                       <span className="badge badge-warning" style={{ marginLeft: 6, fontSize: 10 }}>

@@ -236,7 +236,7 @@ export default function Layout() {
               {roleLabel[user?.role] || user?.role}
             </span>
           </div>
-          <button className="logout-btn" onClick={handleLogout} title="ออกจากระบบ">
+          <button className="logout-btn" onClick={handleLogout} aria-label="ออกจากระบบ">
             <svg viewBox="0 0 20 20" fill="currentColor" width="17" height="17">
               <path
                 fillRule="evenodd"

@@ -87,7 +87,7 @@ export default function Reports() {
           <div className="analysis-button-group analysis-export-actions">
             <button
               className="btn btn-primary btn-sm"
-              title="Export Customer Analysis เป็น Excel"
+              aria-label="Export Customer Analysis เป็น Excel"
               disabled={invalid || !filtered.length}
               onClick={() => exportData("xlsx")}
             >
@@ -96,7 +96,7 @@ export default function Reports() {
             </button>
             <button
               className="btn btn-secondary btn-sm"
-              title="Export Customer Analysis เป็น CSV"
+              aria-label="Export Customer Analysis เป็น CSV"
               disabled={invalid || !filtered.length}
               onClick={() => exportData("csv")}
             >
@@ -265,7 +265,7 @@ export default function Reports() {
             <tbody>
               {recent.slice(0, limit).map((s) => (
                 <tr key={s.id}>
-                  <td title={orderCode(s)}>{orderCode(s)}</td>
+                  <td>{orderCode(s)}</td>
                   <td>
                     {s.customerId ? (
                       <Link className="analysis-link" to={`/customers/${s.customerId}`}>
@@ -280,9 +280,7 @@ export default function Reports() {
                   <td>{s.status === "paid" || s.status === "completed" ? "ชำระแล้ว" : "รอชำระ"}</td>
                   <td className="td-action">
                     <Link
-                      className="btn btn-secondary btn-sm btn-icon-only"
-                      title="เปิดใบส่งของ / ใบเสร็จ"
-                      aria-label={`เปิดเอกสาร ${orderCode(s)}`}
+                      className="btn btn-secondary btn-sm btn-icon-only"                      aria-label={`เปิดเอกสาร ${orderCode(s)}`}
                       to={`/history?order=${encodeURIComponent(s.id)}`}
                     >
                       <ActionIcon name="document" size={14} />

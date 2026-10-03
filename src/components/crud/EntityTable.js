@@ -42,12 +42,10 @@ export default function EntityTable({
                 {columns.map((c) => {
                   const raw = item[c.key];
                   const isRendered = !!c.render;
-                  const textVal = !isRendered && raw ? String(raw) : null;
                   return (
                     <td
                       key={c.key}
                       className={isRendered ? "td-badge" : ""}
-                      title={textVal && textVal.length > 20 ? textVal : undefined}
                       style={isRendered ? { maxWidth: "none", overflow: "visible" } : {}}
                     >
                       {isRendered ? c.render(raw, item) : raw || "-"}
@@ -63,7 +61,7 @@ export default function EntityTable({
                   <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
                     <button
                       className="btn btn-secondary btn-sm btn-icon-only"
-                      title="แก้ไข"
+                      aria-label="แก้ไข"
                       onClick={() => openEdit(item)}
                     >
                       <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
@@ -72,7 +70,7 @@ export default function EntityTable({
                     </button>
                     <button
                       className="btn btn-danger btn-sm btn-icon-only"
-                      title="ลบ"
+                      aria-label="ลบ"
                       onClick={() => setDeleteConfirm(item)}
                     >
                       <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">

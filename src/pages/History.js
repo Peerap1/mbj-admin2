@@ -132,7 +132,7 @@ export default function History() {
                     <td style={{ color: "var(--gray-400)", fontSize: 12, maxWidth: "none" }}>
                       {pagination.offset + i + 1}
                     </td>
-                    <td title={sale.customerName}>
+                    <td>
                       {sale.customerId ? (
                         <Link className="analysis-link" to={`/customers/${sale.customerId}`}>
                           {sale.customerName || "-"}
@@ -146,7 +146,7 @@ export default function History() {
                         {Number(sale.total || 0).toLocaleString()}
                       </strong>
                     </td>
-                    <td title={sale.createdBy}>{sale.createdBy || "-"}</td>
+                    <td>{sale.createdBy || "-"}</td>
                     <td style={{ fontSize: 12, color: "var(--gray-500)", maxWidth: "none" }}>
                       {formatDate(sale.createdAt)}
                     </td>
@@ -155,7 +155,7 @@ export default function History() {
                         <button
                           className="status-toggle paid"
                           onClick={() => revertPay(sale.id)}
-                          title="คลิกเพื่อยกเลิกการชำระ"
+                          aria-label="คลิกเพื่อยกเลิกการชำระ"
                         >
                           ✓ ชำระแล้ว
                         </button>
@@ -163,7 +163,7 @@ export default function History() {
                         <button
                           className="status-toggle pending"
                           onClick={() => setPayModal(sale)}
-                          title="บันทึกการชำระเงิน"
+                          aria-label="บันทึกการชำระเงิน"
                         >
                           ⏳ รอชำระ
                         </button>
@@ -173,7 +173,7 @@ export default function History() {
                       <div style={{ display: "flex", gap: 5 }}>
                         <button
                           className="btn btn-secondary btn-sm btn-icon-only"
-                          title="ใบส่งของ/ใบเสร็จ"
+                          aria-label="ใบส่งของ/ใบเสร็จ"
                           onClick={() => setSlipSale(sale)}
                         >
                           <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
@@ -186,7 +186,7 @@ export default function History() {
                         </button>
                         <button
                           className="btn btn-danger btn-sm btn-icon-only"
-                          title="ลบ"
+                          aria-label="ลบ"
                           onClick={() => setDeleteConfirm(sale)}
                         >
                           <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">

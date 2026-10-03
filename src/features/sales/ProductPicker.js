@@ -46,17 +46,8 @@ export default function ProductPicker({ tab, setTab, visibleProducts, quickAdd }
                 >
                   {(p.productType || "product") === "material" ? "วัตถุดิบ" : "ผลิตภัณฑ์"}
                 </span>
-                <span
-                  className="pli-name"
-                  title={p.name && p.name.length > 18 ? p.name : undefined}
-                >
-                  {p.name}
-                </span>
-                {p.description && (
-                  <span className="pli-desc" title={p.description}>
-                    {p.description}
-                  </span>
-                )}
+                <span className="pli-name">{p.name}</span>
+                {p.description && <span className="pli-desc">{p.description}</span>}
               </div>
               <div className="pli-right">
                 <span className="pli-price">{Number(p.price || 0).toLocaleString()}</span>

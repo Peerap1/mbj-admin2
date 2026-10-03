@@ -51,10 +51,10 @@ export default function EmpTable({ employees, onEdit, onDelete }) {
                   <td style={{ color: "var(--gray-400)", fontSize: 12, maxWidth: "none" }}>
                     {i + 1}
                   </td>
-                  <td title={e.name} style={{ fontWeight: 600 }}>
+                  <td style={{ fontWeight: 600 }}>
                     {e.name}
                   </td>
-                  <td title={e.department}>{e.department || "-"}</td>
+                  <td>{e.department || "-"}</td>
                   <td style={{ maxWidth: "none" }}>
                     {e.employeeType === "monthly" && e.monthlySalary && (
                       <div style={{ fontSize: 13 }}>
@@ -95,12 +95,12 @@ export default function EmpTable({ employees, onEdit, onDelete }) {
                       </div>
                     )}
                   </td>
-                  <td title={e.note}>{e.note || "-"}</td>
+                  <td>{e.note || "-"}</td>
                   <td style={{ maxWidth: "none" }}>
                     <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
                       <button
                         className="btn btn-secondary btn-sm btn-icon-only"
-                        title="แก้ไข"
+                        aria-label="แก้ไข"
                         onClick={() => onEdit(e)}
                       >
                         <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
@@ -109,7 +109,7 @@ export default function EmpTable({ employees, onEdit, onDelete }) {
                       </button>
                       <button
                         className="btn btn-danger btn-sm btn-icon-only"
-                        title="ลบ"
+                        aria-label="ลบ"
                         onClick={() => onDelete(e)}
                       >
                         <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">

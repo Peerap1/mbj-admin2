@@ -157,7 +157,7 @@ export default function CustomerDetail() {
             <tbody>
               {orders.slice(0, limit).map((s) => (
                 <tr key={s.id}>
-                  <td title={orderCode(s)}>{orderCode(s)}</td>
+                  <td>{orderCode(s)}</td>
                   <td>{formatDate(s.createdAt)}</td>
                   <td>{amount(saleRevenue(s))}</td>
                   <td>{amount(s.shippingCost)}</td>
@@ -171,9 +171,7 @@ export default function CustomerDetail() {
                   </td>
                   <td className="td-action">
                     <Link
-                      className="btn btn-secondary btn-sm btn-icon-only"
-                      title="เปิดใบส่งของ / ใบเสร็จ"
-                      aria-label={`เปิดเอกสาร ${orderCode(s)}`}
+                      className="btn btn-secondary btn-sm btn-icon-only"                      aria-label={`เปิดเอกสาร ${orderCode(s)}`}
                       to={`/history?order=${encodeURIComponent(s.id)}`}
                     >
                       <ActionIcon name="document" size={14} />

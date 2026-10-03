@@ -619,7 +619,7 @@
   white-space: nowrap;
 }
 
-/* ── TABLE: truncate long text + tooltip ── */
+/* ── TABLE: truncate long text ── */
 .table-wrapper table tbody td {
   max-width: 180px;
   white-space: nowrap;
@@ -633,11 +633,6 @@
   max-width: none;
   white-space: nowrap;
   overflow: visible;
-}
-/* Tooltip via title attribute — enhanced with CSS */
-.table-wrapper table tbody td[title] {
-  cursor: default;
-  position: relative;
 }
 
 /* ── PRODUCT LIST ITEM - truncate long text ── */
