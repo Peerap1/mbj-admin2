@@ -4,6 +4,8 @@ import ConfirmDialog from "./ui/ConfirmDialog";
 import { formValues, requiredFieldError } from "../utils/forms";
 // src/components/CrudPage.js
 import React, { useState } from "react";
+import usePagination from "../hooks/usePagination";
+import Pagination from "./ui/Pagination";
 
 export default function CrudPage({
   title,
@@ -16,6 +18,7 @@ export default function CrudPage({
   onDelete,
   renderExtra,
   initialValues = {},
+  pageSize,
 }) {
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(null); // null | { mode:"add"|"edit", data:{} }
@@ -30,6 +33,8 @@ export default function CrudPage({
         .includes(search.toLowerCase()),
     ),
   );
+
+  const pagination = usePagination(filtered, pageSize || Math.max(1, filtered.length), search);
 
   const openAdd = () => {
     setForm({ ...initialValues });
@@ -103,12 +108,14 @@ export default function CrudPage({
         </div>
 
         <EntityTable
-          filtered={filtered}
+          filtered={pagination.items}
+          offset={pagination.offset}
           columns={columns}
           renderExtra={renderExtra}
           openEdit={openEdit}
           setDeleteConfirm={setDeleteConfirm}
         />
+        {pageSize && <Pagination {...pagination} />}
       </div>
 
       {modal && (

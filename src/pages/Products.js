@@ -69,6 +69,7 @@ export default function Products() {
   return (
     <CrudPage
       title="สินค้า"
+      pageSize={50}
       subtitle="จัดการข้อมูลสินค้า"
       items={products}
       columns={columns}

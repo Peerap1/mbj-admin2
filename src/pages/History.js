@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { getSales, deleteSale, updateSale, getBanks } from "../firebase/database";
 import SlipModal from "../features/sales/SlipModal";
+import usePagination from "../hooks/usePagination";
+import Pagination from "../components/ui/Pagination";
 
 // ─── Payment modal ──────────────────────────────────────────────
 
@@ -38,6 +40,8 @@ export default function History() {
         s.createdBy?.toLowerCase().includes(search.toLowerCase()),
     )
     .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+  const pagination = usePagination(filtered, 50, search);
 
   const formatDate = (ts) => {
     if (!ts) return "-";
@@ -123,10 +127,10 @@ export default function History() {
                   </td>
                 </tr>
               ) : (
-                filtered.map((sale, i) => (
+                pagination.items.map((sale, i) => (
                   <tr key={sale.id}>
                     <td style={{ color: "var(--gray-400)", fontSize: 12, maxWidth: "none" }}>
-                      {i + 1}
+                      {pagination.offset + i + 1}
                     </td>
                     <td title={sale.customerName}>
                       {sale.customerId ? (
@@ -201,6 +205,7 @@ export default function History() {
             </tbody>
           </table>
         </div>
+        <Pagination {...pagination} />
       </div>
 
       {/* ── Slip Modal ── */}

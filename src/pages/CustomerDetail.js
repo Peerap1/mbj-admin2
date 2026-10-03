@@ -72,6 +72,7 @@ export default function CustomerDetail() {
         </p>
       )}
       <div className="card">
+        <p>{c.address}</p>
         <div className="analysis-details">
           <span>ประเภท: {c.customerType || "ไม่ระบุ"}</span>
           <span>จังหวัด: {c.province || "ไม่ระบุ"}</span>
@@ -79,7 +80,6 @@ export default function CustomerDetail() {
           <span>ช่องทาง: {c.acquisitionChannel || "ไม่ระบุ"}</span>
           <span>โทร: {c.phone || "–"}</span>
         </div>
-        <p>{c.address}</p>
         <div className="analysis-details">
           <span>ซื้อครั้งแรก: {formatDate(stats.first)}</span>
           <span>ซื้อล่าสุด: {formatDate(stats.last)}</span>

@@ -1,6 +1,7 @@
 import React from "react";
 export default function EntityTable({
   filtered,
+  offset = 0,
   columns,
   renderExtra,
   openEdit,
@@ -36,7 +37,7 @@ export default function EntityTable({
                   className="td-num"
                   style={{ color: "var(--gray-400)", fontSize: 12, maxWidth: "none" }}
                 >
-                  {i + 1}
+                  {offset + i + 1}
                 </td>
                 {columns.map((c) => {
                   const raw = item[c.key];

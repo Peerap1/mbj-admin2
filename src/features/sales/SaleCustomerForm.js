@@ -22,6 +22,7 @@ export default function SaleCustomerForm({ customers, form, setForm, selectedCus
         </label>
         <input
           id="sale-date"
+          style={{ width: "auto" }}
           type="date"
           required
           value={form.saleDate}

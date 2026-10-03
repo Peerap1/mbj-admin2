@@ -63,7 +63,6 @@ export default function Customers() {
     { key: "address", label: "ที่อยู่" },
     { key: "province", label: "จังหวัด" },
     { key: "customerType", label: "ประเภทลูกค้า" },
-    { key: "salesOwner", label: "ผู้ดูแล" },
     { key: "firstOrder", label: "ซื้อครั้งแรก" },
     { key: "activityStatus", label: "สถานะ" },
   ];
@@ -101,6 +100,7 @@ export default function Customers() {
   return (
     <CrudPage
       title="ลูกค้า"
+      pageSize={50}
       subtitle="จัดการข้อมูลลูกค้า"
       items={items}
       columns={columns}
