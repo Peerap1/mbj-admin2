@@ -150,22 +150,6 @@
   font-size: var(--text-caption);
   fill: var(--gray-500);
 }
-.analysis-link {
-  background: none;
-  color: var(--primary);
-  text-decoration: none;
-  padding: 3px 5px;
-  border-radius: var(--radius-sm);
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  font-weight: 500;
-  transition: var(--transition);
-}
-.analysis-link:hover {
-  background: var(--primary-50);
-  color: var(--primary-hover);
-}
 .analysis-empty {
   padding: 40px 20px;
   color: var(--gray-400);
@@ -218,12 +202,6 @@
   min-height: 36px;
   white-space: nowrap;
 }
-.analysis-filters .btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
 .analysis-back {
   margin-bottom: 18px;
 }
@@ -244,27 +222,11 @@
   margin-top: 12px;
 }
 .analysis-monthly-details > summary {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 12px;
-  border: 1.5px solid var(--gray-200);
-  border-radius: var(--radius-sm);
-  background: var(--white);
-  color: var(--gray-700);
-  font-family: var(--font-body);
-  font-size: var(--text-small);
-  font-weight: 500;
   cursor: pointer;
   list-style: none;
-  transition: var(--transition);
 }
 .analysis-monthly-details > summary::-webkit-details-marker {
   display: none;
-}
-.analysis-monthly-details > summary:hover {
-  background: var(--gray-50);
-  border-color: var(--gray-300);
 }
 .analysis-summary-chevron {
   transition: transform 0.2s ease;
@@ -274,15 +236,6 @@
 }
 .analysis-monthly-details > .table-wrapper {
   margin-top: 12px;
-}
-.analysis-link:focus-visible,
-.analysis-bar:focus-visible,
-.analysis-monthly-details > summary:focus-visible,
-.analysis-filters .btn:focus-visible,
-.analysis-section .btn:focus-visible,
-.analysis-back:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 3px;
 }
 @media (max-width: 800px) {
   .analysis-export-actions {

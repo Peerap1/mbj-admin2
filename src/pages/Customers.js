@@ -54,7 +54,7 @@ export default function Customers() {
       key: "name",
       label: "ชื่อลูกค้า",
       render: (name, customer) => (
-        <Link className="analysis-link" to={`/customers/${customer.id}`}>
+        <Link className="btn btn-link analysis-link" to={`/customers/${customer.id}`}>
           {name}
         </Link>
       ),

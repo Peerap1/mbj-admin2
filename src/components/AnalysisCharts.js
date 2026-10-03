@@ -170,7 +170,7 @@ export function MonthlyChart({ rows, onSelect, stacked = false }) {
         </svg>
       </div>
       <details className="analysis-monthly-details">
-        <summary>
+        <summary className="btn btn-secondary btn-sm">
           <ActionIcon name="document" />
           ดูตัวเลขรายเดือน
           <ActionIcon name="chevron" className="analysis-summary-chevron" />
@@ -189,7 +189,7 @@ export function MonthlyChart({ rows, onSelect, stacked = false }) {
                 <tr key={r.key}>
                   <td>
                     <button
-                      className="analysis-link"
+                      className="btn btn-link analysis-link"
                       onClick={() => onSelect?.(r)}
                       disabled={!onSelect}
                     >

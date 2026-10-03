@@ -144,7 +144,10 @@ export default function History() {
                     </td>
                     <td>
                       {sale.customerId ? (
-                        <Link className="analysis-link" to={`/customers/${sale.customerId}`}>
+                        <Link
+                          className="btn btn-link analysis-link"
+                          to={`/customers/${sale.customerId}`}
+                        >
                           {sale.customerName || "-"}
                         </Link>
                       ) : (

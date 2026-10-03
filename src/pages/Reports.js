@@ -126,7 +126,7 @@ export default function Reports() {
       ) && (
         <p className="analysis-hint">
           ลูกค้าบางรายยังไม่มีข้อมูลวิเคราะห์ครบ สามารถเติมได้ที่{" "}
-          <Link className="analysis-link" to="/customers">
+          <Link className="btn btn-link analysis-link" to="/customers">
             ข้อมูลลูกค้า
           </Link>{" "}
           รายงานที่ขาดประเภทจะแสดง “ไม่ระบุ”
@@ -208,7 +208,7 @@ export default function Reports() {
                 {atRisk.map((c) => (
                   <tr key={c.id}>
                     <td>
-                      <Link className="analysis-link" to={`/customers/${c.id}`}>
+                      <Link className="btn btn-link analysis-link" to={`/customers/${c.id}`}>
                         {c.name}
                       </Link>
                       <br />
@@ -259,7 +259,10 @@ export default function Reports() {
                   <td>{orderCode(s)}</td>
                   <td>
                     {s.customerId ? (
-                      <Link className="analysis-link" to={`/customers/${s.customerId}`}>
+                      <Link
+                        className="btn btn-link analysis-link"
+                        to={`/customers/${s.customerId}`}
+                      >
                         {s.customerName || "ไม่ระบุ"}
                       </Link>
                     ) : (

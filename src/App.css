@@ -496,10 +496,10 @@
 .add-box-btn {
   width: 100%;
   padding: 11px;
-  border: 2px dashed var(--gray-300);
+  border: 2px dashed var(--primary-light);
   border-radius: 10px;
   background: white;
-  color: var(--gray-500);
+  color: var(--primary);
   font-size: 14px;
   font-weight: 600;
   font-family: "Sarabun", sans-serif;
@@ -788,12 +788,12 @@
   transition: var(--transition);
 }
 .emp-tab:hover {
-  background: white;
-  color: var(--gray-800);
+  background: var(--primary-50);
+  color: var(--primary);
 }
 .emp-tab.active {
   background: white;
-  color: var(--tab-color, var(--primary));
+  color: var(--primary);
   font-weight: 700;
   border-color: var(--gray-200);
   border-bottom-color: white;
@@ -814,7 +814,7 @@
   text-align: center;
 }
 .emp-tab.active .emp-tab-count {
-  background: var(--tab-color, var(--primary));
+  background: var(--primary);
   color: white;
 }
 

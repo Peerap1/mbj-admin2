@@ -47,7 +47,7 @@ export default function CustomerDetail() {
     return (
       <div className="card">
         ไม่พบลูกค้า{" "}
-        <Link className="analysis-link" to="/customers">
+        <Link className="btn btn-link analysis-link" to="/customers">
           กลับหน้าลูกค้า
         </Link>
       </div>
