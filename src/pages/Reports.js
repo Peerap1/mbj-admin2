@@ -89,19 +89,10 @@ export default function Reports() {
               className="btn btn-primary btn-sm"
               aria-label="Export Customer Analysis เป็น Excel"
               disabled={invalid || !filtered.length}
-              onClick={() => exportData("xlsx")}
+              onClick={exportData}
             >
               <ActionIcon name="download" />
               ส่งออก Excel
-            </button>
-            <button
-              className="btn btn-secondary btn-sm"
-              aria-label="Export Customer Analysis เป็น CSV"
-              disabled={invalid || !filtered.length}
-              onClick={() => exportData("csv")}
-            >
-              <ActionIcon name="download" />
-              ส่งออก CSV
             </button>
           </div>
         </div>
@@ -280,7 +271,8 @@ export default function Reports() {
                   <td>{s.status === "paid" || s.status === "completed" ? "ชำระแล้ว" : "รอชำระ"}</td>
                   <td className="td-action">
                     <Link
-                      className="btn btn-secondary btn-sm btn-icon-only"                      aria-label={`เปิดเอกสาร ${orderCode(s)}`}
+                      className="btn btn-secondary btn-sm btn-icon-only"
+                      aria-label={`เปิดเอกสาร ${orderCode(s)}`}
                       to={`/history?order=${encodeURIComponent(s.id)}`}
                     >
                       <ActionIcon name="document" size={14} />

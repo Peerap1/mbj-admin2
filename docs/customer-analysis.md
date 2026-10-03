@@ -6,7 +6,7 @@
 2. Products: add a unique SKU and selling unit. New sales save SKU/unit and customer province/owner snapshots. Historical sales can use the current product SKU/unit when missing.
 3. Click a customer name to see lifetime purchases, purchase cycle, status, twelve-month history, product rankings and all orders. Order links open the delivery slip in History.
 4. Reports: select a date range; inspect monthly comparisons, customer types, Top 10 customers, new/returning customers, Top 10 products, and follow-up customers. Click chart data to drill into orders or a customer profile.
-5. Export Customer Analysis as Excel or UTF-8 CSV. Excel includes an explanatory worksheet.
+5. Export Customer Analysis as Excel. Excel includes an explanatory worksheet.
 
 ## Definitions
 

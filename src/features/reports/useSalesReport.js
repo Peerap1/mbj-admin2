@@ -113,7 +113,7 @@ export default function useSalesReport() {
     setEnd(ranges[value][1]);
     choose(null);
   };
-  const exportData = (format) => {
+  const exportData = () => {
     setExportError("");
     try {
       const rows = analysisRows(filtered, customers, products);
@@ -121,7 +121,7 @@ export default function useSalesReport() {
         setExportError("ไม่มีรายการสินค้าให้ส่งออกในช่วงนี้");
         return;
       }
-      exportAnalysis({ rows, start, end, format });
+      exportAnalysis({ rows, start, end });
     } catch {
       setExportError("ส่งออกไม่สำเร็จ กรุณาลองใหม่");
     }

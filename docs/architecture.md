@@ -10,7 +10,7 @@
 | `src/features/sales`     | ตะกร้า กล่องสินค้า ฟอร์มลูกค้า สรุปยอด การชำระเงิน และพิมพ์เอกสาร     |
 | `src/features/payroll`   | การอ่านข้อมูลเวลาจาก workbook การจับคู่ชื่อ สูตรค่าจ้าง และส่วนแสดงผล |
 | `src/features/employees` | ฟอร์มพนักงาน ตาราง และยืนยันลบ                                        |
-| `src/features/reports`   | state/ตัวกรองรายงาน และสร้างไฟล์ Excel/CSV                            |
+| `src/features/reports`   | state/ตัวกรองรายงาน และสร้างไฟล์ Excel                                |
 | `src/features/customers` | ตัวเลือกมาตรฐานของข้อมูลลูกค้า                                        |
 | `src/components/ui`      | Modal, Button, FormField, ConfirmDialog ที่ใช้ร่วมกัน                 |
 | `src/components/crud`    | ตารางและฟอร์มสำหรับหน้าจัดการข้อมูล                                   |
