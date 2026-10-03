@@ -1,10 +1,10 @@
 /* src/index.css */
-@import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap");
 
 :root {
   /* Shared typography and spacing, based on the original application UI. */
   --font-body: "Sarabun", sans-serif;
-  --font-heading: "Prompt", sans-serif;
+  --font-heading: var(--font-body);
   --text-caption: 12px;
   --text-small: 13px;
   --text-control: 14px;

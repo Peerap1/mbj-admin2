@@ -275,7 +275,7 @@
   font-size: 22px;
   font-weight: 800;
   color: var(--primary);
-  font-family: "Prompt", sans-serif;
+  font-family: var(--font-body);
 }
 
 /* ── ALERTS ── */
