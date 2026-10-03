@@ -7,6 +7,7 @@ import { getSales, deleteSale, updateSale, getBanks } from "../firebase/database
 import SlipModal from "../features/sales/SlipModal";
 import usePagination from "../hooks/usePagination";
 import Pagination from "../components/ui/Pagination";
+import "./History.css";
 
 // ─── Payment modal ──────────────────────────────────────────────
 
@@ -99,16 +100,25 @@ export default function History() {
         </div>
 
         <div className="table-wrapper">
-          <table>
+          <table className="history-table">
+            <colgroup>
+              <col className="history-col-number" />
+              <col />
+              <col className="history-col-total" />
+              <col className="history-col-seller" />
+              <col className="history-col-date" />
+              <col className="history-col-status" />
+              <col className="history-col-actions" />
+            </colgroup>
             <thead>
               <tr>
-                <th style={{ width: 36 }}>#</th>
+                <th>#</th>
                 <th>ลูกค้า</th>
-                <th style={{ width: 110 }}>ยอดรวม</th>
-                <th style={{ width: 90 }}>ผู้ขาย</th>
-                <th style={{ width: 110 }}>วันที่</th>
-                <th style={{ width: 110 }}>สถานะ</th>
-                <th style={{ width: 130 }}></th>
+                <th>ยอดรวม</th>
+                <th>ผู้ขาย</th>
+                <th>วันที่</th>
+                <th>สถานะ</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
