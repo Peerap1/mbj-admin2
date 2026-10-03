@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { getCustomers, getProducts, getBanks, addSale } from "../firebase/database";
 import SlipModal from "../features/sales/SlipModal";
 import { useAuth } from "../context/AuthContext";
+import { dateKey } from "../utils/customerAnalysis";
 
 // ─── Searchable customer dropdown ──────────────────────────────
 
@@ -39,6 +40,7 @@ export default function Sales() {
   } = useSaleCart(products);
   const [tab, setTab] = useState("all");
   const [form, setForm] = useState({
+    saleDate: dateKey(Date.now()),
     customerId: "",
     bankId: "",
     note: "",
@@ -72,7 +74,14 @@ export default function Sales() {
       // เก็บ snapshot ไว้แสดงใบส่งของ แล้ว reset form
       setLastSavedSale(savedSale);
       setBoxes([newBox()]);
-      setForm({ customerId: "", bankId: "", note: "", shippingType: "", shippingCustom: "" });
+      setForm({
+        saleDate: dateKey(Date.now()),
+        customerId: "",
+        bankId: "",
+        note: "",
+        shippingType: "",
+        shippingCustom: "",
+      });
       setShowSlip(true); // เปิดใบส่งของทันที
     } catch {
       alert("เกิดข้อผิดพลาด");

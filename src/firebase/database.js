@@ -32,7 +32,13 @@ export const addCustomer = async (data) => {
 export const addSale = async (data) => {
   const target = push(ref(db, "sales"));
   const orderNo = await nextCode("orders", "SO", 6);
-  const saved = { ...data, orderNo, createdAt: Date.now(), status: "pending" };
+  const saved = {
+    ...data,
+    orderNo,
+    createdAt: data.createdAt ?? Date.now(),
+    recordedAt: Date.now(),
+    status: "pending",
+  };
   await set(target, saved);
   return { ...saved, id: target.key };
 };

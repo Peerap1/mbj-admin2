@@ -12,6 +12,7 @@ export function buildPrintHTML(sale, createdBy) {
   const isReceipt = sale?.status === "paid";
   const dateStr = sale?.createdAt
     ? new Date(sale.createdAt).toLocaleDateString("th-TH", {
+        timeZone: "Asia/Bangkok",
         day: "numeric",
         month: "long",
         year: "numeric",

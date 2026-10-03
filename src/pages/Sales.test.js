@@ -1,6 +1,7 @@
 import React, { act } from "react";
 import { createRoot } from "react-dom/client";
 import Sales from "./Sales";
+import { dateKey } from "../utils/customerAnalysis";
 import { getCustomers, getProducts, getBanks, addSale } from "../firebase/database";
 
 jest.mock("../context/AuthContext", () => ({ useAuth: () => ({ user: { username: "seller" } }) }));
@@ -40,6 +41,15 @@ const click = (element) => act(() => element.click());
 
 test("sale flow keeps customer/product snapshots and opens the saved delivery slip", async () => {
   act(() => root.render(<Sales />));
+  const dateInput = container.querySelector('input[type="date"]');
+  expect(dateInput.value).toBe(dateKey(Date.now()));
+  act(() => {
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set.call(
+      dateInput,
+      "2026-08-15",
+    );
+    dateInput.dispatchEvent(new Event("input", { bubbles: true }));
+  });
   click(container.querySelector(".cs-box"));
   click(container.querySelector(".cs-option"));
   click(container.querySelector(".product-list-item"));
@@ -52,6 +62,7 @@ test("sale flow keeps customer/product snapshots and opens the saved delivery sl
   expect(addSale).toHaveBeenCalledWith(
     expect.objectContaining({
       customerId: "c",
+      createdAt: Date.parse("2026-08-15T00:00:00+07:00"),
       customerProvince: "ลำปาง",
       salesOwner: "owner",
       createdBy: "seller",
@@ -66,4 +77,6 @@ test("sale flow keeps customer/product snapshots and opens the saved delivery sl
     unit: "ถุง",
   });
   expect(container.querySelector(".modal").textContent).toContain("SO000001");
+  expect(container.querySelector(".modal").textContent).toContain("15 สิงหาคม 2569");
+  expect(dateInput.value).toBe(dateKey(Date.now()));
 });

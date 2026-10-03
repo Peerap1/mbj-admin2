@@ -12,12 +12,19 @@ const boxes = [
 ];
 const customer = { id: "c", name: "ร้านค้า", province: "ลำปาง", salesOwner: "admin" };
 const form = {
+  saleDate: "2026-09-01",
   customerId: "c",
   bankId: "bank",
   note: "หมายเหตุ",
   shippingType: "per_box",
   shippingCustom: "",
 };
+
+test.each(["", "2026-02-30", "not-a-date"])("rejects invalid sale date %s", (saleDate) => {
+  expect(validateSale({ form: { ...form, saleDate }, boxes, selectedCustomer: customer })).toBe(
+    "กรุณาเลือกวันที่ขายให้ถูกต้อง",
+  );
+});
 
 test.each([
   [0, 0],
@@ -56,6 +63,7 @@ test("order snapshot preserves business fields and does not mutate form data", (
   expect(saved).toMatchObject({
     customerId: "c",
     customerProvince: "ลำปาง",
+    createdAt: Date.parse("2026-09-01T00:00:00+07:00"),
     salesOwner: "admin",
     total: 510,
     createdBy: "seller",

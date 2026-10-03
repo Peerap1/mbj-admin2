@@ -1,3 +1,10 @@
+import { dateKey } from "../../utils/customerAnalysis";
+
+export const saleDateTimestamp = (value) => {
+  const timestamp = Date.parse(`${value}T00:00:00+07:00`);
+  return /^\d{4}-\d{2}-\d{2}$/.test(value || "") && dateKey(timestamp) === value ? timestamp : NaN;
+};
+
 export const calcShippingPerBox = (n) => {
   if (n <= 0) return 0;
   if (n >= 10) return 0;
@@ -44,6 +51,9 @@ export function calculateSaleTotals(boxes, form) {
 }
 
 export function validateSale({ form, boxes, selectedCustomer }) {
+  if (!Number.isFinite(saleDateTimestamp(form.saleDate))) {
+    return "กรุณาเลือกวันที่ขายให้ถูกต้อง";
+  }
   if (!form.customerId) {
     return "กรุณาเลือกลูกค้า";
   }
@@ -104,7 +114,8 @@ export function buildSaleData({ form, boxes, selectedCustomer, selectedBank, use
     note: form.note,
     createdBy: user?.username,
     status: "pending",
-    createdAt: Date.now(),
+    // Existing history, reports and slips use createdAt as the business sale date.
+    createdAt: saleDateTimestamp(form.saleDate),
     // snapshot for slip
     _slipCustomer: selectedCustomer ? { ...selectedCustomer } : null,
     _slipBank: selectedBank ? { ...selectedBank } : null,

@@ -16,6 +16,18 @@ export default function SaleCustomerForm({ customers, form, setForm, selectedCus
           />
         </div>
       </div>
+      <div className="form-group" style={{ marginBottom: 14 }}>
+        <label htmlFor="sale-date">
+          วันที่ขาย <span style={{ color: "var(--danger)" }}>*</span>
+        </label>
+        <input
+          id="sale-date"
+          type="date"
+          required
+          value={form.saleDate}
+          onChange={(e) => setForm({ ...form, saleDate: e.target.value })}
+        />
+      </div>
       {/* Fixed-height address box - always reserves space to prevent layout jump */}
       <div
         style={{
