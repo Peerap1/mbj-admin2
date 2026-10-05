@@ -160,8 +160,10 @@ export default function History() {
                       </strong>
                     </td>
                     <td>{sale.createdBy || "-"}</td>
-                    <td style={{ fontSize: 12, color: "var(--gray-500)", maxWidth: "none" }}>
-                      {formatDate(sale.createdAt)}
+                    <td>
+                      {sale.createdAt
+                        ? new Date(sale.createdAt).toLocaleDateString("th-TH", { dateStyle: "short" })
+                        : "-"}
                     </td>
                     <td style={{ maxWidth: "none" }}>
                       {sale.status === "paid" ? (
