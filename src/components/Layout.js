@@ -231,7 +231,7 @@ export default function Layout() {
             <div className="user-name">{user?.username}</div>
             <span
               className={`badge ${roleBadge[user?.role] || "badge-gray"}`}
-              style={{ fontSize: 11 }}
+              style={{ fontSize: "var(--text-caption)" }}
             >
               {roleLabel[user?.role] || user?.role}
             </span>

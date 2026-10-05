@@ -94,7 +94,9 @@ export default function Salary() {
       <div className="card" style={{ marginTop: 0 }}>
         {tab === "hours" && (
           <>
-            <h3 style={{ fontSize: 15, marginBottom: 16 }}>อัปโหลดไฟล์บันทึกเวลาเข้า-ออก</h3>
+            <h3 style={{ fontSize: "var(--text-body)", marginBottom: 16 }}>
+              อัปโหลดไฟล์บันทึกเวลาเข้า-ออก
+            </h3>
             <div className="salary-upload-zone" onClick={() => fileRef1.current.click()}>
               <svg viewBox="0 0 48 48" fill="none" width="40" height="40">
                 <rect width="48" height="48" rx="10" fill="var(--primary-50)" />
@@ -107,10 +109,16 @@ export default function Salary() {
                 />
                 <path d="M12 34h24" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" />
               </svg>
-              <div style={{ fontWeight: 600, fontSize: 14, marginTop: 10 }}>
+              <div style={{ fontWeight: 600, fontSize: "var(--text-control)", marginTop: 10 }}>
                 {fileName1 || "คลิกเพื่อเลือกไฟล์ .xls หรือ .xlsx"}
               </div>
-              <div style={{ fontSize: 12, color: "var(--gray-400)", marginTop: 4 }}>
+              <div
+                style={{
+                  fontSize: "var(--text-caption)",
+                  color: "var(--text-muted)",
+                  marginTop: 4,
+                }}
+              >
                 ไฟล์ข้อมูลสแกนนิ้ว / บันทึกเวลา (.xls, .xlsx)
               </div>
               <input
@@ -127,8 +135,8 @@ export default function Salary() {
                 display: "flex",
                 gap: 20,
                 marginTop: 16,
-                fontSize: 13,
-                color: "var(--gray-600)",
+                fontSize: "var(--text-small)",
+                color: "var(--text-secondary)",
                 flexWrap: "wrap",
               }}
             >
@@ -176,7 +184,9 @@ export default function Salary() {
                   className="spinner"
                   style={{ width: 32, height: 32, margin: "0 auto 12px" }}
                 ></div>
-                <div style={{ fontSize: 14, color: "var(--gray-500)" }}>กำลังประมวลผล...</div>
+                <div style={{ fontSize: "var(--text-control)", color: "var(--text-muted)" }}>
+                  กำลังประมวลผล...
+                </div>
               </div>
             )}
             {error1 && (
@@ -184,10 +194,10 @@ export default function Salary() {
                 style={{
                   marginTop: 14,
                   background: "var(--danger-light)",
-                  color: "#dc2626",
+                  color: "var(--text-danger)",
                   padding: "12px 16px",
                   borderRadius: 9,
-                  fontSize: 13,
+                  fontSize: "var(--text-small)",
                 }}
               >
                 {error1}
@@ -204,7 +214,7 @@ export default function Salary() {
                     marginBottom: 4,
                   }}
                 >
-                  <div style={{ fontSize: 13, color: "var(--gray-500)" }}>
+                  <div style={{ fontSize: "var(--text-small)", color: "var(--text-muted)" }}>
                     ไฟล์: <strong>{fileName1}</strong> · {Object.keys(processed).length} sheet
                   </div>
                   <button className="btn btn-primary" onClick={handleDownload1}>
@@ -226,7 +236,7 @@ export default function Salary() {
 
         {tab === "payroll" && (
           <>
-            <h3 style={{ fontSize: 15, marginBottom: 16 }}>
+            <h3 style={{ fontSize: "var(--text-body)", marginBottom: 16 }}>
               อัปโหลดไฟล์ที่ผ่านการตรวจสอบแล้ว (วันทำงาน)
             </h3>
             <div className="salary-upload-zone" onClick={() => fileRef2.current.click()}>
@@ -241,10 +251,16 @@ export default function Salary() {
                 />
                 <path d="M12 34h24" stroke="var(--success)" strokeWidth="2" strokeLinecap="round" />
               </svg>
-              <div style={{ fontWeight: 600, fontSize: 14, marginTop: 10 }}>
+              <div style={{ fontWeight: 600, fontSize: "var(--text-control)", marginTop: 10 }}>
                 {fileName2 || "คลิกเพื่อเลือกไฟล์ .xls หรือ .xlsx"}
               </div>
-              <div style={{ fontSize: 12, color: "var(--gray-400)", marginTop: 4 }}>
+              <div
+                style={{
+                  fontSize: "var(--text-caption)",
+                  color: "var(--text-muted)",
+                  marginTop: 4,
+                }}
+              >
                 ใช้ไฟล์ที่ผ่านการตรวจสอบจากแท็บ "วันทำงาน" แล้ว
               </div>
               <input
@@ -256,7 +272,9 @@ export default function Salary() {
               />
             </div>
 
-            <div style={{ marginTop: 14, fontSize: 12, color: "var(--gray-400)" }}>
+            <div
+              style={{ marginTop: 14, fontSize: "var(--text-caption)", color: "var(--text-muted)" }}
+            >
               ระบบจะคำนวณค่าจ้างจากอัตราที่ตั้งไว้ในเมนู "พนักงาน" (รายวัน / กดแผ่น) โดยอัตโนมัติ
               ไม่บันทึกไฟล์ลงระบบ
             </div>
@@ -267,7 +285,9 @@ export default function Salary() {
                   className="spinner"
                   style={{ width: 32, height: 32, margin: "0 auto 12px" }}
                 ></div>
-                <div style={{ fontSize: 14, color: "var(--gray-500)" }}>กำลังคำนวณ...</div>
+                <div style={{ fontSize: "var(--text-control)", color: "var(--text-muted)" }}>
+                  กำลังคำนวณ...
+                </div>
               </div>
             )}
             {error2 && (
@@ -275,10 +295,10 @@ export default function Salary() {
                 style={{
                   marginTop: 14,
                   background: "var(--danger-light)",
-                  color: "#dc2626",
+                  color: "var(--text-danger)",
                   padding: "12px 16px",
                   borderRadius: 9,
-                  fontSize: 13,
+                  fontSize: "var(--text-small)",
                 }}
               >
                 {error2}
@@ -295,7 +315,7 @@ export default function Salary() {
                     marginBottom: 4,
                   }}
                 >
-                  <div style={{ fontSize: 13, color: "var(--gray-500)" }}>
+                  <div style={{ fontSize: "var(--text-small)", color: "var(--text-muted)" }}>
                     ไฟล์: <strong>{fileName2}</strong> · {summary.length} คน
                   </div>
                   <button className="btn btn-primary" onClick={handleDownload2}>

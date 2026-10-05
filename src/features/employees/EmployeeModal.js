@@ -121,7 +121,13 @@ export default function EmployeeModal({ mode, initial, onSave, onClose, empType 
                 onChange={(e) => set("pieceRate", e.target.value)}
                 style={{ marginTop: 6 }}
               />
-              <div style={{ fontSize: 11, color: "var(--gray-400)", marginTop: 4 }}>
+              <div
+                style={{
+                  fontSize: "var(--text-caption)",
+                  color: "var(--text-muted)",
+                  marginTop: 4,
+                }}
+              >
                 ราคานี้แตกต่างจากค่าจ้างรายวันปกติ
               </div>
             </div>

@@ -42,7 +42,13 @@ export default function CustomerSearch({ customers, value, onChange }) {
               padding: "8px 12px",
             }}
           >
-            <span style={{ fontSize: 14, color: "var(--gray-800)", fontWeight: 500 }}>
+            <span
+              style={{
+                fontSize: "var(--text-control)",
+                color: "var(--text-primary)",
+                fontWeight: 500,
+              }}
+            >
               {selected.name}
             </span>
             <button
@@ -70,7 +76,7 @@ export default function CustomerSearch({ customers, value, onChange }) {
               width: "100%",
               padding: "8px 12px",
               background: "transparent",
-              fontSize: 14,
+              fontSize: "var(--text-control)",
             }}
           />
         )}
@@ -78,14 +84,24 @@ export default function CustomerSearch({ customers, value, onChange }) {
       {open && (
         <div className="cs-dropdown">
           {filtered.length === 0 ? (
-            <div style={{ padding: "12px 14px", color: "var(--gray-400)", fontSize: 13 }}>
+            <div
+              style={{
+                padding: "12px 14px",
+                color: "var(--text-muted)",
+                fontSize: "var(--text-small)",
+              }}
+            >
               ไม่พบลูกค้า
             </div>
           ) : (
             filtered.map((c) => (
               <div key={c.id} className="cs-option" onClick={() => select(c)}>
-                <div style={{ fontWeight: 600, fontSize: 13 }}>{c.name}</div>
-                {c.phone && <div style={{ fontSize: 11, color: "var(--gray-400)" }}>{c.phone}</div>}
+                <div style={{ fontWeight: 600, fontSize: "var(--text-small)" }}>{c.name}</div>
+                {c.phone && (
+                  <div style={{ fontSize: "var(--text-caption)", color: "var(--text-muted)" }}>
+                    {c.phone}
+                  </div>
+                )}
               </div>
             ))
           )}

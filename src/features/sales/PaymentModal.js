@@ -43,7 +43,9 @@ export default function PaymentModal({ sale, banks, onConfirm, onClose }) {
         </>
       }
     >
-      <div style={{ fontSize: 13, color: "var(--gray-600)", marginBottom: 14 }}>
+      <div
+        style={{ fontSize: "var(--text-small)", color: "var(--text-secondary)", marginBottom: 14 }}
+      >
         ลูกค้า: <strong>{sale.customerName}</strong> · ยอด{" "}
         <strong style={{ color: "var(--primary)" }}>
           {Number(sale.total || 0).toLocaleString()}
@@ -79,7 +81,7 @@ export default function PaymentModal({ sale, banks, onConfirm, onClose }) {
                 onChange={() => setMethod(v)}
                 style={{ accentColor: "var(--primary)", width: 15, height: 15, margin: 0 }}
               />
-              <span style={{ fontSize: 14, fontWeight: 600 }}>{l}</span>
+              <span style={{ fontSize: "var(--text-control)", fontWeight: 600 }}>{l}</span>
             </label>
           ))}
         </div>

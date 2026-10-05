@@ -38,7 +38,7 @@ export default function EmpTable({ employees, onEdit, onDelete }) {
                   style={{
                     textAlign: "center",
                     padding: 36,
-                    color: "var(--gray-400)",
+                    color: "var(--text-muted)",
                     maxWidth: "none",
                   }}
                 >
@@ -48,31 +48,50 @@ export default function EmpTable({ employees, onEdit, onDelete }) {
             ) : (
               filtered.map((e, i) => (
                 <tr key={e.id}>
-                  <td style={{ color: "var(--gray-400)", fontSize: 12, maxWidth: "none" }}>
+                  <td
+                    style={{
+                      color: "var(--text-muted)",
+                      fontSize: "var(--text-caption)",
+                      maxWidth: "none",
+                    }}
+                  >
                     {i + 1}
                   </td>
-                  <td style={{ fontWeight: 600 }}>
-                    {e.name}
-                  </td>
+                  <td style={{ fontWeight: 600 }}>{e.name}</td>
                   <td>{e.department || "-"}</td>
                   <td style={{ maxWidth: "none" }}>
                     {e.employeeType === "monthly" && e.monthlySalary && (
-                      <div style={{ fontSize: 13 }}>
-                        <span style={{ color: "var(--gray-400)", fontSize: 11 }}>เดือนละ </span>
+                      <div style={{ fontSize: "var(--text-small)" }}>
+                        <span
+                          style={{ color: "var(--text-muted)", fontSize: "var(--text-caption)" }}
+                        >
+                          เดือนละ{" "}
+                        </span>
                         <strong style={{ color: "var(--primary)" }}>
                           {Number(e.monthlySalary).toLocaleString()}
                         </strong>
                       </div>
                     )}
                     {e.employeeType === "daily" && (
-                      <div style={{ fontSize: 13, lineHeight: 1.7 }}>
+                      <div style={{ fontSize: "var(--text-small)", lineHeight: 1.7 }}>
                         {e.dailyRate && (
                           <div>
-                            <span style={{ color: "var(--gray-400)", fontSize: 11 }}>รายวัน </span>
+                            <span
+                              style={{
+                                color: "var(--text-muted)",
+                                fontSize: "var(--text-caption)",
+                              }}
+                            >
+                              รายวัน{" "}
+                            </span>
                             <strong style={{ color: "var(--success)" }}>
                               {Number(e.dailyRate).toLocaleString()}
                               <span
-                                style={{ fontWeight: 400, fontSize: 11, color: "var(--gray-400)" }}
+                                style={{
+                                  fontWeight: 400,
+                                  fontSize: "var(--text-caption)",
+                                  color: "var(--text-muted)",
+                                }}
                               >
                                 /ชม.
                               </span>
@@ -81,11 +100,22 @@ export default function EmpTable({ employees, onEdit, onDelete }) {
                         )}
                         {e.isPieceWorker && e.pieceRate && (
                           <div>
-                            <span style={{ color: "var(--gray-400)", fontSize: 11 }}>กดแผ่น </span>
+                            <span
+                              style={{
+                                color: "var(--text-muted)",
+                                fontSize: "var(--text-caption)",
+                              }}
+                            >
+                              กดแผ่น{" "}
+                            </span>
                             <strong style={{ color: "var(--warning)" }}>
                               {Number(e.pieceRate).toLocaleString()}
                               <span
-                                style={{ fontWeight: 400, fontSize: 11, color: "var(--gray-400)" }}
+                                style={{
+                                  fontWeight: 400,
+                                  fontSize: "var(--text-caption)",
+                                  color: "var(--text-muted)",
+                                }}
                               >
                                 /ชม.
                               </span>

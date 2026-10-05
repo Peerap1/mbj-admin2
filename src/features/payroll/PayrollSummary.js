@@ -13,7 +13,7 @@ export default function PayrollSummary({ summary }) {
             color: "#92400e",
             padding: "10px 16px",
             borderRadius: 9,
-            fontSize: 13,
+            fontSize: "var(--text-small)",
           }}
         >
           ⚠ ไม่พบอัตราค่าจ้างของ {unmatched.length} คน: {unmatched.map((u) => u.name).join(", ")} —
@@ -30,8 +30,8 @@ export default function PayrollSummary({ summary }) {
             marginBottom: 14,
           }}
         >
-          <h3 style={{ fontSize: 15 }}>สรุปเงินเดือน ({summary.length} คน)</h3>
-          <div style={{ fontSize: 15, fontWeight: 700, color: "var(--primary)" }}>
+          <h3 style={{ fontSize: "var(--text-body)" }}>สรุปเงินเดือน ({summary.length} คน)</h3>
+          <div style={{ fontSize: "var(--text-body)", fontWeight: 700, color: "var(--primary)" }}>
             รวมทั้งหมด {grandTotal.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </div>
         </div>
@@ -55,12 +55,18 @@ export default function PayrollSummary({ summary }) {
                   <td>
                     {r.name}
                     {!r.matched && (
-                      <span className="badge badge-warning" style={{ marginLeft: 6, fontSize: 10 }}>
+                      <span
+                        className="badge badge-warning"
+                        style={{ marginLeft: 6, fontSize: "var(--text-caption)" }}
+                      >
                         ไม่พบอัตรา
                       </span>
                     )}
                     {r.isPieceWorker && (
-                      <span className="badge badge-primary" style={{ marginLeft: 6, fontSize: 10 }}>
+                      <span
+                        className="badge badge-primary"
+                        style={{ marginLeft: 6, fontSize: "var(--text-caption)" }}
+                      >
                         กดแผ่น
                       </span>
                     )}

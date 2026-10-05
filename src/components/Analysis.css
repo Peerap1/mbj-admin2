@@ -10,12 +10,12 @@
   gap: 8px;
 }
 .analysis-stat span {
-  color: var(--gray-600);
+  color: var(--text-secondary);
   font-size: var(--text-small);
   font-weight: 500;
 }
 .analysis-hint {
-  color: var(--gray-400);
+  color: var(--text-muted);
   font-size: var(--text-small);
   line-height: 1.6;
 }
@@ -45,7 +45,7 @@
   margin-bottom: 16px;
   font-size: var(--text-section);
   font-weight: 600;
-  color: var(--gray-800);
+  color: var(--text-primary);
 }
 .analysis-filters {
   display: flex;
@@ -59,7 +59,7 @@
   gap: 6px;
   font-size: var(--text-small);
   font-weight: 500;
-  color: var(--gray-600);
+  color: var(--text-secondary);
 }
 .analysis-filters input,
 .analysis-filters select {
@@ -78,7 +78,7 @@
   align-items: center;
   background: none;
   text-align: left;
-  color: var(--gray-800);
+  color: var(--text-primary);
   padding: 5px;
 }
 .analysis-bar:disabled {
@@ -123,7 +123,7 @@
   margin: 10px 0;
   min-height: 42px;
   align-content: center;
-  color: var(--gray-500);
+  color: var(--text-muted);
   font-size: var(--text-small);
 }
 .analysis-chart-legend span {
@@ -152,7 +152,7 @@
 }
 .analysis-empty {
   padding: 40px 20px;
-  color: var(--gray-400);
+  color: var(--text-muted);
   font-size: var(--text-control);
   text-align: center;
 }
@@ -161,7 +161,7 @@
 }
 .analysis-error {
   padding: 12px 16px;
-  color: #dc2626;
+  color: var(--text-danger);
   background: var(--danger-light);
   border-radius: var(--radius-sm);
   font-size: var(--text-small);
@@ -176,7 +176,7 @@
 .analysis-details span {
   overflow-wrap: anywhere;
   font-size: var(--text-small);
-  color: var(--gray-600);
+  color: var(--text-secondary);
 }
 @media (max-width: 800px) {
   .analysis-panels {

@@ -15,7 +15,7 @@ export default function Pagination({ page, totalPages, total, pageSize, onPageCh
       }}
     >
       <span
-        style={{ fontSize: "var(--text-control)", color: "var(--gray-500)" }}
+        style={{ fontSize: "var(--text-control)", color: "var(--text-muted)" }}
         aria-live="polite"
       >
         แสดง {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, total)} จาก {total} รายการ

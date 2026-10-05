@@ -13,7 +13,7 @@ export default function ProductPicker({ tab, setTab, visibleProducts, quickAdd }
           flexWrap: "wrap",
         }}
       >
-        <h3 style={{ fontSize: 15, color: "var(--gray-800)" }}>เลือกสินค้า</h3>
+        <h3 style={{ fontSize: "var(--text-body)", color: "var(--text-primary)" }}>เลือกสินค้า</h3>
         <div className="product-tab-bar">
           {[
             ["all", "ทั้งหมด"],
@@ -42,7 +42,7 @@ export default function ProductPicker({ tab, setTab, visibleProducts, quickAdd }
               <div className="pli-left">
                 <span
                   className={`badge ${(p.productType || "product") === "material" ? "badge-warning" : "badge-primary"}`}
-                  style={{ fontSize: 10, padding: "2px 7px", flexShrink: 0 }}
+                  style={{ fontSize: "var(--text-caption)", padding: "2px 7px", flexShrink: 0 }}
                 >
                   {(p.productType || "product") === "material" ? "วัตถุดิบ" : "ผลิตภัณฑ์"}
                 </span>

@@ -29,7 +29,13 @@ export default function Employees() {
 
   const tabDef = [
     { key: "daily", label: "รายวัน", count: daily.length, color: "var(--success)", data: daily },
-    { key: "piece", label: "กดแผ่น", count: piece.length, color: "#d97706", data: piece },
+    {
+      key: "piece",
+      label: "กดแผ่น",
+      count: piece.length,
+      color: "var(--text-warning)",
+      data: piece,
+    },
     {
       key: "monthly",
       label: "รายเดือน",

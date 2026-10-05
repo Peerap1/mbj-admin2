@@ -3,7 +3,9 @@ import CustomerSearch from "./CustomerSearch";
 export default function SaleCustomerForm({ customers, form, setForm, selectedCustomer }) {
   return (
     <div className="card">
-      <h3 style={{ fontSize: 15, marginBottom: 16, color: "var(--gray-800)" }}>ข้อมูลการขาย</h3>
+      <h3 style={{ fontSize: "var(--text-body)", marginBottom: 16, color: "var(--text-primary)" }}>
+        ข้อมูลการขาย
+      </h3>
       <div style={{ marginBottom: 14 }}>
         <div className="form-group">
           <label>
@@ -40,16 +42,16 @@ export default function SaleCustomerForm({ customers, form, setForm, selectedCus
           border: selectedCustomer?.address ? "1px solid var(--gray-200)" : "1px solid transparent",
           padding: selectedCustomer?.address ? "10px 14px" : "0 14px",
           transition: "all 0.15s ease",
-          fontSize: 13,
+          fontSize: "var(--text-small)",
         }}
       >
         {selectedCustomer?.address ? (
           <>
             <div
               style={{
-                fontSize: 10,
+                fontSize: "var(--text-caption)",
                 fontWeight: 700,
-                color: "var(--gray-400)",
+                color: "var(--text-muted)",
                 letterSpacing: ".06em",
                 textTransform: "uppercase",
                 marginBottom: 4,
@@ -70,7 +72,7 @@ export default function SaleCustomerForm({ customers, form, setForm, selectedCus
             {selectedCustomer.phone && (
               <div
                 style={{
-                  color: "var(--gray-500)",
+                  color: "var(--text-muted)",
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -82,7 +84,7 @@ export default function SaleCustomerForm({ customers, form, setForm, selectedCus
             {selectedCustomer.address && (
               <div
                 style={{
-                  color: "var(--gray-600)",
+                  color: "var(--text-secondary)",
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -99,8 +101,8 @@ export default function SaleCustomerForm({ customers, form, setForm, selectedCus
               height: "100%",
               display: "flex",
               alignItems: "center",
-              color: "var(--gray-300)",
-              fontSize: 12,
+              color: "var(--text-muted)",
+              fontSize: "var(--text-caption)",
             }}
           >
             เลือกลูกค้าเพื่อแสดงที่อยู่จัดส่ง

@@ -129,7 +129,7 @@ export default function History() {
                     style={{
                       textAlign: "center",
                       padding: 40,
-                      color: "var(--gray-400)",
+                      color: "var(--text-muted)",
                       maxWidth: "none",
                     }}
                   >
@@ -139,7 +139,13 @@ export default function History() {
               ) : (
                 pagination.items.map((sale, i) => (
                   <tr key={sale.id}>
-                    <td style={{ color: "var(--gray-400)", fontSize: 12, maxWidth: "none" }}>
+                    <td
+                      style={{
+                        color: "var(--text-muted)",
+                        fontSize: "var(--text-caption)",
+                        maxWidth: "none",
+                      }}
+                    >
                       {pagination.offset + i + 1}
                     </td>
                     <td>
@@ -162,7 +168,9 @@ export default function History() {
                     <td>{sale.createdBy || "-"}</td>
                     <td>
                       {sale.createdAt
-                        ? new Date(sale.createdAt).toLocaleDateString("th-TH", { dateStyle: "short" })
+                        ? new Date(sale.createdAt).toLocaleDateString("th-TH", {
+                            dateStyle: "short",
+                          })
                         : "-"}
                     </td>
                     <td style={{ maxWidth: "none" }}>
@@ -244,11 +252,13 @@ export default function History() {
               <h3>ยืนยันการลบ</h3>
             </div>
             <div className="modal-body" style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 40, marginBottom: 12 }}>🗑️</div>
+              <div style={{ fontSize: "var(--text-icon)", marginBottom: 12 }}>🗑️</div>
               <p>
                 ต้องการลบรายการขายของ <strong>{deleteConfirm.customerName}</strong>?
               </p>
-              <p style={{ fontSize: 13, color: "var(--gray-400)", marginTop: 6 }}>
+              <p
+                style={{ fontSize: "var(--text-small)", color: "var(--text-muted)", marginTop: 6 }}
+              >
                 ยอด {Number(deleteConfirm.total || 0).toLocaleString()} ·{" "}
                 {formatDate(deleteConfirm.createdAt)}
               </p>

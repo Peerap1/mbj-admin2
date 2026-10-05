@@ -13,7 +13,14 @@ export default function SaleSummary({
   return (
     <div className="card">
       <div style={{ marginBottom: 16 }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: "var(--gray-600)", marginBottom: 8 }}>
+        <div
+          style={{
+            fontSize: "var(--text-small)",
+            fontWeight: 700,
+            color: "var(--text-secondary)",
+            marginBottom: 8,
+          }}
+        >
           ค่าจัดส่ง ({numBoxes} รายการ) <span style={{ color: "var(--danger)" }}>*</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
@@ -69,9 +76,9 @@ export default function SaleSummary({
           <div className="shipping-tier-table">
             <div
               style={{
-                fontSize: 11,
+                fontSize: "var(--text-caption)",
                 fontWeight: 700,
-                color: "var(--gray-400)",
+                color: "var(--text-muted)",
                 marginBottom: 5,
               }}
             >
@@ -104,8 +111,8 @@ export default function SaleSummary({
           style={{
             display: "flex",
             justifyContent: "space-between",
-            fontSize: 13,
-            color: "var(--gray-500)",
+            fontSize: "var(--text-small)",
+            color: "var(--text-muted)",
             marginBottom: 5,
           }}
         >
@@ -116,8 +123,8 @@ export default function SaleSummary({
           style={{
             display: "flex",
             justifyContent: "space-between",
-            fontSize: 13,
-            color: "var(--gray-500)",
+            fontSize: "var(--text-small)",
+            color: "var(--text-muted)",
             marginBottom: 10,
           }}
         >

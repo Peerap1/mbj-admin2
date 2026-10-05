@@ -25,7 +25,7 @@ export default function EntityTable({
             <tr>
               <td
                 colSpan={columns.length + 3}
-                style={{ textAlign: "center", padding: 40, color: "var(--gray-400)" }}
+                style={{ textAlign: "center", padding: 40, color: "var(--text-muted)" }}
               >
                 ไม่พบข้อมูล
               </td>
@@ -35,7 +35,11 @@ export default function EntityTable({
               <tr key={item.id}>
                 <td
                   className="td-num"
-                  style={{ color: "var(--gray-400)", fontSize: 12, maxWidth: "none" }}
+                  style={{
+                    color: "var(--text-muted)",
+                    fontSize: "var(--text-caption)",
+                    maxWidth: "none",
+                  }}
                 >
                   {offset + i + 1}
                 </td>

@@ -21,9 +21,9 @@
   border: none;
   background: none;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 500;
-  color: var(--gray-500);
+  color: var(--text-muted);
   cursor: pointer;
   transition: var(--transition);
   white-space: nowrap;
@@ -58,27 +58,27 @@
   box-shadow: 0 4px 12px rgba(26, 86, 219, 0.12);
 }
 .product-name {
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 600;
-  color: var(--gray-800);
+  color: var(--text-primary);
   margin-bottom: 5px;
 }
 .product-price {
-  font-size: 14px;
+  font-size: var(--text-control);
   font-weight: 700;
   color: var(--primary);
 }
 .product-unit {
-  font-size: 11px;
-  color: var(--gray-400);
+  font-size: var(--text-caption);
+  color: var(--text-muted);
   margin-top: 2px;
 }
 .product-add {
   display: inline-block;
   margin-top: 8px;
-  font-size: 11px;
+  font-size: var(--text-caption);
   background: var(--primary);
-  color: white;
+  color: var(--text-inverse);
   padding: 3px 10px;
   border-radius: 20px;
   font-weight: 600;
@@ -95,9 +95,9 @@
   gap: 8px;
   padding: 0 4px 8px;
   border-bottom: 1.5px solid var(--gray-100);
-  font-size: 11px;
+  font-size: var(--text-caption);
   font-weight: 700;
-  color: var(--gray-400);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -133,9 +133,9 @@
 .cart-item-name {
   flex: 1;
   min-width: 0;
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 500;
-  color: var(--gray-800);
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -154,12 +154,12 @@
   background: white;
   border: 1.5px solid var(--gray-200);
   border-radius: 5px;
-  font-size: 15px;
+  font-size: var(--text-body);
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gray-600);
+  color: var(--text-secondary);
   flex-shrink: 0;
 }
 .qty-btn:hover {
@@ -170,7 +170,7 @@
   width: 56px;
   text-align: center;
   padding: 4px 3px;
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 600;
   border-radius: 5px;
   flex-shrink: 0;
@@ -184,15 +184,15 @@
   width: 78px;
   text-align: right;
   padding: 5px 8px;
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 600;
-  color: var(--gray-700);
+  color: var(--text-primary);
   border-radius: 6px;
 }
 
 /* Row total */
 .cart-item-price {
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 700;
   color: var(--primary);
   flex-shrink: 0;
@@ -203,8 +203,8 @@
 .cart-remove {
   background: none;
   border: none;
-  color: var(--gray-300);
-  font-size: 13px;
+  color: var(--text-muted);
+  font-size: var(--text-small);
   padding: 3px 4px;
   line-height: 1;
   flex-shrink: 0;
@@ -242,20 +242,20 @@
   margin: 0;
 }
 .shipping-label {
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 600;
-  color: var(--gray-800);
+  color: var(--text-primary);
   flex-shrink: 0;
 }
 .shipping-sub {
-  font-size: 11px;
-  color: var(--gray-400);
+  font-size: var(--text-caption);
+  color: var(--text-muted);
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .shipping-price {
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 700;
   flex-shrink: 0;
   margin-left: auto;
@@ -266,13 +266,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 15px;
+  font-size: var(--text-body);
   font-weight: 700;
-  color: var(--gray-800);
+  color: var(--text-primary);
   padding-top: 10px;
 }
 .total-amount {
-  font-size: 22px;
+  font-size: var(--text-page);
   font-weight: 800;
   color: var(--primary);
   font-family: var(--font-body);
@@ -284,11 +284,11 @@
   align-items: center;
   gap: 9px;
   background: var(--success-light);
-  color: #065f46;
+  color: var(--text-success);
   padding: 12px 16px;
   border-radius: 9px;
   margin-bottom: 18px;
-  font-size: 14px;
+  font-size: var(--text-control);
   font-weight: 500;
   animation: fadeIn 0.3s ease;
 }
@@ -306,25 +306,25 @@
   margin-bottom: 22px;
 }
 .seller-name {
-  font-size: 17px;
+  font-size: var(--text-section);
   font-weight: 700;
   color: var(--primary);
 }
 .seller-info {
-  font-size: 12px;
-  color: var(--gray-500);
+  font-size: var(--text-caption);
+  color: var(--text-muted);
   margin-top: 4px;
   line-height: 1.8;
 }
 .slip-title {
-  font-size: 24px;
+  font-size: var(--text-page);
   font-weight: 700;
   text-align: right;
-  color: var(--gray-900);
+  color: var(--text-heading);
 }
 .slip-date {
-  font-size: 12px;
-  color: var(--gray-400);
+  font-size: var(--text-caption);
+  color: var(--text-muted);
   text-align: right;
   margin-top: 4px;
   line-height: 1.7;
@@ -334,9 +334,9 @@
   margin-bottom: 18px;
 }
 .slip .section-title {
-  font-size: 10px;
+  font-size: var(--text-caption);
   font-weight: 700;
-  color: var(--gray-400);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 8px;
@@ -346,14 +346,14 @@
   border: 1px solid var(--gray-200);
   border-radius: 8px;
   padding: 12px 16px;
-  font-size: 13px;
+  font-size: var(--text-small);
   line-height: 1.8;
-  color: var(--gray-700);
+  color: var(--text-primary);
 }
 .slip .grand-total td {
   font-weight: 800;
   color: var(--primary);
-  font-size: 16px;
+  font-size: var(--text-body);
   background: var(--primary-50);
   padding-top: 12px;
   padding-bottom: 12px;
@@ -361,8 +361,8 @@
 .slip .footer-note {
   margin-top: 28px;
   text-align: center;
-  font-size: 12px;
-  color: var(--gray-300);
+  font-size: var(--text-caption);
+  color: var(--text-muted);
   padding-top: 16px;
   border-top: 1px dashed var(--gray-200);
 }
@@ -386,23 +386,23 @@
   justify-content: space-between;
   background: linear-gradient(135deg, #1a56db 0%, #1e40af 100%);
   padding: 10px 14px;
-  color: white;
+  color: var(--text-inverse);
 }
 .box-icon {
-  font-size: 16px;
+  font-size: var(--text-body);
 }
 .box-header-bar span {
-  font-size: 14px;
+  font-size: var(--text-control);
   font-weight: 700;
 }
 
 .btn-icon-sm {
   background: rgba(255, 255, 255, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.35);
-  color: white;
+  color: var(--text-inverse);
   border-radius: 5px;
   padding: 4px 10px;
-  font-size: 12px;
+  font-size: var(--text-caption);
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
@@ -426,9 +426,9 @@
   gap: 6px;
   padding: 5px 4px 6px;
   border-bottom: 1.5px solid var(--gray-100);
-  font-size: 10px;
+  font-size: var(--text-caption);
   font-weight: 700;
-  color: var(--gray-400);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 4px;
@@ -464,7 +464,7 @@
 .box-item-row .row-total {
   flex: 0 0 76px;
   text-align: right;
-  font-size: 12px;
+  font-size: var(--text-caption);
   font-weight: 700;
   color: var(--primary);
   display: flex;
@@ -480,11 +480,11 @@
 .box-select {
   width: 100%;
   padding: 6px 8px;
-  font-size: 13px;
+  font-size: var(--text-small);
   border: 1.5px solid var(--gray-200);
   border-radius: 6px;
   background: white;
-  color: var(--gray-800);
+  color: var(--text-primary);
   outline: none;
 }
 .box-select:focus {
@@ -500,7 +500,7 @@
   border-radius: 10px;
   background: white;
   color: var(--primary);
-  font-size: 14px;
+  font-size: var(--text-control);
   font-weight: 600;
   font-family: "Sarabun", sans-serif;
   cursor: pointer;
@@ -529,13 +529,13 @@
   justify-content: space-between;
   padding: 4px 6px;
   border-radius: 5px;
-  font-size: 12px;
-  color: var(--gray-500);
+  font-size: var(--text-caption);
+  color: var(--text-muted);
   transition: var(--transition);
 }
 .tier-row.active {
   background: var(--primary);
-  color: white;
+  color: var(--text-inverse);
   font-weight: 700;
 }
 
@@ -583,16 +583,16 @@
   min-width: 0;
 }
 .pli-name {
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 600;
-  color: var(--gray-800);
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .pli-desc {
-  font-size: 11px;
-  color: var(--gray-400);
+  font-size: var(--text-caption);
+  color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -605,14 +605,14 @@
   flex-shrink: 0;
 }
 .pli-price {
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 700;
   color: var(--primary);
 }
 .pli-add {
-  font-size: 11px;
+  font-size: var(--text-caption);
   background: var(--primary);
-  color: white;
+  color: var(--text-inverse);
   padding: 3px 10px;
   border-radius: 20px;
   font-weight: 600;
@@ -672,7 +672,7 @@
   gap: 5px;
   padding: 4px 10px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: var(--text-caption);
   font-weight: 600;
   cursor: pointer;
   border: none;
@@ -681,14 +681,14 @@
 }
 .status-toggle.pending {
   background: var(--warning-light);
-  color: #d97706;
+  color: var(--text-warning);
 }
 .status-toggle.pending:hover {
   background: #fde68a;
 }
 .status-toggle.paid {
   background: var(--success-light);
-  color: #059669;
+  color: var(--text-success);
 }
 .status-toggle.paid:hover {
   background: #a7f3d0;
@@ -716,9 +716,9 @@
 .cs-clear {
   background: none;
   border: none;
-  color: var(--gray-400);
+  color: var(--text-muted);
   cursor: pointer;
-  font-size: 13px;
+  font-size: var(--text-small);
   padding: 2px 4px;
   border-radius: 4px;
   line-height: 1;
@@ -778,8 +778,8 @@
   border: 1.5px solid var(--gray-200);
   border-bottom: none;
   background: var(--gray-50);
-  color: var(--gray-500);
-  font-size: 14px;
+  color: var(--text-muted);
+  font-size: var(--text-control);
   font-weight: 500;
   font-family: "Sarabun", sans-serif;
   cursor: pointer;
@@ -801,12 +801,12 @@
   z-index: 1;
 }
 .emp-tab-label {
-  font-size: 14px;
+  font-size: var(--text-control);
 }
 .emp-tab-count {
   background: var(--gray-100);
-  color: var(--gray-500);
-  font-size: 11px;
+  color: var(--text-muted);
+  font-size: var(--text-caption);
   font-weight: 700;
   padding: 2px 7px;
   border-radius: 20px;
@@ -815,7 +815,7 @@
 }
 .emp-tab.active .emp-tab-count {
   background: var(--primary);
-  color: white;
+  color: var(--text-inverse);
 }
 
 /* ── ICON-ONLY BUTTONS ── */

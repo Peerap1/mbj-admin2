@@ -7,7 +7,14 @@ export { buildPrintHTML } from "../features/sales/slipPrint";
 // ─── Shared items table ──────────────────────────────────────────
 export function SlipItemsTable({ boxes }) {
   return (
-    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, marginBottom: 14 }}>
+    <table
+      style={{
+        width: "100%",
+        borderCollapse: "collapse",
+        fontSize: "var(--text-small)",
+        marginBottom: 14,
+      }}
+    >
       <thead>
         <tr>
           <th
@@ -16,7 +23,7 @@ export function SlipItemsTable({ boxes }) {
               padding: "6px 8px",
               textAlign: "center",
               fontWeight: 700,
-              color: "#475569",
+              color: "var(--text-secondary)",
               borderBottom: "2px solid #e2e8f0",
               width: 36,
             }}
@@ -29,7 +36,7 @@ export function SlipItemsTable({ boxes }) {
               padding: "6px 8px",
               textAlign: "left",
               fontWeight: 700,
-              color: "#475569",
+              color: "var(--text-secondary)",
               borderBottom: "2px solid #e2e8f0",
             }}
           >
@@ -41,7 +48,7 @@ export function SlipItemsTable({ boxes }) {
               padding: "6px 8px",
               textAlign: "right",
               fontWeight: 700,
-              color: "#475569",
+              color: "var(--text-secondary)",
               borderBottom: "2px solid #e2e8f0",
               width: 62,
             }}
@@ -54,7 +61,7 @@ export function SlipItemsTable({ boxes }) {
               padding: "6px 8px",
               textAlign: "right",
               fontWeight: 700,
-              color: "#475569",
+              color: "var(--text-secondary)",
               borderBottom: "2px solid #e2e8f0",
               width: 90,
             }}
@@ -67,7 +74,7 @@ export function SlipItemsTable({ boxes }) {
               padding: "6px 8px",
               textAlign: "right",
               fontWeight: 700,
-              color: "#475569",
+              color: "var(--text-secondary)",
               borderBottom: "2px solid #e2e8f0",
               width: 55,
             }}
@@ -80,7 +87,7 @@ export function SlipItemsTable({ boxes }) {
               padding: "6px 8px",
               textAlign: "right",
               fontWeight: 700,
-              color: "#475569",
+              color: "var(--text-secondary)",
               borderBottom: "2px solid #e2e8f0",
               width: 90,
             }}
@@ -155,7 +162,7 @@ export function SlipItemsTable({ boxes }) {
                   padding: "4px 8px",
                   textAlign: "right",
                   fontWeight: 600,
-                  color: "#1a56db",
+                  color: "var(--primary)",
                   borderBottom:
                     rIdx === rows.length - 1 ? "2px solid #e2e8f0" : "1px solid #f1f5f9",
                 }}
@@ -198,18 +205,36 @@ export function SlipContent({ sale, createdBy }) {
         }}
       >
         <div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#1a56db" }}>{SELLER.name}</div>
-          <div style={{ fontSize: 11, color: "#475569", marginTop: 4, lineHeight: 1.7 }}>
+          <div style={{ fontSize: "var(--text-body)", fontWeight: 700, color: "var(--primary)" }}>
+            {SELLER.name}
+          </div>
+          <div
+            style={{
+              fontSize: "var(--text-caption)",
+              color: "var(--text-secondary)",
+              marginTop: 4,
+              lineHeight: 1.7,
+            }}
+          >
             {SELLER.address}
             <br />
             โทร: {SELLER.phone}
           </div>
         </div>
         <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 20, fontWeight: 700, color: "#0f172a" }}>
+          <div
+            style={{ fontSize: "var(--text-title)", fontWeight: 700, color: "var(--text-heading)" }}
+          >
             {isReceipt ? "ใบเสร็จ" : "ใบส่งของ"}
           </div>
-          <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 3, lineHeight: 1.7 }}>
+          <div
+            style={{
+              fontSize: "var(--text-caption)",
+              color: "var(--text-muted)",
+              marginTop: 3,
+              lineHeight: 1.7,
+            }}
+          >
             วันที่: {dateStr}
             <br />
             Order: {sale.orderNo || sale.id || "–"}
@@ -224,9 +249,9 @@ export function SlipContent({ sale, createdBy }) {
         <div style={{ marginBottom: 14 }}>
           <div
             style={{
-              fontSize: 10,
+              fontSize: "var(--text-caption)",
               fontWeight: 700,
-              color: "#94a3b8",
+              color: "var(--text-muted)",
               textTransform: "uppercase",
               letterSpacing: ".06em",
               marginBottom: 6,
@@ -240,9 +265,9 @@ export function SlipContent({ sale, createdBy }) {
               border: "1px solid #e2e8f0",
               borderRadius: 6,
               padding: "8px 12px",
-              fontSize: 12,
+              fontSize: "var(--text-caption)",
               lineHeight: 1.7,
-              color: "#334155",
+              color: "var(--text-primary)",
             }}
           >
             <strong>{sale.customerName}</strong>
@@ -278,7 +303,7 @@ export function SlipContent({ sale, createdBy }) {
             border: "1px solid #6ee7b7",
             borderRadius: 6,
             padding: "8px 12px",
-            fontSize: 12,
+            fontSize: "var(--text-caption)",
           }}
         >
           <strong>ชำระโดย:</strong>{" "}
@@ -292,7 +317,14 @@ export function SlipContent({ sale, createdBy }) {
       <SlipItemsTable boxes={sale.boxes || []} />
 
       {/* Totals */}
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, marginBottom: 14 }}>
+      <table
+        style={{
+          width: "100%",
+          borderCollapse: "collapse",
+          fontSize: "var(--text-small)",
+          marginBottom: 14,
+        }}
+      >
         <tbody>
           <tr>
             <td
@@ -300,7 +332,7 @@ export function SlipContent({ sale, createdBy }) {
               style={{
                 padding: "6px 10px",
                 textAlign: "right",
-                color: "#475569",
+                color: "var(--text-secondary)",
                 borderBottom: "1px solid #f1f5f9",
               }}
             >
@@ -323,7 +355,7 @@ export function SlipContent({ sale, createdBy }) {
               style={{
                 padding: "6px 10px",
                 textAlign: "right",
-                color: "#475569",
+                color: "var(--text-secondary)",
                 borderBottom: "1px solid #f1f5f9",
               }}
             >
@@ -346,7 +378,7 @@ export function SlipContent({ sale, createdBy }) {
               style={{
                 padding: "6px 10px",
                 textAlign: "right",
-                color: "#475569",
+                color: "var(--text-secondary)",
                 borderBottom: "1px solid #f1f5f9",
               }}
             >
@@ -365,8 +397,8 @@ export function SlipContent({ sale, createdBy }) {
                 padding: "9px 10px",
                 textAlign: "right",
                 fontWeight: 800,
-                fontSize: 15,
-                color: "#1a56db",
+                fontSize: "var(--text-body)",
+                color: "var(--primary)",
                 background: "#eff6ff",
               }}
             >
@@ -377,8 +409,8 @@ export function SlipContent({ sale, createdBy }) {
                 padding: "9px 10px",
                 textAlign: "right",
                 fontWeight: 800,
-                fontSize: 15,
-                color: "#1a56db",
+                fontSize: "var(--text-body)",
+                color: "var(--primary)",
                 background: "#eff6ff",
               }}
             >
@@ -392,9 +424,9 @@ export function SlipContent({ sale, createdBy }) {
         <div style={{ marginBottom: 12 }}>
           <div
             style={{
-              fontSize: 10,
+              fontSize: "var(--text-caption)",
               fontWeight: 700,
-              color: "#94a3b8",
+              color: "var(--text-muted)",
               textTransform: "uppercase",
               letterSpacing: ".06em",
               marginBottom: 6,
@@ -408,8 +440,8 @@ export function SlipContent({ sale, createdBy }) {
               border: "1px solid #e2e8f0",
               borderRadius: 6,
               padding: "8px 12px",
-              fontSize: 12,
-              color: "#334155",
+              fontSize: "var(--text-caption)",
+              color: "var(--text-primary)",
             }}
           >
             {sale.note}
@@ -421,8 +453,8 @@ export function SlipContent({ sale, createdBy }) {
         style={{
           marginTop: 20,
           textAlign: "center",
-          fontSize: 11,
-          color: "#cbd5e1",
+          fontSize: "var(--text-caption)",
+          color: "var(--text-muted)",
           paddingTop: 10,
           borderTop: "1px dashed #e2e8f0",
         }}

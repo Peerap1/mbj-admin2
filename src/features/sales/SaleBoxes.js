@@ -16,7 +16,9 @@ export default function SaleBoxes({
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <span>📦</span>
               <span>รายการที่ {bIdx + 1}</span>
-              <span style={{ fontSize: 11, opacity: 0.7 }}>({box.items.length} สินค้า)</span>
+              <span style={{ fontSize: "var(--text-caption)", opacity: 0.7 }}>
+                ({box.items.length} สินค้า)
+              </span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div
@@ -30,7 +32,11 @@ export default function SaleBoxes({
                 }}
               >
                 <span
-                  style={{ fontSize: 11, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap" }}
+                  style={{
+                    fontSize: "var(--text-caption)",
+                    color: "rgba(255,255,255,0.8)",
+                    whiteSpace: "nowrap",
+                  }}
                 >
                   จำนวนกล่อง
                 </span>
@@ -38,8 +44,8 @@ export default function SaleBoxes({
                   style={{
                     background: "none",
                     border: "none",
-                    color: "white",
-                    fontSize: 16,
+                    color: "var(--text-inverse)",
+                    fontSize: "var(--text-body)",
                     cursor: "pointer",
                     lineHeight: 1,
                     padding: "0 2px",
@@ -59,9 +65,9 @@ export default function SaleBoxes({
                     border: "1px solid rgba(255,255,255,0.4)",
                     borderRadius: 4,
                     background: "rgba(255,255,255,0.2)",
-                    color: "white",
+                    color: "var(--text-inverse)",
                     fontWeight: 700,
-                    fontSize: 13,
+                    fontSize: "var(--text-small)",
                     padding: "2px 0",
                   }}
                 />
@@ -69,8 +75,8 @@ export default function SaleBoxes({
                   style={{
                     background: "none",
                     border: "none",
-                    color: "white",
-                    fontSize: 16,
+                    color: "var(--text-inverse)",
+                    fontSize: "var(--text-body)",
                     cursor: "pointer",
                     lineHeight: 1,
                     padding: "0 2px",
@@ -79,7 +85,9 @@ export default function SaleBoxes({
                 >
                   +
                 </button>
-                <span style={{ fontSize: 11, color: "rgba(255,255,255,0.8)" }}>กล่อง</span>
+                <span style={{ fontSize: "var(--text-caption)", color: "rgba(255,255,255,0.8)" }}>
+                  กล่อง
+                </span>
               </div>
               <button className="btn-icon-sm" onClick={() => addRowToBox(box.id)}>
                 + เพิ่มสินค้า
@@ -97,8 +105,8 @@ export default function SaleBoxes({
                 style={{
                   textAlign: "center",
                   padding: "14px 0",
-                  color: "var(--gray-400)",
-                  fontSize: 13,
+                  color: "var(--text-muted)",
+                  fontSize: "var(--text-small)",
                 }}
               >
                 คลิกสินค้าด้านซ้าย หรือกด "+ เพิ่มสินค้า"
@@ -131,7 +139,12 @@ export default function SaleBoxes({
                     <div className="row-qty">
                       <button
                         className="qty-btn"
-                        style={{ width: 24, height: 28, fontSize: 13, flexShrink: 0 }}
+                        style={{
+                          width: 24,
+                          height: 28,
+                          fontSize: "var(--text-small)",
+                          flexShrink: 0,
+                        }}
                         onClick={() =>
                           updateRow(box.id, row.rowId, "qty", Math.max(1, Number(row.qty) - 1))
                         }
@@ -147,7 +160,12 @@ export default function SaleBoxes({
                       />
                       <button
                         className="qty-btn"
-                        style={{ width: 24, height: 28, fontSize: 13, flexShrink: 0 }}
+                        style={{
+                          width: 24,
+                          height: 28,
+                          fontSize: "var(--text-small)",
+                          flexShrink: 0,
+                        }}
                         onClick={() => updateRow(box.id, row.rowId, "qty", Number(row.qty) + 1)}
                       >
                         +
@@ -157,7 +175,11 @@ export default function SaleBoxes({
                       <input
                         type="number"
                         className="price-input"
-                        style={{ width: "100%", fontSize: 12, padding: "5px 6px" }}
+                        style={{
+                          width: "100%",
+                          fontSize: "var(--text-caption)",
+                          padding: "5px 6px",
+                        }}
                         value={row.price}
                         onChange={(e) => updateRow(box.id, row.rowId, "price", e.target.value)}
                       />
@@ -182,9 +204,9 @@ export default function SaleBoxes({
                       paddingTop: 7,
                       marginTop: 4,
                       borderTop: "1px dashed var(--gray-200)",
-                      fontSize: 12,
+                      fontSize: "var(--text-caption)",
                       fontWeight: 600,
-                      color: "var(--gray-500)",
+                      color: "var(--text-muted)",
                     }}
                   >
                     ยอดรายการที่ {bIdx + 1} ={" "}

@@ -2,15 +2,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap");
 
 :root {
-  /* Shared typography and spacing, based on the original application UI. */
+  /* Shared typography: captions, supporting text, controls, body and headings. */
   --font-body: "Sarabun", sans-serif;
   --font-heading: var(--font-body);
   --text-caption: 12px;
   --text-small: 13px;
   --text-control: 14px;
   --text-body: 15px;
-  --text-section: 15px;
-  --text-page: 22px;
+  --text-section: 18px;
+  --text-page: 24px;
+  --text-display: 28px;
+  --text-title: 20px;
+  --text-icon: 40px;
+  --text-primary: #1e293b;
+  --text-heading: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+  --text-success: #047857;
+  --text-warning: #b45309;
+  --text-danger: #b91c1c;
   --space-card: 20px;
   --space-section: 18px;
   --primary: #1a56db;
@@ -54,7 +65,7 @@
 body {
   font-family: var(--font-body);
   background: var(--gray-50);
-  color: var(--gray-800);
+  color: var(--text-primary);
   font-size: var(--text-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -67,6 +78,28 @@ h4,
 h5 {
   font-family: var(--font-heading);
   font-weight: 600;
+  color: var(--text-heading);
+  line-height: 1.4;
+}
+
+h1 {
+  font-size: var(--text-display);
+}
+h2 {
+  font-size: var(--text-page);
+}
+h3 {
+  font-size: var(--text-section);
+}
+h4,
+h5 {
+  font-size: var(--text-body);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
 }
 
 a {
@@ -93,7 +126,7 @@ textarea {
   border-radius: var(--radius-sm);
   padding: 9px 13px;
   background: var(--white);
-  color: var(--gray-800);
+  color: var(--text-primary);
   transition: var(--transition);
   width: 100%;
 }
@@ -120,7 +153,7 @@ textarea:focus {
 
 .btn-primary {
   background: var(--primary);
-  color: white;
+  color: var(--text-inverse);
   box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
 }
 .btn-primary:hover:not(:disabled) {
@@ -142,7 +175,7 @@ textarea:focus {
 
 .btn-danger {
   background: var(--danger);
-  color: white;
+  color: var(--text-inverse);
 }
 .btn-danger:hover:not(:disabled) {
   background: var(--danger-hover);
@@ -211,7 +244,7 @@ thead th {
   padding: 11px 14px;
   text-align: left;
   font-weight: 600;
-  color: var(--gray-600);
+  color: var(--text-secondary);
   border-bottom: 1.5px solid var(--gray-200);
   white-space: nowrap;
 }
@@ -237,20 +270,20 @@ tbody tr:last-child td {
   align-items: center;
   padding: 3px 10px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: var(--text-caption);
   font-weight: 600;
 }
 .badge-success {
   background: var(--success-light);
-  color: #059669;
+  color: var(--text-success);
 }
 .badge-warning {
   background: var(--warning-light);
-  color: #d97706;
+  color: var(--text-warning);
 }
 .badge-danger {
   background: var(--danger-light);
-  color: #dc2626;
+  color: var(--text-danger);
 }
 .badge-primary {
   background: var(--primary-light);
@@ -258,7 +291,7 @@ tbody tr:last-child td {
 }
 .badge-gray {
   background: var(--gray-100);
-  color: var(--gray-600);
+  color: var(--text-secondary);
 }
 
 /* ── MODAL ── */
@@ -291,7 +324,7 @@ tbody tr:last-child td {
   border-bottom: 1px solid var(--gray-100);
 }
 .modal-header h3 {
-  font-size: 17px;
+  font-size: var(--text-section);
 }
 .modal-body {
   padding: 22px;
@@ -311,8 +344,8 @@ tbody tr:last-child td {
 .form-group label {
   display: block;
   font-weight: 500;
-  font-size: 13px;
-  color: var(--gray-600);
+  font-size: var(--text-small);
+  color: var(--text-secondary);
   margin-bottom: 6px;
 }
 .form-row {
@@ -330,11 +363,11 @@ tbody tr:last-child td {
 }
 .page-title {
   font-size: var(--text-page);
-  color: var(--gray-900);
+  color: var(--text-heading);
 }
 .page-subtitle {
   font-size: var(--text-small);
-  color: var(--gray-400);
+  color: var(--text-muted);
   margin-top: 2px;
   font-family: var(--font-body);
   font-weight: 400;
@@ -355,14 +388,14 @@ tbody tr:last-child td {
 .empty-state {
   text-align: center;
   padding: 50px 20px;
-  color: var(--gray-400);
+  color: var(--text-muted);
 }
 .empty-state .icon {
-  font-size: 40px;
+  font-size: var(--text-icon);
   margin-bottom: 12px;
 }
 .empty-state p {
-  font-size: 14px;
+  font-size: var(--text-control);
 }
 
 /* ── ANIMATIONS ── */

@@ -14,9 +14,9 @@ export default function WorkHoursIssues({ processed }) {
   if (allIssues.length === 0)
     return (
       <div className="card" style={{ marginTop: 18, textAlign: "center", padding: 32 }}>
-        <div style={{ fontSize: 36, marginBottom: 10 }}>✅</div>
+        <div style={{ fontSize: "var(--text-icon)", marginBottom: 10 }}>✅</div>
         <div style={{ fontWeight: 600, color: "var(--success)" }}>ข้อมูลถูกต้องทั้งหมด!</div>
-        <div style={{ fontSize: 13, color: "var(--gray-400)", marginTop: 4 }}>
+        <div style={{ fontSize: "var(--text-small)", color: "var(--text-muted)", marginTop: 4 }}>
           ทุกคนมีบันทึกครบ 4 ครั้งต่อวัน
         </div>
       </div>
@@ -32,8 +32,10 @@ export default function WorkHoursIssues({ processed }) {
           marginBottom: 14,
         }}
       >
-        <h3 style={{ fontSize: 15 }}>รายการที่ผิดปกติ ({allIssues.length} รายการ)</h3>
-        <div style={{ display: "flex", gap: 12, fontSize: 12 }}>
+        <h3 style={{ fontSize: "var(--text-body)" }}>
+          รายการที่ผิดปกติ ({allIssues.length} รายการ)
+        </h3>
+        <div style={{ display: "flex", gap: 12, fontSize: "var(--text-caption)" }}>
           <span>
             <span
               style={{

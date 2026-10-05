@@ -28,7 +28,7 @@ export default function ConfirmDialog({
         </>
       }
     >
-      <div style={{ fontSize: 40, marginBottom: 12 }}>🗑️</div>
+      <div style={{ fontSize: "var(--text-icon)", marginBottom: 12 }}>🗑️</div>
       {children}
     </Modal>
   );

@@ -171,7 +171,8 @@ export default function CustomerDetail() {
                   </td>
                   <td className="td-action">
                     <Link
-                      className="btn btn-secondary btn-sm btn-icon-only"                      aria-label={`เปิดเอกสาร ${orderCode(s)}`}
+                      className="btn btn-secondary btn-sm btn-icon-only"
+                      aria-label={`เปิดเอกสาร ${orderCode(s)}`}
                       to={`/history?order=${encodeURIComponent(s.id)}`}
                     >
                       <ActionIcon name="document" size={14} />
